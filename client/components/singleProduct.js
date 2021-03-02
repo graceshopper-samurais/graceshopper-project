@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addToCart} from '../store/singleProductReducer'
+import {addToCart} from '../store/singleProduct'
 
 const SingleProduct = props => {
   const {name, imageUrl, description, cost, id} = props
@@ -24,4 +24,4 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(null, mapDispatchToProps)(SingleProduct)
 
-//still need to wire up an "add to cart" btn to work properly, need to be sure that AllProducts component passes the singleProduct, need to import my singleProduct file into Logan's AllProducts file for use
+//still need to wire up an "add to cart" btn to work properly, need to be sure that AllProducts component passes the singleProduct obj to this component, need to import my singleProduct file into Logan's AllProducts file for use
