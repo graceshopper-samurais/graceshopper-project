@@ -20,7 +20,7 @@ const Product = db.define('product', {
     defaultValue: 'https://fimgs.net/himg/o.88372.jpg'
   },
   price: {
-    type: Sequelize.INTEGER, // how are we handling monies?
+    type: Sequelize.INTEGER, // how are we handling monies? It seems like the "pennies" approach is common based on some googling
     allowNull: false
   }
 })
