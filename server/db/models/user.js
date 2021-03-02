@@ -48,7 +48,6 @@ const User = db.define('user', {
   },
   admin: {
     type: Sequelize.BOOLEAN,
-    allowNull: false,
     defaultValue: false // doublecheck this
   },
   password: {
