@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Candal', sans-serif;
 }
 
 a {
@@ -8,6 +8,12 @@ a {
 
 label {
   display: block;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 nav a {
@@ -22,4 +28,21 @@ form div {
 
 .cartIcon {
   width: 20px;
+
+#title-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#site-title {
+  font-family: 'Yellowtail', cursive;
+  font-weight: 400;
+}
+
+#add-to-cart {
+  color: #edf6f9;
+  font-family: 'Candal', sans-serif;
+  background-color: #006d77;
 }

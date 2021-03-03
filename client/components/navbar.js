@@ -7,7 +7,9 @@ import CartIcon from './CartIcon'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>BOILERMAKER</h1>
+    <div id="title-container">
+      <h1 id="site-title">BOUTIQUE CANDLES</h1>
+    </div>
     <nav>
       {isLoggedIn ? (
         <div>
