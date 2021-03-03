@@ -10,7 +10,6 @@ import {
   AllUsers,
   singleProduct,
   FullCart
-
 } from './components'
 
 import {me} from './store'
@@ -31,7 +30,10 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route exact path="/products/:productId" component={singleProduct} />
+        <Route exact path="/products" component={allProducts} />
         <Route path="/:userId/cart" component={FullCart} />
+        <Route exact path="/" component={allProducts} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -44,10 +46,8 @@ class Routes extends Component {
             )}
           </Switch>
         )}
-        <Route exact path="/products/:productId" component={singleProduct} />
-        <Route path="/" component={allProducts} />
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route component={allProducts} />
       </Switch>
     )
   }
@@ -82,6 +82,5 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired
 }
