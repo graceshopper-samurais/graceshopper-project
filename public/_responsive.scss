@@ -1,27 +1,11 @@
 @include media-md {
-  .vocab {
-    &__syllabics-image {
-      height: 40vh;
-    }
-    &__words {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .text-secondary {
-      font-size: 3rem;
-    }
+  #all-products-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @include media-lg {
-  .vocab {
-    &__words {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-}
-
-@include media-xl {
-  .vocab__syllabics-image {
-    height: 50vh;
+  #all-products-container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

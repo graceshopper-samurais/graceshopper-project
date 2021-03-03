@@ -1,8 +1,5 @@
+@import 'config';
 @import 'responsive';
-
-* {
-  background-color: #ffffff;
-}
 
 body {
   font-family: 'Candal', sans-serif;
@@ -54,14 +51,21 @@ form div {
   background-color: #006d77;
 }
 
-#single-product {
+#all-products-container {
   width: 60vw;
   margin: 2rem auto 0 auto;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2rem;
+  grid-template-rows: 2fr;
+  grid-gap: 5rem;
 }
 
-#product-image-container > img {
-  width: 100%;
+#single-product-container {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+
+  img: {
+    // height: 50%;
+    // width: 50%;
+  }
 }
