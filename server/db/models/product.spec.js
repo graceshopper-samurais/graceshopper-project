@@ -10,24 +10,33 @@ describe('Product model', () => {
     return db.sync({force: true})
   })
 
-  describe('Prodcut Fields', () => {
-    describe('name field', () => {
-      let candle1
-      beforeEach(async () => {
-        candle1 = await Product.create({
-          name: 'Summer Breeze'
-        })
+  describe('name field', () => {
+    let candle1
+    beforeEach(async () => {
+      candle1 = await Product.create({
+        name: 'Summer Breeze'
       })
-      it('name is a string', () => {
-        expect(candle1.name).to.equal('Summer Breeze')
-      })
+    })
+    it('name is a string', () => {
+      expect(candle1.name).to.equal('Summer Breeze')
+    })
 
-      it('name cannot be null', async () => {
-        await expect(
-          Product.create({}),
-          "We shouldn't be able to create a user with no name"
-        ).to.be.rejected
+    it('name cannot be null', async () => {
+      await expect(
+        Product.create({}),
+        "We shouldn't be able to create a user with no name"
+      ).to.be.rejected
+    })
+  })
+  describe('description field', () => {
+    let candle2
+    beforeEach(async () => {
+      candle2 = await Product.create({
+        name: 'Summer Breeze'
       })
+    })
+    it('name is a string', () => {
+      expect(candle2.description).to.equal(false)
     })
   })
 })
