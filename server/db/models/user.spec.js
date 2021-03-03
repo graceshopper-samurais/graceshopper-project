@@ -9,6 +9,20 @@ describe('User model', () => {
     return db.sync({force: true})
   })
 
+  describe('admin', () => {
+    describe('admin defaultValue', () => {
+      let candle1
+      beforeEach(async () => {
+        candle1 = await Product.create({
+          name: 'Summer Breeze'
+        })
+      })
+      it('admin defaults to false if not provided', () => {
+        expect(candle1.admin).to.equal(false)
+      })
+    })
+  })
+
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
       let cody
