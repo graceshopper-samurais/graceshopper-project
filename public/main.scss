@@ -1,19 +1,6 @@
-* {
-  background-color: #ffffff;
-  margin: 0;
-  padding: 0;
-}
+@import 'config';
+@import 'responsive';
 
-@media screen and (min-width: 768px) {
-  #all-products-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media screen and (min-width: 1024px) {
-  #all-products-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 body {
   font-family: 'Candal', sans-serif;
 }
@@ -76,6 +63,9 @@ form div {
   position: relative;
   overflow: hidden;
   text-align: center;
-}
 
-/*# sourceMappingURL=style.css.map */
+  img: {
+    // width: 400px;
+    // height: 400px;
+  }
+}
