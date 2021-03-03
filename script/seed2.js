@@ -19,6 +19,9 @@ async function seed() {
     })
     // User.create({email: 'murphy@email.com', password: '123'}),
   ])
+
+  const [userOne] = users
+
   const products = await Promise.all([
     Product.create({
       name: 'Fancy Candle',
@@ -31,6 +34,10 @@ async function seed() {
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
   console.log(`seeded successfully`)
+
+  const [productOne] = products
+
+  await userOne.addProduct(productOne)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
