@@ -29,6 +29,7 @@ export class AllProducts extends React.Component {
                     <div id="product-price-container">
                       <span>{product.price}</span>
                     </div>
+                    <button id="add-to-cart"> Add To Cart </button>
                   </div>
                 </div>
               )

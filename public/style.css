@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Candal', sans-serif;
 }
 
 a {
@@ -10,6 +10,12 @@ label {
   display: block;
 }
 
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
@@ -18,4 +24,22 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+#title-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#site-title {
+  font-family: 'Yellowtail', cursive;
+  font-weight: 400;
+}
+
+#add-to-cart {
+  color: #edf6f9;
+  font-family: 'Candal', sans-serif;
+  background-color: #006d77;
 }
