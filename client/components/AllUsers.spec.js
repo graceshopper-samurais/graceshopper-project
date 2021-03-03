@@ -10,13 +10,23 @@ const adapter = new Adapter()
 enzyme.configure({adapter})
 
 describe('AllUsers', () => {
-  let allUsers
+  const allUsers = [
+    {
+      id: 1,
+      name: 'Tadius Ahern'
+    },
+    {
+      id: 2,
+      name: 'Urdnot Dagg'
+    }
+  ]
 
   beforeEach(() => {
-    // currently unsure what to put here for AllUsers; I tried using the user-home example but it does not work the same way
+    // referred to JPFP tests for campuses...might need to address this if we use two tests and unconnected components for tests; TBD
+    mockAxios.onGet('/api/users').replyOnce(200, allUsers)
   })
 
-  it('renders all users in a table', () => {
+  it('renders all users passed in as props', () => {
     // TBD
   })
 
