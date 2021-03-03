@@ -1,7 +1,23 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {fetchCart} from '../store/singleCart'
 
-const FullCart = () => {
-  return <div>To be created :D</div>
+class FullCart extends React.Component {
+  render() {
+    return <div>Testing, testing</div>
+  }
 }
 
-export default FullCart
+const mapState = state => {
+  return {
+    cart: state.singleCart
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    getSingleCart: id => dispatch(fetchCart(id))
+  }
+}
+
+export default connect(mapState, mapDispatch)(FullCart)

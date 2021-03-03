@@ -16,11 +16,19 @@ async function seed() {
       city: 'Chicago',
       state: 'IL',
       zip: '60080'
+    }),
+    User.create({
+      email: 'murphy@email.com',
+      password: '123',
+      name: 'Murphy',
+      address: '145 Main Street',
+      city: 'Chicago',
+      state: 'IL',
+      zip: '60080'
     })
-    // User.create({email: 'murphy@email.com', password: '123'}),
   ])
 
-  const [userOne] = users
+  const [userOne, userTwo] = users
 
   const products = await Promise.all([
     Product.create({
@@ -28,6 +36,12 @@ async function seed() {
       description: 'Pink glittery slow-burning candle with three wicks',
       imageUrl: 'https://fimgs.net/himg/o.88372.jpg',
       price: 75
+    }),
+    Product.create({
+      name: 'Ocean Breeze',
+      description: 'Sea salt and ocean spray to make your day',
+      imageUrl: 'https://fimgs.net/himg/o.88372.jpg',
+      price: 62
     })
     // User.create({email: 'murphy@email.com', password: '123'}),
   ])
@@ -35,9 +49,11 @@ async function seed() {
   console.log(`seeded ${products.length} products`)
   console.log(`seeded successfully`)
 
-  const [productOne] = products
+  const [productOne, productTwo] = products
 
   await userOne.addProduct(productOne)
+  await userTwo.addProduct(productTwo)
+  await userOne.addProduct(productTwo)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
