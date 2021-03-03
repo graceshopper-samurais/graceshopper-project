@@ -16,7 +16,7 @@ export class AllProducts extends React.Component {
           {products.length ? (
             products.map(product => {
               return (
-                <div id="one-product" key={product.id}>
+                <div id="single-product" key={product.id}>
                   <div id="product-image-container">
                     <img src={product.imageUrl} />
                   </div>

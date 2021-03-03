@@ -1,3 +1,5 @@
+@import 'responsive';
+
 * {
   background-color: #ffffff;
 }
@@ -52,7 +54,7 @@ form div {
   background-color: #006d77;
 }
 
-#one-product {
+#single-product {
   width: 60vw;
   margin: 2rem auto 0 auto;
   display: grid;

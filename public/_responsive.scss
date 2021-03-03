@@ -1,0 +1,27 @@
+@include media-md {
+  .vocab {
+    &__syllabics-image {
+      height: 40vh;
+    }
+    &__words {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .text-secondary {
+      font-size: 3rem;
+    }
+  }
+}
+
+@include media-lg {
+  .vocab {
+    &__words {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@include media-xl {
+  .vocab__syllabics-image {
+    height: 50vh;
+  }
+}

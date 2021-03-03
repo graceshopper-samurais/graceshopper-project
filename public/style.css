@@ -1,67 +1,29 @@
-* {
-  background-color: #ffffff;
-}
+/* Error: Undefined mixin.
+ *    ,
+ * 1  | / @include media-md {
+ * 2  | |   .vocab {
+ * 3  | |     &__syllabics-image {
+ * 4  | |       height: 40vh;
+ * 5  | |     }
+ * 6  | |     &__words {
+ * 7  | |       grid-template-columns: repeat(2, 1fr);
+ * 8  | |     }
+ * 9  | |     .text-secondary {
+ * 10 | |       font-size: 3rem;
+ * 11 | |     }
+ * 12 | |   }
+ * 13 | \ }
+ *    '
+ *   public/_responsive.scss 1:1  @import
+ *   public/main.scss 1:9         root stylesheet */
 
-body {
-  font-family: 'Candal', sans-serif;
-}
-
-a {
-  text-decoration: none;
-}
-
-label {
+body::before {
+  font-family: 'Source Code Pro', 'SF Mono', Monaco, Inconsolata, 'Fira Mono',
+    'Droid Sans Mono', monospace, monospace;
+  white-space: pre;
   display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: 'Error: Undefined mixin.\a    \2577 \a 1  \2502  \250c  @include media-md {\a 2  \2502  \2502    .vocab {\a 3  \2502  \2502      &__syllabics-image {\a 4  \2502  \2502        height: 40vh;\a 5  \2502  \2502      }\a 6  \2502  \2502      &__words {\a 7  \2502  \2502        grid-template-columns: repeat(2, 1fr);\a 8  \2502  \2502      }\a 9  \2502  \2502      .text-secondary {\a 10 \2502  \2502        font-size: 3rem;\a 11 \2502  \2502      }\a 12 \2502  \2502    }\a 13 \2502  \2514  }\a    \2575 \a   public/_responsive.scss 1:1  @import\a   public/main.scss 1:9         root stylesheet';
 }
-
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1em;
-}
-
-form div {
-  margin: 1em;
-  display: inline-block;
-}
-
-.cartIcon {
-  width: 20px;
-}
-
-#title-container {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-}
-
-#site-title {
-  font-family: 'Yellowtail', cursive;
-  font-weight: 400;
-}
-
-#add-to-cart {
-  color: #edf6f9;
-  font-family: 'Candal', sans-serif;
-  background-color: #006d77;
-}
-
-#one-product {
-  width: 60vw;
-  margin: 2rem auto 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2rem;
-}
-
-#product-image-container > img {
-  width: 100%;
-}
-
-/*# sourceMappingURL=style.css.map */
