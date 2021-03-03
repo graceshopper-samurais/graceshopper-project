@@ -51,3 +51,15 @@ form div {
   font-family: 'Candal', sans-serif;
   background-color: #006d77;
 }
+
+#all-products {
+  width: 60vw;
+  margin: 2rem auto 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+}
+
+#product-image-container > img {
+  width: 100%;
+}
