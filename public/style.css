@@ -26,6 +26,9 @@ form div {
   display: inline-block;
 }
 
+.cartIcon {
+  width: 20px;
+
 #title-container {
   display: flex;
   align-items: center;
