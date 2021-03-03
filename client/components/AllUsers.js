@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchAllUsers} from '../store/allUsers'
 
-class AllUsers extends React.Component {
+export class AllUsers extends React.Component {
   constructor(props) {
     super(props)
   }
