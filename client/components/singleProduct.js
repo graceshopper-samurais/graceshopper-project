@@ -1,27 +1,46 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addToCart} from '../store/singleProduct'
+import {getSingleProduct} from '../store/singleProduct'
+import AddToCartButton from './AddToCartButton'
 
-const SingleProduct = props => {
-  const {name, imageUrl, description, cost, id} = props
+export class SingleProduct extends React.Component {
+  componentDidMount() {
+    this.props.getSingleProduct(this.props.match.params.productId)
+  }
 
-  return (
-    <div>
-      <h2>{name}</h2>
-      <div>{imageUrl}</div>
-      <div>{description}</div>
-      <div>{cost}</div>
-      <button onClick={() => props.addToCart(id)}>Add To Cart</button>
-    </div>
-  )
+  render() {
+    const product = this.props.singleProduct
+    return (
+      <div id="one-product" key={product.id}>
+        <div id="product-image">
+          <img src={product.imageUrl} />
+        </div>
+        <div id="product-name-price-container">
+          <div id="product-name-container">
+            <span>{product.name}</span>
+          </div>
+          <div id="product-price-container">
+            <span>{product.price}</span>
+          </div>
+          <div>
+            <AddToCartButton product={product} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    singleProduct: state.singleProduct
+  }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToCart: id => dispatch(addToCart(id))
+    getSingleProduct: productId => dispatch(getSingleProduct(productId))
   }
 }
 
-export default connect(null, mapDispatchToProps)(SingleProduct)
-
-//still need to wire up an "add to cart" btn to work properly, need to be sure that AllProducts component passes the singleProduct obj to this component, need to import my singleProduct file into Logan's AllProducts file for use
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
