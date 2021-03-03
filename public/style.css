@@ -1,3 +1,7 @@
+* {
+  background-color: #ffffff;
+}
+
 body {
   font-family: 'Candal', sans-serif;
 }
@@ -28,6 +32,7 @@ form div {
 
 .cartIcon {
   width: 20px;
+}
 
 #title-container {
   display: flex;
