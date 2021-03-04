@@ -24,7 +24,7 @@ class FullCart extends React.Component {
             })}
           </div>
         ) : (
-          <p>hi</p>
+          <p>No items currently in your cart. Happy shopping!</p>
         )}
       </div>
     )
