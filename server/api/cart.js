@@ -4,7 +4,7 @@ module.exports = router
 // create a custom middleware called isUser that will check if the user is a User
 
 // GET /api/users/:id/cart
-router.get('/:id/cart', isUser, async (req, res, next) => {
+router.get('/:id/cart', async (req, res, next) => {
   try {
     const userCart = await Cart.findAll({
       where: {
