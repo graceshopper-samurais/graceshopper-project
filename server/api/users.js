@@ -26,6 +26,7 @@ router.get('/', async (req, res, next) => {
 // GET /api/users/:id
 router.get('/:id', async (req, res, next) => {
   try {
+    // could check if req.params.id is a number and then send it in to protect against SQL injection attacks
     const singleUser = await User.findByPk(req.params.id)
     res.json(singleUser)
   } catch (err) {
