@@ -26,8 +26,8 @@ const getProducts = products => ({
  */
 export const getProductsThunk = () => async dispatch => {
   try {
-    const {response} = await axios.get('/api/products')
-    dispatch(getProducts(response.data))
+    const {data} = await axios.get('/api/products')
+    dispatch(getProducts(data))
   } catch (error) {
     console.log('error in getProdThunk————', error)
   }
