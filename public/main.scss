@@ -1,6 +1,6 @@
 @import 'config';
-@import 'responsive';
 @import 'allproducts';
+@import 'responsive';
 
 body {
   font-family: 'Candal', sans-serif;
@@ -50,21 +50,7 @@ form div {
   background-color: #006d77;
 }
 
-// #all-products-container {
-//   width: 60vw;
-//   margin: 2rem auto 0 auto;
-//   display: grid;
-//   grid-template-rows: 2fr;
-//   grid-gap: 5rem;
-// }
-
 #single-product-container {
   position: relative;
   overflow: hidden;
-  text-align: center;
-
-  img: {
-    // width: 400px;
-    // height: 400px;
-  }
 }

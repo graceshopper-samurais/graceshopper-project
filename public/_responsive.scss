@@ -1,12 +1,16 @@
 @include media-md {
-  #all-products-container {
-    grid-template-columns: repeat(2, 1fr);
+  .products {
+    &__items {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }
 
 @include media-lg {
-  #all-products-container {
-    grid-template-columns: repeat(3, 1fr);
+  .products {
+    &__items {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 }
 

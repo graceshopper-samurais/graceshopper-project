@@ -1,5 +1,5 @@
 .products {
-  padding-bottom: 2rem;
+  // padding-bottom: 2rem;
 
   &__items {
     width: 60vw;
@@ -11,9 +11,8 @@
 
   &__item {
     position: relative;
-    // border-bottom: 5px solid $secondary-color;
     overflow: hidden;
-    cursor: pointer;
+    text-align: center;
 
     img {
       width: 100%;
@@ -26,9 +25,7 @@
       left: 0;
       height: 100%;
       width: 100%;
-      // background: $secondary-color;
       opacity: 0;
-      // @include transition-ease;
     }
   }
 
