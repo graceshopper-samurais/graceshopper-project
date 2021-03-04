@@ -53,6 +53,7 @@ body {
 }
 
 a {
+  color: #006d77;
   text-decoration: none;
 }
 
@@ -69,6 +70,7 @@ nav {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: #83c5be;
 }
 
 form div {
