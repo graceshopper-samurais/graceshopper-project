@@ -5,12 +5,9 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import CartIcon from './CartIcon'
 
-
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <div id="title-container">
-      WICK BOTANICA
-    </div>
+    <div id="title-container">WICK BOTANICA</div>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -28,47 +25,30 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/">Store</Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-
-          <div>
+          <Link to="/users/:id/cart">
             <CartIcon />
-            {/* The navbar will show these links after you log in */}
-            <Link to="/home">Home</Link>
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-        ) : (
-          <div>
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-            <div>
-              <Link to="/users/:id/cart">
-                <CartIcon />
-              </Link>
-            </div>
-          </div>
-        )}
-      </nav>
-      <hr />
-    </div>
-  )
-}
+          </Link>
+        </div>
+      )}
+    </nav>
+    <hr />
+  </div>
+)
 
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
   }
 }
 
@@ -79,5 +59,5 @@ export default connect(mapState, mapDispatch)(Navbar)
  */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
 }
