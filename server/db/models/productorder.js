@@ -15,6 +15,10 @@ const ProductOrder = db.define('productorder', {
     validate: {
       min: 1
     }
+  },
+  subtotal: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 })
 
