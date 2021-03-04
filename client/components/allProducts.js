@@ -8,6 +8,11 @@ export class AllProducts extends React.Component {
     this.props.getProducts()
   }
 
+  // above return, if this.props.loading
+  // then candles loading...
+  // else load our candles
+
+  // compnentWillUnmount: when component unmounts, we want tochange loading back to true
   render() {
     const products = this.props.products
     return (
@@ -46,7 +51,8 @@ export class AllProducts extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.products
+    products: state.products.products,
+    loading: state.products.loading
   }
 }
 
