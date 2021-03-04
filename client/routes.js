@@ -23,7 +23,8 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn, isAdmin} = this.props
+    const {isLoggedIn} = this.props
+    const isAdmin = isLoggedIn ? this.props.isAdmin : false
 
     return (
       <Switch>
@@ -46,7 +47,7 @@ class Routes extends Component {
             )}
           </Switch>
         )}
-        {/* Displays our Login component as a fallback */}
+        {/* Displays allProducts component as a fallback */}
         <Route component={allProducts} />
       </Switch>
     )
