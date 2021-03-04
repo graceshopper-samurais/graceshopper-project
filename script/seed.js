@@ -190,6 +190,17 @@ async function seed() {
     })
   ])
 
+  await users[0].addProduct(products[0], {through: {quantity: 1}})
+  await users[1].addProduct(products[0], {through: {quantity: 2}})
+  await users[1].addProduct(products[1], {through: {quantity: 1}})
+  await users[1].addProduct(products[2], {through: {quantity: 1}})
+  await users[1].addProduct(products[3], {through: {quantity: 3}})
+  await users[1].addProduct(products[4], {through: {quantity: 2}})
+  await users[2].addProduct(products[5], {through: {quantity: 1}})
+  await users[2].addProduct(products[6], {through: {quantity: 1}})
+  await users[3].addProduct(products[6], {through: {quantity: 1}})
+  await users[4].addProduct(products[6], {through: {quantity: 1}})
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
   console.log(`seeded successfully`)
