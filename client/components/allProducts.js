@@ -11,29 +11,31 @@ export class AllProducts extends React.Component {
   render() {
     const products = this.props.products
     return (
-      <div id="all-products-container">
-        {products.length ? (
-          products.map(product => {
-            return (
-              <div id="single-product-container" key={product.id}>
-                <img src={product.imageUrl} />
-                <div id="product-name-price-container">
-                  <div id="product-name-container">
-                    <Link to={`/products/${product.id}`}>
-                      <span>{product.name}</span>
-                    </Link>
+      <div className="products">
+        <div className="products__items">
+          {products.length ? (
+            products.map(product => {
+              return (
+                <div className="products__item" key={product.id}>
+                  <img src={product.imageUrl} alt="Sample Candle" />
+                  <div id="product-name-price-container">
+                    <div id="product-name-container">
+                      <Link to={`/products/${product.id}`}>
+                        <span>{product.name}</span>
+                      </Link>
+                    </div>
+                    <div id="product-price-container">
+                      <span>{product.price}</span>
+                    </div>
+                    <button id="add-to-cart"> Add To Cart </button>
                   </div>
-                  <div id="product-price-container">
-                    <span>{product.price}</span>
-                  </div>
-                  <button id="add-to-cart"> Add To Cart </button>
                 </div>
-              </div>
-            )
-          })
-        ) : (
-          <p>Candles Loading...</p>
-        )}
+              )
+            })
+          ) : (
+            <p>Candles Loading...</p>
+          )}
+        </div>
       </div>
     )
   }
