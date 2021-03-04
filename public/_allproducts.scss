@@ -1,5 +1,5 @@
 .products {
-  // padding-bottom: 2rem;
+  padding-bottom: 2rem;
 
   &__items {
     width: 60vw;
@@ -27,23 +27,5 @@
       width: 100%;
       opacity: 0;
     }
-  }
-
-  &__btns {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    text-align: center;
-  }
-
-  &__btn {
-    opacity: 0;
-    // color: set-text-color($secondary-color);
-    // @include transition-ease;
   }
 }
