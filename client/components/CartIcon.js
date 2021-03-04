@@ -9,7 +9,7 @@ const CartIcon = props => {
     <div>
       {/* <img src={cart} /> */}
       <Link to={`/users/${props.user.id}/cart`}>
-        <img src="./icons/cart.png" className="cartIcon" /> 0
+        <img src="/icons/cart.png" className="cartIcon" /> 0
         {/* {props.cart.reduce((acum, itemObj) => acum + itemObj.quantity)} */}
       </Link>
     </div>
