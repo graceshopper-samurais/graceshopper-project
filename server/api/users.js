@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Order, ProductOrder} = require('../db/models')
 module.exports = router
 
 // GET /api/users
@@ -29,6 +29,39 @@ router.get('/:id', async (req, res, next) => {
     // could check if req.params.id is a number and then send it in to protect against SQL injection attacks
     const singleUser = await User.findByPk(req.params.id)
     res.json(singleUser)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//CART ROUTES
+
+// GET /api/users/:id/cart
+// router.get('/:id/cart', async (req, res, next) => {
+//   try {
+//     const userCart = await Cart.findAll({
+//       where: {
+//         userId: req.params.id
+//       },
+//       include: [Product]
+//     })
+//     res.json(userCart)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
+// GET /api/users/:id/cart
+router.get('/:id/cart', async (req, res, next) => {
+  try {
+    const userCart = await Order.findAll({
+      where: {
+        userId: req.params.id,
+        isFullfilled: false // will this be boolean?
+      },
+      include: [ProductOrder]
+    })
+    res.json(userCart)
   } catch (err) {
     next(err)
   }
