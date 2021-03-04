@@ -14,7 +14,7 @@ ProductOrder.belongsTo(Product)
 Order.hasMany(ProductOrder)
 ProductOrder.belongsTo(Order)
 
-ProductOrder.module.exports = {
+module.exports = {
   User,
   Product,
   Order,
