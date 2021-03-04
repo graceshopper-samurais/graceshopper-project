@@ -2,6 +2,7 @@
   background-color: #ffffff;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 @media screen and (min-width: 768px) {
@@ -51,11 +52,9 @@ form div {
   align-items: center;
   flex-direction: row;
   justify-content: center;
-}
-
-#site-title {
   font-family: 'Yellowtail', cursive;
   font-weight: 400;
+  font-size: xx-large;
 }
 
 #add-to-cart {

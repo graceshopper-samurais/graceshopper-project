@@ -73,11 +73,9 @@ form div {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-#site-title {
   font-family: 'Yellowtail', cursive;
   font-weight: 400;
+  font-size: xx-large;
 }
 
 #add-to-cart {
