@@ -1,17 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Candal&family=Yellowtail&display=swap');
 * {
   background-color: #ffffff;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+.products {
+  padding-bottom: 2rem;
+}
+.products__items {
+  width: 60vw;
+  margin: 2rem auto 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+}
+.products__item {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.products__item img {
+  width: 100%;
+}
+.products__item::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
 }
 
 @media screen and (min-width: 768px) {
-  #all-products-container {
+  .products__items {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media screen and (min-width: 1024px) {
-  #all-products-container {
+  .products__items {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 1600px) {
+  .products__items {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 body {
@@ -19,6 +55,7 @@ body {
 }
 
 a {
+  color: #006d77;
   text-decoration: none;
 }
 
@@ -35,6 +72,7 @@ nav {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: #83c5be;
 }
 
 form div {
@@ -51,31 +89,15 @@ form div {
   align-items: center;
   flex-direction: row;
   justify-content: center;
-}
-
-#site-title {
   font-family: 'Yellowtail', cursive;
   font-weight: 400;
+  font-size: xx-large;
 }
 
 #add-to-cart {
   color: #edf6f9;
   font-family: 'Candal', sans-serif;
   background-color: #006d77;
-}
-
-#all-products-container {
-  width: 60vw;
-  margin: 2rem auto 0 auto;
-  display: grid;
-  grid-template-rows: 2fr;
-  grid-gap: 5rem;
-}
-
-#single-product-container {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */

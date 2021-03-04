@@ -1,11 +1,24 @@
 @include media-md {
-  #all-products-container {
-    grid-template-columns: repeat(2, 1fr);
+  .products {
+    &__items {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }
 
 @include media-lg {
-  #all-products-container {
-    grid-template-columns: repeat(3, 1fr);
+  .products {
+    &__items {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Tried testing this out to get it to show 4 items per row for an extra-large screen but it did not work; will have to test later
+@include media-xl {
+  .products {
+    &__items {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 }
