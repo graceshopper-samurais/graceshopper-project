@@ -8,7 +8,8 @@ import CartIcon from './CartIcon'
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <div id="title-container">
-      <h1 id="site-title">BOUTIQUE CANDLES</h1>
+      {/* <h1 id="site-title">BOUTIQUE CANDLES</h1> */}
+      WICK BOTANICA
     </div>
     <nav>
       {isLoggedIn ? (

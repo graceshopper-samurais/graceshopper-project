@@ -1,11 +1,13 @@
 @import 'config';
+@import 'allproducts';
 @import 'responsive';
 
 body {
-  font-family: 'Candal', sans-serif;
+  font-family: $body-font;
 }
 
 a {
+  color: #006d77;
   text-decoration: none;
 }
 
@@ -22,6 +24,7 @@ nav {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: #83c5be;
 }
 
 form div {
@@ -38,34 +41,13 @@ form div {
   align-items: center;
   flex-direction: row;
   justify-content: center;
-}
-
-#site-title {
-  font-family: 'Yellowtail', cursive;
+  font-family: $title-font;
   font-weight: 400;
+  font-size: xx-large;
 }
 
 #add-to-cart {
   color: #edf6f9;
-  font-family: 'Candal', sans-serif;
+  font-family: $body-font;
   background-color: #006d77;
-}
-
-#all-products-container {
-  width: 60vw;
-  margin: 2rem auto 0 auto;
-  display: grid;
-  grid-template-rows: 2fr;
-  grid-gap: 5rem;
-}
-
-#single-product-container {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-
-  img: {
-    // width: 400px;
-    // height: 400px;
-  }
 }
