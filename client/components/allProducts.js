@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/products'
+import {addToCartThunk} from '../store/singleCart'
 import {Link} from 'react-router-dom'
 
 export class AllProducts extends React.Component {
@@ -13,13 +14,14 @@ export class AllProducts extends React.Component {
   // else load our candles
 
   // compnentWillUnmount: when component unmounts, we want tochange loading back to true
+
   render() {
     const products = this.props.products
     return (
       <div className="products">
         <div className="products__items">
           {products.length ? (
-            products.map(product => {
+            products.map((product) => {
               return (
                 <div className="products__item" key={product.id}>
                   <img src={product.imageUrl} alt="Sample Candle" />
@@ -32,7 +34,13 @@ export class AllProducts extends React.Component {
                     <div id="product-price-container">
                       <span>{product.price}</span>
                     </div>
-                    <button type="button" id="add-to-cart">
+                    <button
+                      type="button"
+                      id="add-to-cart"
+                      onClick={() =>
+                        this.props.addToCart(this.props.userId, product.id)
+                      }
+                    >
                       {' '}
                       Add To Cart{' '}
                     </button>
@@ -49,16 +57,19 @@ export class AllProducts extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     products: state.products.products,
-    loading: state.products.loading
+    loading: state.products.loading,
+    userId: state.user.id,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getProducts: () => dispatch(getProductsThunk())
+    getProducts: () => dispatch(getProductsThunk()),
+    addToCart: (userId, productId) =>
+      dispatch(addToCartThunk(userId, productId)),
   }
 }
 
