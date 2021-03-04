@@ -10,7 +10,8 @@ const Order = db.define('order', {
   },
   isFulfilled: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+    allowNull: false
   }
 })
 

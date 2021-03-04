@@ -18,7 +18,7 @@ const ProductOrder = db.define('productorder', {
   },
   subtotal: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    allowNull: false
   }
 })
 
