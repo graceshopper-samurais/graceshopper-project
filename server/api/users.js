@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
         // explicitly select only the id and email fields - even though
         // users' passwords are encrypted, it won't help if we just
         // send everything to anyone who asks!
-        attributes: ['id', 'email'],
+        attributes: ['id', 'email']
       })
       res.json(users)
     } catch (err) {
@@ -40,7 +40,6 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/cart', async (req, res, next) => {
   try {
     const userCart = await Order.findOne({
-
       where: {
         userId: req.params.id,
         isFulfilled: false
@@ -69,32 +68,24 @@ router.put('/:id/cart', async (req, res, next) => {
         isFulFilled: false
       },
       // userId, productId, quantity
-      include: [ProductOrder]
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
     })
     const productOrders = userCart.productorders
     const productOrder = productOrders.filter(
       order => order.productId === oldProductId
     )
     productOrder.quantity = quantity
+    await productOrder.save()
     productOrder.subtotal = product.price * productOrder.quantity
-    res.json(productOrder)
-
-      where: {
-        userId: req.params.id,
-
-        isFulfilled: false // will this be boolean?
-      },
-      include: {
-        model: ProductOrder,
-        include: [Product]
-      }
-    })
+    await productOrder.save()
     res.json(userCart.productorders)
   } catch (err) {
     next(err)
   }
 })
-
 //This would be logical hierarchy for the route, but not using the UserId at this point
 router.delete('/:id/cart/:line', async (req, res, next) => {
   try {
@@ -120,9 +111,9 @@ router.post('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
-      include: [ProductOrder],
+      include: [ProductOrder]
     })
 
     // Grab line items from that cart
@@ -130,12 +121,12 @@ router.post('/:id/cart', async (req, res, next) => {
 
     console.log(
       'productOrders.map————',
-      productOrders.map((productOrder) => productOrder.id)
+      productOrders.map(productOrder => productOrder.id)
     )
 
     // See if product-to-be-added is already in the cart
     const indexOfItem = productOrders
-      .map((productOrder) => productOrder.productId)
+      .map(productOrder => productOrder.productId)
       .indexOf(newProductId)
 
     console.log('indexOfItem——————', indexOfItem)
@@ -145,7 +136,7 @@ router.post('/:id/cart', async (req, res, next) => {
       console.log('TOP—————————')
 
       const newProductOrder = await userCart.addProduct(product, {
-        through: {quantity: 1, subtotal: 1 * product.price},
+        through: {quantity: 1, subtotal: 1 * product.price}
       })
 
       console.log('newProductOrder—————', newProductOrder)
@@ -164,9 +155,9 @@ router.post('/:id/cart', async (req, res, next) => {
 
       const experiment = await ProductOrder.findOne({
         where: {
-          id: productOrder.id,
+          id: productOrder.id
         },
-        include: [Product],
+        include: [Product]
       })
 
       console.log('experiment—————', experiment)
@@ -174,8 +165,6 @@ router.post('/:id/cart', async (req, res, next) => {
       // Send the new product order back to the front end
       res.json(productOrder)
     }
-
-
   } catch (err) {
     next(err)
   }

@@ -8,7 +8,6 @@ const UPDATE_CART = 'UPDATE_CART'
 
 // action creators
 
-
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 
 // action creators
@@ -41,8 +40,6 @@ const deleteFromCart = productOrderId => {
   }
 }
 
-
-
 //thunk creators
 
 export const fetchCart = id => {
@@ -59,9 +56,8 @@ export const fetchCart = id => {
 export const addToCartThunk = (userId, productId) => {
   return async dispatch => {
     try {
-
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
-        productId: productId,
+        productId: productId
       })
 
       dispatch(addToCart(data))
@@ -71,7 +67,6 @@ export const addToCartThunk = (userId, productId) => {
   }
 }
 
-
 export const updateCartThunk = (userId, productId) => {
   return async dispatch => {
     try {
@@ -79,7 +74,9 @@ export const updateCartThunk = (userId, productId) => {
       dispatch(updateCart(data))
     } catch (err) {
       console.log('error in updateCartThunk-----', err)
-
+    }
+  }
+}
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
 export const deleteFromCartThunk = (userId, productOrderId) => {
@@ -89,7 +86,6 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
       dispatch(deleteFromCart(productOrderId))
     } catch (err) {
       console.log('error in deleteFromCartThunk————', err)
-
     }
   }
 }
@@ -136,8 +132,9 @@ export default (state = initialState, action) => {
       return state
     }
     case DELETE_FROM_CART: {
-      return state.filter(lineItem => lineItem.id !== action.productOrderId)
-
+      return state.cart.filter(
+        lineItem => lineItem.id !== action.productOrderId
+      )
     }
     default:
       return state
