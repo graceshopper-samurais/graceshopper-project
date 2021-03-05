@@ -7,12 +7,24 @@ class FullCart extends React.Component {
   componentDidMount() {
     this.props.getSingleCart(this.props.match.params.id)
   }
+
+  // componentWillUnmount() {
+  //   // No items currently in your cart. Happy shopping!
+  //   this.props.noCart = true
+  // }
+
   render() {
     const {cart} = this.props
     console.log('props from FULLCART: ', this.props)
-    return (
-      <div>
-        {cart[0] ? (
+
+    if (this.props.noCart) {
+      return <p>No items currently in your cart. Happy shopping!</p>
+    } else {
+      return (
+        <div className="cartContainer">
+          <div>
+
+      
           <div className="cart__cart-header">
             <div> You have {cart.length} items in your cart </div>
             {cart.map(item => {
@@ -46,19 +58,20 @@ class FullCart extends React.Component {
               )
             })}
           </div>
-        ) : (
-          <div className="cart__cart-header">
-            <p> No items currently in your cart. Happy shopping! </p>
-          </div>
-        )}
-      </div>
-    )
+
+      
+      )
+}
+       
+    
+
   }
 }
 
 const mapState = state => {
   return {
-    cart: state.singleCart
+    cart: state.singleCart.cart,
+    noCart: state.singleCart.noCart
   }
 }
 

@@ -24,7 +24,6 @@ const addToCart = product => {
   return {
     type: ADD_TO_CART,
     product
-
   }
 }
 
@@ -32,7 +31,6 @@ const updateCart = product => {
   return {
     type: UPDATE_CART,
     product
-
   }
 }
 
@@ -98,14 +96,22 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
 
 //initial state
 
-const initialState = []
+const initialState = {
+  cart: [],
+  noCart: true
+}
 
 // reducer
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_CART:
-      return action.cart
+      // return action.cart
+      return {
+        ...state,
+        cart: action.cart,
+        noCart: false
+      }
     case ADD_TO_CART: {
       const alreadyInCart = state
         .map(product => product.id)
