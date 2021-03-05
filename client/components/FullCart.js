@@ -17,16 +17,21 @@ class FullCart extends React.Component {
             {cart.map(item => {
               return (
                 <div key={item.id}>
-                  <img src={item.product.imageUrl} className="cartImg" />
+                  <img
+                    src={item.product.imageUrl}
+                    className="cartImg"
+                    alt={item.product.name}
+                  />
                   <div> {item.product.name} </div>
                   <div> Quantity: {item.quantity} </div>
+                  {/* add a selector or button here to change the quantity between 1-8 */}
                 </div>
               )
             })}
           </div>
         ) : (
           <div className="cart__cart-header">
-            <p>No items currently in your cart. Happy shopping!</p>
+            <p> No items currently in your cart. Happy shopping! </p>
           </div>
         )}
       </div>

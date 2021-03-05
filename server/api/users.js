@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Order, ProductOrder} = require('../db/models')
+const {User, Order, ProductOrder, Product} = require('../db/models')
 module.exports = router
 
 // GET /api/users
@@ -70,7 +70,25 @@ router.get('/:id/cart', async (req, res, next) => {
 // PUT /api/users/:id/cart
 router.put('/:id/cart', async (req, res, next) => {
   try {
-    const productToEdit = await ProductOrder.update({quantity: 1}, {})
+    // calling this oldProductId because the for updating, the items in question are already in the cart
+    const oldProductId = req.body.productId
+    const quantity = req.body.quantity
+    const product = await Product.findByPk(oldProductId)
+    const userCart = await Order.findOne({
+      where: {
+        userId: req.params.id,
+        isFulFilled: false
+      },
+      // userId, productId, quantity
+      include: [ProductOrder]
+    })
+    const productOrders = userCart.productorders
+    const productOrder = productOrders.filter(
+      order => order.id === oldProductId
+    )
+    productOrder.quantity = quantity
+    productOrder.subtotal = product.price * productOrder.quantity
+    res.json(productOrder)
   } catch (err) {
     next(err)
   }
