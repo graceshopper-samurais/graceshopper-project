@@ -37,21 +37,6 @@ router.get('/:id', async (req, res, next) => {
 //CART ROUTES
 
 // GET /api/users/:id/cart
-// router.get('/:id/cart', async (req, res, next) => {
-//   try {
-//     const userCart = await Cart.findAll({
-//       where: {
-//         userId: req.params.id
-//       },
-//       include: [Product]
-//     })
-//     res.json(userCart)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
     const userCart = await Order.findAll({
@@ -59,9 +44,12 @@ router.get('/:id/cart', async (req, res, next) => {
         userId: req.params.id,
         isFulfilled: false
       },
-      include: [ProductOrder]
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
     })
-    res.json(userCart)
+    res.json(userCart.productorders)
   } catch (err) {
     next(err)
   }
