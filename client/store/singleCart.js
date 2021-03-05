@@ -57,7 +57,7 @@ export const addToCartThunk = (userId, productId) => {
   return async (dispatch) => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
-        productId: productId,
+        productId: productId
       })
 
       dispatch(addToCart(data))
@@ -133,7 +133,11 @@ export default (state = initialState, action) => {
       return state
     }
     case DELETE_FROM_CART: {
-      return state.filter((lineItem) => lineItem.id !== action.productOrderId)
+
+      return state.cart.filter(
+        lineItem => lineItem.id !== action.productOrderId
+      )
+
     }
     default:
       return state

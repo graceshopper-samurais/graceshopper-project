@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
         // explicitly select only the id and email fields - even though
         // users' passwords are encrypted, it won't help if we just
         // send everything to anyone who asks!
-        attributes: ['id', 'email'],
+        attributes: ['id', 'email']
       })
       res.json(users)
     } catch (err) {
@@ -70,8 +70,10 @@ router.put('/:id/cart', async (req, res, next) => {
       // userId, productId, quantity
       include: {
         model: ProductOrder,
+
         include: [Product],
       },
+
     })
     const productOrders = userCart.productorders
     const productOrder = productOrders.filter(
@@ -86,7 +88,6 @@ router.put('/:id/cart', async (req, res, next) => {
     next(err)
   }
 })
-
 //This would be logical hierarchy for the route, but not using the UserId at this point
 router.delete('/:id/cart/:line', async (req, res, next) => {
   try {
@@ -112,12 +113,14 @@ router.post('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
+
       include: {
         model: ProductOrder,
         include: [Product],
       },
+
     })
 
     // Grab line items from that cart
@@ -125,12 +128,12 @@ router.post('/:id/cart', async (req, res, next) => {
 
     console.log(
       'productOrders.map————',
-      productOrders.map((productOrder) => productOrder.id)
+      productOrders.map(productOrder => productOrder.id)
     )
 
     // See if product-to-be-added is already in the cart
     const indexOfItem = productOrders
-      .map((productOrder) => productOrder.productId)
+      .map(productOrder => productOrder.productId)
       .indexOf(newProductId)
 
     console.log('indexOfItem——————', indexOfItem)
@@ -140,7 +143,7 @@ router.post('/:id/cart', async (req, res, next) => {
       console.log('TOP—————————')
 
       const newProductOrder = await userCart.addProduct(product, {
-        through: {quantity: 1, subtotal: 1 * product.price},
+        through: {quantity: 1, subtotal: 1 * product.price}
       })
 
       console.log('newProductOrder top—————', newProductOrder)
@@ -157,6 +160,7 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
+
 
       console.log('productOrder bottom—————', productOrder)
 

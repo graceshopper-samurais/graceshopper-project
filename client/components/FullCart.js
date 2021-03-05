@@ -22,7 +22,9 @@ class FullCart extends React.Component {
       return (
         <div className="cart__cart-header">
           <div> You have {cart.length} items in your cart </div>
-          {cart.map((item) => {
+
+          {cart.map(item => {
+
             return (
               <div key={item.id}>
                 <img
