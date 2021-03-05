@@ -22,7 +22,9 @@ class FullCart extends React.Component {
       return (
         <div className="cart__cart-header">
           <div> You have {cart.length} items in your cart </div>
+
           {cart.map(item => {
+
             return (
               <div key={item.id}>
                 <img
@@ -55,16 +57,16 @@ class FullCart extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
     cart: state.singleCart.cart,
-    noCart: state.singleCart.noCart
+    noCart: state.singleCart.noCart,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    getSingleCart: id => dispatch(fetchCart(id))
+    getSingleCart: (id) => dispatch(fetchCart(id)),
   }
 }
 

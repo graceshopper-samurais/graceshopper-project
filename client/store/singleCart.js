@@ -12,38 +12,38 @@ const DELETE_FROM_CART = 'DELETE_FROM_CART'
 
 // action creators
 
-const getCart = cart => {
+const getCart = (cart) => {
   return {
     type: GET_CART,
-    cart
+    cart,
   }
 }
 
-const addToCart = product => {
+const addToCart = (product) => {
   return {
     type: ADD_TO_CART,
-    product
+    product,
   }
 }
 
-const updateCart = product => {
+const updateCart = (product) => {
   return {
     type: UPDATE_CART,
-    product
+    product,
   }
 }
 
-const deleteFromCart = productOrderId => {
+const deleteFromCart = (productOrderId) => {
   return {
     type: DELETE_FROM_CART,
-    productOrderId
+    productOrderId,
   }
 }
 
 //thunk creators
 
-export const fetchCart = id => {
-  return async dispatch => {
+export const fetchCart = (id) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
       dispatch(getCart(data))
@@ -54,7 +54,7 @@ export const fetchCart = id => {
 }
 
 export const addToCartThunk = (userId, productId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
         productId: productId
@@ -68,7 +68,7 @@ export const addToCartThunk = (userId, productId) => {
 }
 
 export const updateCartThunk = (userId, productId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.put(`api/users/${userId}/cart`, productId)
       dispatch(updateCart(data))
@@ -77,10 +77,11 @@ export const updateCartThunk = (userId, productId) => {
     }
   }
 }
+
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
 export const deleteFromCartThunk = (userId, productOrderId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       await axios.delete(`/api/users/${userId}/cart/${productOrderId}`)
       dispatch(deleteFromCart(productOrderId))
@@ -94,7 +95,7 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
 
 const initialState = {
   cart: [],
-  noCart: true
+  noCart: true,
 }
 
 // reducer
@@ -106,24 +107,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: action.cart,
-        noCart: false
+        noCart: false,
       }
     case ADD_TO_CART: {
-      const alreadyInCart = state
-        .map(product => product.id)
+      const alreadyInCart = state.cart
+        .map((productOrder) => productOrder.product.id)
         .includes(action.product.id)
 
       if (alreadyInCart) {
-        const newCart = state.map(product => {
-          if (product.id === action.product.id) {
-            return action.product.id
+        const newCart = state.cart.map((productOrder) => {
+          if (productOrder.product.id === action.product.id) {
+            return action.product
           } else {
-            return product.id
+            return productOrder.id
           }
         })
-        return newCart
+        return {...state, cart: newCart}
       } else {
-        return [...state, action.product]
+        return {...state, cart: [...state.cart, action.product]}
       }
     }
 
@@ -132,9 +133,11 @@ export default (state = initialState, action) => {
       return state
     }
     case DELETE_FROM_CART: {
+
       return state.cart.filter(
         lineItem => lineItem.id !== action.productOrderId
       )
+
     }
     default:
       return state

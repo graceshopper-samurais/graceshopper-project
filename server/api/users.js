@@ -42,12 +42,12 @@ router.get('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false
+        isFulfilled: false,
       },
       include: {
         model: ProductOrder,
-        include: [Product]
-      }
+        include: [Product],
+      },
     })
     res.json(userCart.productorders)
   } catch (err) {
@@ -65,17 +65,19 @@ router.put('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulFilled: false
+        isFulfilled: false,
       },
       // userId, productId, quantity
       include: {
         model: ProductOrder,
-        include: [Product]
-      }
+
+        include: [Product],
+      },
+
     })
     const productOrders = userCart.productorders
     const productOrder = productOrders.filter(
-      order => order.productId === oldProductId
+      (order) => order.productId === oldProductId
     )
     productOrder.quantity = quantity
     await productOrder.save()
@@ -113,7 +115,12 @@ router.post('/:id/cart', async (req, res, next) => {
         userId: req.params.id,
         isFulfilled: false
       },
-      include: [ProductOrder]
+
+      include: {
+        model: ProductOrder,
+        include: [Product],
+      },
+
     })
 
     // Grab line items from that cart
@@ -139,7 +146,7 @@ router.post('/:id/cart', async (req, res, next) => {
         through: {quantity: 1, subtotal: 1 * product.price}
       })
 
-      console.log('newProductOrder—————', newProductOrder)
+      console.log('newProductOrder top—————', newProductOrder)
 
       // Send the line item back to the front end
       res.json(newProductOrder)
@@ -147,20 +154,15 @@ router.post('/:id/cart', async (req, res, next) => {
       // Else if it IS already in the cart, just increment the quantity and the subtotal
     } else {
       console.log('BOTTOM———————')
+
+      // Save new information
       const productOrder = productOrders[indexOfItem]
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
+
+
       console.log('productOrder bottom—————', productOrder)
-
-      const experiment = await ProductOrder.findOne({
-        where: {
-          id: productOrder.id
-        },
-        include: [Product]
-      })
-
-      console.log('experiment—————', experiment)
 
       // Send the new product order back to the front end
       res.json(productOrder)
