@@ -54,10 +54,10 @@ router.get('/:id', async (req, res, next) => {
 // GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
-    const userCart = await Order.findAll({
+    const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFullfilled: false // will this be boolean?
+        isFulfilled: false
       },
       include: [ProductOrder]
     })
