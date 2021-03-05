@@ -131,7 +131,6 @@ export default (state = initialState, action) => {
         return [...state, action.product]
       }
     }
-
     case UPDATE_CART: {
       const filteredArray = [...state.cart].filter(
         item => item.id !== action.productOrderId
