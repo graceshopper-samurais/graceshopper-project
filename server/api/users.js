@@ -57,7 +57,7 @@ router.get('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findAll({
       where: {
         userId: req.params.id,
-        isFullfilled: false // will this be boolean?
+        isFulfilled: false
       },
       include: [ProductOrder]
     })
