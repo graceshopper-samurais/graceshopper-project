@@ -84,7 +84,7 @@ router.put('/:id/cart', async (req, res, next) => {
     })
     const productOrders = userCart.productorders
     const productOrder = productOrders.filter(
-      order => order.id === oldProductId
+      order => order.productId === oldProductId
     )
     productOrder.quantity = quantity
     productOrder.subtotal = product.price * productOrder.quantity
