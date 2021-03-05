@@ -37,24 +37,48 @@ router.get('/:id', async (req, res, next) => {
 //CART ROUTES
 
 // GET /api/users/:id/cart
-// router.get('/:id/cart', async (req, res, next) => {
-//   try {
-//     const userCart = await Cart.findAll({
-//       where: {
-//         userId: req.params.id
-//       },
-//       include: [Product]
-//     })
-//     res.json(userCart)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
     const userCart = await Order.findOne({
+
+      where: {
+        userId: req.params.id,
+        isFulfilled: false
+      },
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
+    })
+    res.json(userCart.productorders)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/users/:id/cart
+router.put('/:id/cart', async (req, res, next) => {
+  try {
+    // calling this oldProductId because the for updating, the items in question are already in the cart
+    const oldProductId = req.body.productId
+    const quantity = req.body.quantity
+    const product = await Product.findByPk(oldProductId)
+    const userCart = await Order.findOne({
+      where: {
+        userId: req.params.id,
+        isFulFilled: false
+      },
+      // userId, productId, quantity
+      include: [ProductOrder]
+    })
+    const productOrders = userCart.productorders
+    const productOrder = productOrders.filter(
+      order => order.productId === oldProductId
+    )
+    productOrder.quantity = quantity
+    productOrder.subtotal = product.price * productOrder.quantity
+    res.json(productOrder)
+
       where: {
         userId: req.params.id,
 
@@ -150,6 +174,7 @@ router.post('/:id/cart', async (req, res, next) => {
       // Send the new product order back to the front end
       res.json(productOrder)
     }
+
   } catch (err) {
     next(err)
   }

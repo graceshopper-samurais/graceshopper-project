@@ -12,24 +12,44 @@ class FullCart extends React.Component {
     console.log('props from FULLCART: ', this.props)
     return (
       <div>
-        {this.props.cart[0] ? (
-          <div>
+        {cart[0] ? (
+          <div className="cart__cart-header">
+            <div> You have {cart.length} items in your cart </div>
             {cart.map(item => {
               return (
                 <div key={item.id}>
-                  <img src={item.product.imageUrl} className="cartImg" />
-                  <div>{item.product.name}</div>
-                  <div>quantity: {item.quantity}</div>
+
+                  <img
+                    src={item.product.imageUrl}
+                    className="cartImg"
+                    alt={item.product.name}
+                  />
+                  <div> {item.product.name} </div>
+                  <div> Quantity: {item.quantity} </div>
+                  <select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                  </select>
+
                   <DeleteButton
                     productOrderId={item.id}
                     userId={this.props.match.params.id}
                   />
+
                 </div>
               )
             })}
           </div>
         ) : (
-          <p>No items currently in your cart. Happy shopping!</p>
+          <div className="cart__cart-header">
+            <p> No items currently in your cart. Happy shopping! </p>
+          </div>
         )}
       </div>
     )
