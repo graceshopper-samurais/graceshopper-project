@@ -65,25 +65,28 @@ router.put('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
+
         isFulfilled: false,
+
       },
       // userId, productId, quantity
       include: {
         model: ProductOrder,
 
-        include: [Product],
-      },
-
+        include: [Product]
+      }
     })
     const productOrders = userCart.productorders
     const productOrder = productOrders.filter(
-      (order) => order.productId === oldProductId
+      order => order.productId === oldProductId
     )
-    productOrder.quantity = quantity
-    await productOrder.save()
-    productOrder.subtotal = product.price * productOrder.quantity
-    await productOrder.save()
-    res.json(userCart.productorders)
+    // console.log to figure this shit out
+    productOrder[0].quantity = quantity
+    await productOrder[0].save()
+    productOrder[0].subtotal = product.price * productOrder[0].quantity
+    await productOrder[0].save()
+    res.json(productOrder[0])
+
   } catch (err) {
     next(err)
   }
@@ -114,12 +117,14 @@ router.post('/:id/cart', async (req, res, next) => {
       where: {
         userId: req.params.id,
         isFulfilled: false
+
       },
 
       include: {
         model: ProductOrder,
         include: [Product],
       },
+
 
     })
 
@@ -160,6 +165,7 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
+
 
 
       console.log('productOrder bottom—————', productOrder)

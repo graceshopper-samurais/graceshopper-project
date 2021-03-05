@@ -67,10 +67,16 @@ export const addToCartThunk = (userId, productId) => {
   }
 }
 
-export const updateCartThunk = (userId, productId) => {
-  return async (dispatch) => {
+
+
+export const updateCartThunk = (userId, productId, quantity) => {
+  return async dispatch => {
+
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, productId)
+      const {data} = await axios.put(`api/users/${userId}/cart`, {
+        productId: productId,
+        quantity: quantity
+      })
       dispatch(updateCart(data))
     } catch (err) {
       console.log('error in updateCartThunk-----', err)
@@ -127,16 +133,19 @@ export default (state = initialState, action) => {
         return {...state, cart: [...state.cart, action.product]}
       }
     }
-
     case UPDATE_CART: {
-      // What would go here? I tried using what I did for updateCampus in JPFP to no avail. We might need to adjust our initialState - Kendall
-      return state
+      const filteredArray = [...state.cart].filter(
+        item => item.id !== action.productOrderId
+      )
+      return {...state, cart: [filteredArray, action.productOrderId]}
     }
     case DELETE_FROM_CART: {
+
 
       return state.cart.filter(
         lineItem => lineItem.id !== action.productOrderId
       )
+
 
     }
     default:

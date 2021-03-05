@@ -25,6 +25,7 @@ class FullCart extends React.Component {
 
           {cart.map(item => {
 
+
             return (
               <div key={item.id}>
                 <img
