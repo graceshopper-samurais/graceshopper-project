@@ -4,6 +4,13 @@ import axios from 'axios'
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 
+const UPDATE_CART = 'UPDATE_CART'
+
+// action creators
+
+
+const DELETE_FROM_CART = 'DELETE_FROM_CART'
+
 // action creators
 
 const getCart = cart => {
@@ -19,6 +26,22 @@ const addToCart = product => {
     product
   }
 }
+
+const updateCart = product => {
+  return {
+    type: UPDATE_CART,
+    product
+  }
+}
+
+const deleteFromCart = productOrderId => {
+  return {
+    type: DELETE_FROM_CART,
+    productOrderId
+  }
+}
+
+
 
 //thunk creators
 
@@ -36,10 +59,37 @@ export const fetchCart = id => {
 export const addToCartThunk = (userId, productId) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/users/${userId}/cart`, productId)
+
+      const {data} = await axios.post(`/api/users/${userId}/cart`, {
+        productId: productId,
+      })
+
       dispatch(addToCart(data))
     } catch (err) {
       console.log('error in addToCartThunk————', err)
+    }
+  }
+}
+
+
+export const updateCartThunk = (userId, productId) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`api/users/${userId}/cart`, productId)
+      dispatch(updateCart(data))
+    } catch (err) {
+      console.log('error in updateCartThunk-----', err)
+
+//technically, the userId isn't needed to delete a productOrder, but
+// including it in the API Url for consistency
+export const deleteFromCartThunk = (userId, productOrderId) => {
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/users/${userId}/cart/${productOrderId}`)
+      dispatch(deleteFromCart(productOrderId))
+    } catch (err) {
+      console.log('error in deleteFromCartThunk————', err)
+
     }
   }
 }
@@ -79,6 +129,15 @@ export default (state = initialState, action) => {
       } else {
         return [...state, action.product]
       }
+    }
+
+    case UPDATE_CART: {
+      // What would go here? I tried using what I did for updateCampus in JPFP to no avail. We might need to adjust our initialState - Kendall
+      return state
+    }
+    case DELETE_FROM_CART: {
+      return state.filter(lineItem => lineItem.id !== action.productOrderId)
+
     }
     default:
       return state
