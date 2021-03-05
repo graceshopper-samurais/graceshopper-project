@@ -66,3 +66,12 @@ router.get('/:id/cart', async (req, res, next) => {
     next(err)
   }
 })
+
+// PUT /api/users/:id/cart
+router.put('/:id/cart', async (req, res, next) => {
+  try {
+    const productToEdit = await ProductOrder.update({quantity: 1}, {})
+  } catch (err) {
+    next(err)
+  }
+})

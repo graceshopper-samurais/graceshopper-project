@@ -17,8 +17,8 @@ class FullCart extends React.Component {
               return (
                 <div key={item.id}>
                   <img src={item.product.imageUrl} className="cartImg" />
-                  <div>{item.product.name}</div>
-                  <div>quantity: {item.quantity}</div>
+                  <div> {item.product.name} </div>
+                  <div> Quantity: {item.quantity} </div>
                 </div>
               )
             })}
