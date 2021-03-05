@@ -119,8 +119,8 @@ router.post('/:id/cart', async (req, res, next) => {
     } else {
       console.log('BOTTOM———————')
       const productOrder = productOrders[indexOfItem]
-      productOrder.increment('quantity')
-      productOrder.subtotal = product.price * (productOrder.quantity + 1)
+      await productOrder.increment('quantity')
+      productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
       console.log('productOrder bottom—————', productOrder)
 
