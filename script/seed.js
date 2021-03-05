@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Product, Order} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -190,16 +190,53 @@ async function seed() {
     })
   ])
 
-  await users[0].addProduct(products[0], {through: {quantity: 1}})
-  await users[1].addProduct(products[0], {through: {quantity: 2}})
-  await users[1].addProduct(products[1], {through: {quantity: 1}})
-  await users[1].addProduct(products[2], {through: {quantity: 1}})
-  await users[1].addProduct(products[3], {through: {quantity: 3}})
-  await users[1].addProduct(products[4], {through: {quantity: 2}})
-  await users[2].addProduct(products[5], {through: {quantity: 1}})
-  await users[2].addProduct(products[6], {through: {quantity: 1}})
-  await users[3].addProduct(products[6], {through: {quantity: 1}})
-  await users[4].addProduct(products[6], {through: {quantity: 1}})
+  let orders = []
+  for (let i = 0; i < 10; i++) {
+    orders.push(await Order.create({userId: users[i].id, isFulfilled: false}))
+  }
+
+  await orders[0].addProduct(products[0], {
+    through: {quantity: 1, subtotal: 1 * products[0].price}
+  })
+
+  await orders[1].addProduct(products[0], {
+    through: {quantity: 2, subtotal: 2 * products[0].price}
+  })
+
+  await orders[1].addProduct(products[1], {
+    through: {quantity: 1, subtotal: 1 * products[1].price}
+  })
+
+  await orders[1].addProduct(products[2], {
+    through: {quantity: 1, subtotal: 1 * products[2].price}
+  })
+
+  await orders[1].addProduct(products[3], {
+    through: {quantity: 3, subtotal: 3 * products[3].price}
+  })
+
+  await orders[1].addProduct(products[4], {
+    through: {quantity: 2, subtotal: 2 * products[4].price}
+  })
+
+  await orders[2].addProduct(products[5], {
+    through: {quantity: 1, subtotal: 1 * products[5].price}
+  })
+
+  await orders[2].addProduct(products[6], {
+    through: {quantity: 1, subtotal: 1 * products[6].price}
+  })
+
+  await orders[3].addProduct(products[6], {
+    through: {quantity: 1, subtotal: 1 * products[6].price}
+  })
+
+  await orders[4].addProduct(products[6], {
+    through: {
+      quantity: 1,
+      subtotal: 1 * products[6].price
+    }
+  })
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
