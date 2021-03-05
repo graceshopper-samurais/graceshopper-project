@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchCart} from '../store/singleCart'
+import DeleteButton from './DeleteButton'
 
 class FullCart extends React.Component {
   componentDidMount() {
@@ -19,6 +20,10 @@ class FullCart extends React.Component {
                   <img src={item.product.imageUrl} className="cartImg" />
                   <div>{item.product.name}</div>
                   <div>quantity: {item.quantity}</div>
+                  <DeleteButton
+                    productOrderId={item.id}
+                    userId={this.props.match.params.id}
+                  />
                 </div>
               )
             })}
