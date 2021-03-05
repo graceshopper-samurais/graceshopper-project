@@ -8,7 +8,6 @@ const UPDATE_CART = 'UPDATE_CART'
 
 // action creators
 
-
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 
 // action creators
@@ -41,8 +40,6 @@ const deleteFromCart = productOrderId => {
   }
 }
 
-
-
 //thunk creators
 
 export const fetchCart = id => {
@@ -59,9 +56,8 @@ export const fetchCart = id => {
 export const addToCartThunk = (userId, productId) => {
   return async dispatch => {
     try {
-
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
-        productId: productId,
+        productId: productId
       })
 
       dispatch(addToCart(data))
@@ -71,14 +67,20 @@ export const addToCartThunk = (userId, productId) => {
   }
 }
 
-
-export const updateCartThunk = (userId, productId) => {
+// need to incorporate quantity
+export const updateCartThunk = (userId, productId, quantity) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, productId)
+      const {data} = await axios.put(`api/users/${userId}/cart`, {
+        productId: productId,
+        quantity: quantity
+      })
       dispatch(updateCart(data))
     } catch (err) {
       console.log('error in updateCartThunk-----', err)
+    }
+  }
+}
 
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
@@ -89,7 +91,6 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
       dispatch(deleteFromCart(productOrderId))
     } catch (err) {
       console.log('error in deleteFromCartThunk————', err)
-
     }
   }
 }
@@ -132,12 +133,13 @@ export default (state = initialState, action) => {
     }
 
     case UPDATE_CART: {
-      // What would go here? I tried using what I did for updateCampus in JPFP to no avail. We might need to adjust our initialState - Kendall
-      return state
+      const filteredArray = [...state.cart].filter(
+        item => item.id !== action.productOrderId
+      )
+      return {...state, cart: [filteredArray, action.productOrderId]}
     }
     case DELETE_FROM_CART: {
       return state.filter(lineItem => lineItem.id !== action.productOrderId)
-
     }
     default:
       return state
