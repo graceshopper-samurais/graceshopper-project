@@ -54,14 +54,24 @@ router.get('/:id', async (req, res, next) => {
 // GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
-    const userCart = await Order.findAll({
+    const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFullfilled: false // will this be boolean?
+        isFulfilled: false // will this be boolean?
       },
       include: [ProductOrder]
     })
-    res.json(userCart)
+    res.json(userCart.productorders)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//This would be logical hierarchy for the route, but not using the UserId at this point
+router.delete('/:id/cart/:line', async (req, res, next) => {
+  try {
+    await ProductOrder.destroy({where: {id: req.params.line}})
+    res.status(204).send()
   } catch (err) {
     next(err)
   }
