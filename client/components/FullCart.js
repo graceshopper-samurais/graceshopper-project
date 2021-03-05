@@ -11,9 +11,9 @@ class FullCart extends React.Component {
     console.log('props from FULLCART: ', this.props)
     return (
       <div>
-        {this.props.cart[0] ? (
+        {cart.id ? (
           <div>
-            {cart.map(item => {
+            {cart.productorders.map(item => {
               return (
                 <div key={item.id}>
                   <img src={item.product.imageUrl} className="cartImg" />
