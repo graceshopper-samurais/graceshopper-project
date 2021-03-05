@@ -6,24 +6,24 @@ const ADD_TO_CART = 'ADD_TO_CART'
 
 // action creators
 
-const getCart = (cart) => {
+const getCart = cart => {
   return {
     type: GET_CART,
-    cart,
+    cart
   }
 }
 
-const addToCart = (product) => {
+const addToCart = product => {
   return {
     type: ADD_TO_CART,
-    product,
+    product
   }
 }
 
 //thunk creators
 
-export const fetchCart = (id) => {
-  return async (dispatch) => {
+export const fetchCart = id => {
+  return async dispatch => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
       dispatch(getCart(data))
@@ -34,7 +34,7 @@ export const fetchCart = (id) => {
 }
 
 export const addToCartThunk = (userId, productId) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       const {data} = await axios.put(`/api/users/${userId}/cart`, productId)
       dispatch(addToCart(data))
@@ -46,21 +46,29 @@ export const addToCartThunk = (userId, productId) => {
 
 //initial state
 
-const initialState = []
+const initialState = {
+  cart: [],
+  noCart: true
+}
 
 // reducer
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_CART:
-      return action.cart
+      // return action.cart
+      return {
+        ...state,
+        cart: action.cart,
+        noCart: false
+      }
     case ADD_TO_CART: {
       const alreadyInCart = state
-        .map((product) => product.id)
+        .map(product => product.id)
         .includes(action.product.id)
 
       if (alreadyInCart) {
-        const newCart = state.map((product) => {
+        const newCart = state.map(product => {
           if (product.id === action.product.id) {
             return action.product.id
           } else {

@@ -49,7 +49,7 @@ router.get('/:id/cart', async (req, res, next) => {
         include: [Product]
       }
     })
-    res.json(userCart)
+    res.json(userCart.productorders)
   } catch (err) {
     next(err)
   }
