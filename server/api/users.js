@@ -124,6 +124,15 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.save()
       console.log('productOrder bottom—————', productOrder)
 
+      const experiment = await ProductOrder.findOne({
+        where: {
+          id: productOrder.id,
+        },
+        include: [Product],
+      })
+
+      console.log('experiment—————', experiment)
+
       // Send the new product order back to the front end
       res.json(productOrder)
     }
