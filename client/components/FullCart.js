@@ -18,11 +18,11 @@ class FullCart extends React.Component {
               return (
                 <div key={item.id}>
                   <img
-                    src={item.product.imageUrl}
+                    src={item.imageUrl}
                     className="cartImg"
-                    alt={item.product.name}
+                    alt={item.name}
                   />
-                  <div> {item.product.name} </div>
+                  <div> {item.name} </div>
                   <div> Quantity: {item.quantity} </div>
                   <select>
                     <option value="1">1</option>
