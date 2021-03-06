@@ -39,15 +39,17 @@ router.get('/:id', async (req, res, next) => {
 // GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
+    console.log('hey kendall!!!')
+
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
+        include: [Product]
+      }
     })
     res.json(userCart.productorders)
   } catch (err) {
@@ -66,8 +68,7 @@ router.put('/:id/cart', async (req, res, next) => {
       where: {
         userId: req.params.id,
 
-        isFulfilled: false,
-
+        isFulfilled: false
       },
       // userId, productId, quantity
       include: {
@@ -86,7 +87,6 @@ router.put('/:id/cart', async (req, res, next) => {
     productOrder[0].subtotal = product.price * productOrder[0].quantity
     await productOrder[0].save()
     res.json(productOrder[0])
-
   } catch (err) {
     next(err)
   }
@@ -117,15 +117,12 @@ router.post('/:id/cart', async (req, res, next) => {
       where: {
         userId: req.params.id,
         isFulfilled: false
-
       },
 
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
-
-
+        include: [Product]
+      }
     })
 
     // Grab line items from that cart
@@ -165,8 +162,6 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
-
-
 
       console.log('productOrder bottom—————', productOrder)
 
