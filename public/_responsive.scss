@@ -14,7 +14,6 @@
   }
 }
 
-// Tried testing this out to get it to show 4 items per row for an extra-large screen but it did not work; will have to test later
 @include media-xl {
   .products {
     &__items {

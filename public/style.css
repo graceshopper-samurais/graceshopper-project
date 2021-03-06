@@ -100,6 +100,12 @@ form div {
   background-color: #006d77;
 }
 
+.cart__cart-header {
+  margin: 20px;
+  padding: 30px;
+  border: 3px solid #d5d5d5;
+}
+
 .cartImg {
   width: 50px;
 }

@@ -39,15 +39,17 @@ router.get('/:id', async (req, res, next) => {
 // GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
+    console.log('hey kendall!!!')
+
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
+        include: [Product]
+      }
     })
     res.json(userCart.productorders)
   } catch (err) {
@@ -65,7 +67,6 @@ router.put('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-
         isFulfilled: false,
       },
       // userId, productId, quantity
@@ -154,6 +155,8 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
+      
+      console.log('productOrder bottom—————', productOrder)
 
       // Send the new product order back to the front end
       res.json(productOrder)
