@@ -117,7 +117,6 @@ export default (state = initialState, action) => {
       const alreadyInCart = state.cart
         .map((productOrder) => productOrder.product.id)
         .includes(action.productOrder.product.id)
-
       // If so, replace only that productOrder with new productOrder
       if (alreadyInCart) {
         const newCart = state.cart.map((productOrder) => {
@@ -141,9 +140,12 @@ export default (state = initialState, action) => {
       return {...state, cart: [filteredArray, action.productOrderId]}
     }
     case DELETE_FROM_CART: {
-      return state.cart.filter(
-        (lineItem) => lineItem.id !== action.productOrderId
-      )
+      return {
+        ...state,
+        cart: state.cart.filter(
+          lineItem => lineItem.id !== action.productOrderId
+        )
+      }
     }
     default:
       return state

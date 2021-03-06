@@ -27,6 +27,42 @@ const AuthForm = props => {
         <div>
           <button type="submit">{displayName}</button>
         </div>
+        {name === 'signup' ? (
+          <div>
+            <div>
+              <label htmlFor="userName">
+                <small>Name</small>
+              </label>
+              <input name="userName" type="text" />
+            </div>
+            <div>
+              <label htmlFor="address">
+                <small>Address</small>
+              </label>
+              <input name="address" type="text" />
+            </div>
+            <div>
+              <label htmlFor="city">
+                <small>City</small>
+              </label>
+              <input name="city" type="text" />
+            </div>
+            <div>
+              <label htmlFor="state">
+                <small>State</small>
+              </label>
+              <input name="state" type="text" />
+            </div>
+            <div>
+              <label htmlFor="zip">
+                <small>Zip</small>
+              </label>
+              <input name="zip" type="text" />
+            </div>
+          </div>
+        ) : (
+          <div />
+        )}
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <a href="/auth/google">{displayName} with Google</a>
@@ -64,7 +100,12 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      const name = evt.target.userName ? evt.target.userName.value : null
+      const address = evt.target.address ? evt.target.address.value : null
+      const city = evt.target.city ? evt.target.city.value : null
+      const state = evt.target.state ? evt.target.state.value : null
+      const zip = evt.target.zip ? evt.target.zip.value : null
+      dispatch(auth(email, password, formName, name, address, city, state, zip))
     }
   }
 }

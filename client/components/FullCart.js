@@ -44,27 +44,24 @@ class FullCart extends React.Component {
                   className="cartImg"
                   alt={item.product.name}
                 />
-                <div className="cart__item-name"> {item.product.name} </div>
-                <div className="cart__item-quantity">
-                  {' '}
-                  Quantity: {item.quantity}{' '}
+                <div> {item.product.name} </div>
+                <div> Quantity: {item.quantity} </div>
+                <select>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                </select>
+                <div>
+                  <DeleteButton
+                    productOrderId={item.id}
+                    userId={this.props.match.params.id}
+                  />
                 </div>
-                <form>
-                  <select value={this.state.value} onChange={this.handleChange}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                  </select>
-                </form>
-                <DeleteButton
-                  productOrderId={item.id}
-                  userId={this.props.match.params.id}
-                />
               </div>
             )
           })}
