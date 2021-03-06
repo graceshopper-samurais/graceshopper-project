@@ -42,12 +42,12 @@ router.get('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
+        include: [Product]
+      }
     })
     res.json(userCart.productorders)
   } catch (err) {
@@ -60,33 +60,33 @@ router.put('/:id/cart', async (req, res, next) => {
   try {
     // calling this oldProductId because the for updating, the items in question are already in the cart
     const oldProductId = req.body.productId
+    // this is currently logging as `undefined` ; where does `req.body.productId` come in?
+    console.log('this is oldProductId ------', oldProductId)
     const quantity = req.body.quantity
     const product = await Product.findByPk(oldProductId)
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-
-        isFulfilled: false,
-
+        isFulfilled: false
       },
-      // userId, productId, quantity
       include: {
         model: ProductOrder,
 
         include: [Product]
       }
     })
-    const productOrders = userCart.productorders
+    console.log('this is userCart------', userCart)
+    const productOrders = userCart.dataValues.productorders
+    console.log('this is productOrders ------- ', productOrders)
     const productOrder = productOrders.filter(
-      order => order.productId === oldProductId
+      order => order.dataValues.productId === oldProductId
     )
-    // console.log to figure this shit out
-    productOrder[0].quantity = quantity
+    console.log('this is productOrder ------ ', productOrder)
+    productOrder.dataValues.quantity = quantity
     await productOrder[0].save()
     productOrder[0].subtotal = product.price * productOrder[0].quantity
     await productOrder[0].save()
     res.json(productOrder[0])
-
   } catch (err) {
     next(err)
   }
@@ -117,15 +117,12 @@ router.post('/:id/cart', async (req, res, next) => {
       where: {
         userId: req.params.id,
         isFulfilled: false
-
       },
 
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
-
-
+        include: [Product]
+      }
     })
 
     // Grab line items from that cart
@@ -165,8 +162,6 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
-
-
 
       console.log('productOrder bottom—————', productOrder)
 
