@@ -76,13 +76,13 @@ router.put('/:id/cart', async (req, res, next) => {
       }
     })
     console.log('this is userCart------', userCart)
-    const productOrders = userCart.dataValues.productorders
+    const productOrders = userCart.productorders
     console.log('this is productOrders ------- ', productOrders)
     const productOrder = productOrders.filter(
-      order => order.dataValues.productId === oldProductId
+      order => order.productId === oldProductId
     )
     console.log('this is productOrder ------ ', productOrder)
-    productOrder.dataValues.quantity = quantity
+    productOrder.quantity = quantity
     await productOrder[0].save()
     productOrder[0].subtotal = product.price * productOrder[0].quantity
     await productOrder[0].save()
@@ -91,6 +91,7 @@ router.put('/:id/cart', async (req, res, next) => {
     next(err)
   }
 })
+
 //This would be logical hierarchy for the route, but not using the UserId at this point
 router.delete('/:id/cart/:line', async (req, res, next) => {
   try {
