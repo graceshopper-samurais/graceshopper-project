@@ -52,10 +52,20 @@ form div {
   background-color: #006d77;
 }
 
-.cartContainer {
-  margin: 20px;
-  padding: 30px;
-  border: 3px solid rgb(213, 213, 213);
+.cart {
+  &__cart-header {
+    margin: 20px;
+    padding: 30px;
+    border: 3px solid rgb(213, 213, 213);
+  }
+
+  &__item-name {
+    color: #006d77;
+  }
+
+  &__item-quantity {
+    color: #006d77;
+  }
 }
 
 .cartImg {
