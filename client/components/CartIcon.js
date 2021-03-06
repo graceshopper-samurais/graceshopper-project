@@ -7,7 +7,11 @@ const CartIcon = props => {
   return (
     <div>
       <Link to={`/users/${props.user.id}/cart`}>
-        <img src="/icons/cart.png" className="cartIcon" /> 0
+        <img src="/icons/cart.png" className="cartIcon" />{' '}
+        {/* {props.cart.reduce((totalItems, cartLine) => {
+          return totalItems + cartLine.quantity
+        }, 0) } */}
+        0
       </Link>
     </div>
   )
@@ -16,7 +20,7 @@ const CartIcon = props => {
 const mapState = state => {
   return {
     user: state.user,
-    cart: state.singleCart
+    cart: state.singleCart.cart
   }
 }
 
