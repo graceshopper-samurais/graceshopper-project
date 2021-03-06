@@ -10,11 +10,15 @@ class FullCart extends React.Component {
     this.state = {value: 1}
 
     this.handleChange = this.handleChange.bind(this)
-    // do we also need a handleSubmit in this case when there is no submit button after they select from the dropdown box?
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(event) {
     this.setState({value: event.target.value})
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
   }
 
   componentDidMount() {
@@ -46,16 +50,22 @@ class FullCart extends React.Component {
                   />
                   <div> {item.product.name} </div>
                   <div> Quantity: {item.quantity} </div>
-                  <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                  </select>
+                  <form onSubmit={this.handleSubmit}>
+                    <select
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                    </select>
+                    <input type="submit" value="Submit" />
+                  </form>
                   <div>
                     <DeleteButton
                       productOrderId={item.id}
