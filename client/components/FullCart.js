@@ -32,7 +32,6 @@ class FullCart extends React.Component {
       return <p>No items currently in your cart. Happy shopping!</p>
     } else {
       return (
-        // <form>
         <div className="cart__cart-header">
           <div> You have {cart.length} items in your cart </div>
           {cart.map(item => {
@@ -48,16 +47,18 @@ class FullCart extends React.Component {
                   {' '}
                   Quantity: {item.quantity}{' '}
                 </div>
-                <select value={this.state.value} onChange={this.handleChange}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                </select>
+                <form>
+                  <select value={this.state.value} onChange={this.handleChange}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                  </select>
+                </form>
                 <DeleteButton
                   productOrderId={item.id}
                   userId={this.props.match.params.id}
@@ -66,7 +67,6 @@ class FullCart extends React.Component {
             )
           })}
         </div>
-        // </form>
       )
     }
   }

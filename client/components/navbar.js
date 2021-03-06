@@ -25,10 +25,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/">Store</Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-          {/* below here is where we get the validateDOMNesting error, need to figure out how to properly write this */}
-          <Link to="/users/:id/cart">
-            <CartIcon />
-          </Link>
+          <CartIcon />
         </div>
       )}
     </nav>
