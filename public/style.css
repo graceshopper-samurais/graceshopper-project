@@ -106,6 +106,13 @@ form div {
   border: 3px solid #d5d5d5;
 }
 
+.cart__item-name {
+  color: #006d77;
+}
+.cart__item-quantity {
+  color: #006d77;
+}
+
 .cartImg {
   width: 50px;
 }

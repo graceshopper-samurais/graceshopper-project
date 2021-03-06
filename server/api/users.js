@@ -62,6 +62,8 @@ router.put('/:id/cart', async (req, res, next) => {
   try {
     // calling this oldProductId because the for updating, the items in question are already in the cart
     const oldProductId = req.body.productId
+    // this is currently logging as `undefined` ; where does `req.body.productId` come in?
+    console.log('this is oldProductId ------', oldProductId)
     const quantity = req.body.quantity
     const product = await Product.findByPk(oldProductId)
     const userCart = await Order.findOne({
@@ -69,19 +71,20 @@ router.put('/:id/cart', async (req, res, next) => {
         userId: req.params.id,
         isFulfilled: false,
       },
-      // userId, productId, quantity
       include: {
         model: ProductOrder,
 
         include: [Product],
       },
     })
+    console.log('this is userCart------', userCart)
     const productOrders = userCart.productorders
+    console.log('this is productOrders ------- ', productOrders)
     const productOrder = productOrders.filter(
       (order) => order.productId === oldProductId
     )
-    // console.log to figure this shit out
-    productOrder[0].quantity = quantity
+    console.log('this is productOrder ------ ', productOrder)
+    productOrder.quantity = quantity
     await productOrder[0].save()
     productOrder[0].subtotal = product.price * productOrder[0].quantity
     await productOrder[0].save()
@@ -90,6 +93,7 @@ router.put('/:id/cart', async (req, res, next) => {
     next(err)
   }
 })
+
 //This would be logical hierarchy for the route, but not using the UserId at this point
 router.delete('/:id/cart/:line', async (req, res, next) => {
   try {
@@ -113,7 +117,6 @@ router.post('/:id/cart', async (req, res, next) => {
         userId: req.params.id,
         isFulfilled: false,
       },
-
       include: {
         model: ProductOrder,
         include: [Product],
@@ -155,7 +158,6 @@ router.post('/:id/cart', async (req, res, next) => {
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
-      
       console.log('productOrder bottom—————', productOrder)
 
       // Send the new product order back to the front end
