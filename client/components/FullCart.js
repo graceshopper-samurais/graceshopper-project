@@ -2,8 +2,21 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
+import GuestCart from './GuestCart'
 
 class FullCart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {value: 1}
+
+    this.handleChange = this.handleChange.bind(this)
+    // do we also need a handleSubmit in this case when there is no submit button after they select from the dropdown box?
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value})
+  }
+
   componentDidMount() {
     this.props.getSingleCart(this.props.match.params.id)
   }
@@ -16,13 +29,13 @@ class FullCart extends React.Component {
   render() {
     const {cart} = this.props
     console.log('props from FULLCART: ', this.props)
+   if (this.props.isLoggedIn) {
     if (this.props.noCart) {
       return <p>No items currently in your cart. Happy shopping!</p>
     } else {
       return (
         <div className="cart__cart-header">
           <div> You have {cart.length} items in your cart </div>
-
           {cart.map(item => {
             return (
               <div key={item.id}>
@@ -54,6 +67,8 @@ class FullCart extends React.Component {
           })}
         </div>
       )
+    } else {
+      return <GuestCart />
     }
   }
 }
@@ -61,7 +76,8 @@ class FullCart extends React.Component {
 const mapState = state => {
   return {
     cart: state.singleCart.cart,
-    noCart: state.singleCart.noCart
+    noCart: state.singleCart.noCart,
+    isLoggedIn: !!state.user.id
   }
 }
 

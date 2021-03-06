@@ -19,10 +19,11 @@ const getCart = cart => {
   }
 }
 
-const addToCart = product => {
+
+const addToCart = (productOrder) => {
   return {
     type: ADD_TO_CART,
-    product
+    productOrder,
   }
 }
 
@@ -57,9 +58,8 @@ export const addToCartThunk = (userId, productId) => {
   return async dispatch => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
-        productId: productId
+        productId: productId,
       })
-
       dispatch(addToCart(data))
     } catch (err) {
       console.log('error in addToCartThunk————', err)
@@ -68,11 +68,11 @@ export const addToCartThunk = (userId, productId) => {
 }
 
 export const updateCartThunk = (userId, productId, quantity) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.put(`api/users/${userId}/cart`, {
         productId: productId,
-        quantity: quantity
+        quantity: quantity,
       })
       dispatch(updateCart(data))
     } catch (err) {
@@ -113,26 +113,29 @@ export default (state = initialState, action) => {
         noCart: false
       }
     case ADD_TO_CART: {
+      // Check to see if already in cart
       const alreadyInCart = state.cart
-        .map(productOrder => productOrder.product.id)
-        .includes(action.product.id)
-
+        .map((productOrder) => productOrder.product.id)
+        .includes(action.productOrder.product.id)
+      // If so, replace only that productOrder with new productOrder
       if (alreadyInCart) {
-        const newCart = state.cart.map(productOrder => {
-          if (productOrder.product.id === action.product.id) {
-            return action.product
+        const newCart = state.cart.map((productOrder) => {
+          if (productOrder.product.id === action.productOrder.product.id) {
+            return action.productOrder
           } else {
-            return productOrder.id
+            return productOrder
           }
         })
         return {...state, cart: newCart}
+
+        // Else add new productOrder to end of array
       } else {
-        return {...state, cart: [...state.cart, action.product]}
+        return {...state, cart: [...state.cart, action.productOrder]}
       }
     }
     case UPDATE_CART: {
       const filteredArray = [...state.cart].filter(
-        item => item.id !== action.productOrderId
+        (item) => item.id !== action.productOrderId
       )
       return {...state, cart: [filteredArray, action.productOrderId]}
     }
