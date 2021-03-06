@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
+import GuestCart from './GuestCart'
 
 class FullCart extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class FullCart extends React.Component {
   render() {
     const {cart} = this.props
     console.log('props from FULLCART: ', this.props)
+   if (this.props.isLoggedIn) {
     if (this.props.noCart) {
       return <p>No items currently in your cart. Happy shopping!</p>
     } else {
@@ -68,6 +70,8 @@ class FullCart extends React.Component {
           })}
         </div>
       )
+    } else {
+      return <GuestCart />
     }
   }
 }
@@ -75,7 +79,8 @@ class FullCart extends React.Component {
 const mapState = state => {
   return {
     cart: state.singleCart.cart,
-    noCart: state.singleCart.noCart
+    noCart: state.singleCart.noCart,
+    isLoggedIn: !!state.user.id
   }
 }
 

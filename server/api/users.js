@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
         // explicitly select only the id and email fields - even though
         // users' passwords are encrypted, it won't help if we just
         // send everything to anyone who asks!
-        attributes: ['id', 'email']
+        attributes: ['id', 'email'],
       })
       res.json(users)
     } catch (err) {
@@ -39,6 +39,8 @@ router.get('/:id', async (req, res, next) => {
 // GET /api/users/:id/cart
 router.get('/:id/cart', async (req, res, next) => {
   try {
+    console.log('hey kendall!!!')
+
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
@@ -67,19 +69,19 @@ router.put('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false
+        isFulfilled: false,
       },
       include: {
         model: ProductOrder,
 
-        include: [Product]
-      }
+        include: [Product],
+      },
     })
     console.log('this is userCart------', userCart)
     const productOrders = userCart.productorders
     console.log('this is productOrders ------- ', productOrders)
     const productOrder = productOrders.filter(
-      order => order.productId === oldProductId
+      (order) => order.productId === oldProductId
     )
     console.log('this is productOrder ------ ', productOrder)
     productOrder.quantity = quantity
@@ -109,61 +111,53 @@ router.post('/:id/cart', async (req, res, next) => {
     const newProductId = req.body.productId
     const product = await Product.findByPk(newProductId)
 
-    console.log('productId———————', product.id)
-
-    console.log('req.params.id', req.params.id)
-
     // Grab user's cart
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false
+        isFulfilled: false,
       },
-
       include: {
         model: ProductOrder,
-        include: [Product]
-      }
+        include: [Product],
+      },
     })
 
     // Grab line items from that cart
     const productOrders = userCart.productorders
 
-    console.log(
-      'productOrders.map————',
-      productOrders.map(productOrder => productOrder.id)
-    )
-
     // See if product-to-be-added is already in the cart
     const indexOfItem = productOrders
-      .map(productOrder => productOrder.productId)
+      .map((productOrder) => productOrder.productId)
       .indexOf(newProductId)
 
-    console.log('indexOfItem——————', indexOfItem)
-
-    // If it's not in the cart, add the product to that user's order, it will return the line item
+    // If it's not in the cart, add the product to that user's order
     if (indexOfItem === -1) {
-      console.log('TOP—————————')
-
-      const newProductOrder = await userCart.addProduct(product, {
-        through: {quantity: 1, subtotal: 1 * product.price}
+      await userCart.addProduct(product, {
+        through: {quantity: 1, subtotal: 1 * product.price},
       })
 
-      console.log('newProductOrder top—————', newProductOrder)
+      // Query the database for the new productOrder and include the product
+      let newProductOrder = await userCart.getProductorders({
+        where: {
+          productId: product.id,
+        },
+        include: [Product],
+      })
+
+      // ^this returns an array but there should only be one instance, so grab the first row
+      newProductOrder = newProductOrder[0]
 
       // Send the line item back to the front end
       res.json(newProductOrder)
 
       // Else if it IS already in the cart, just increment the quantity and the subtotal
     } else {
-      console.log('BOTTOM———————')
-
       // Save new information
       const productOrder = productOrders[indexOfItem]
       await productOrder.increment('quantity')
       productOrder.subtotal = product.price * productOrder.quantity
       await productOrder.save()
-
       console.log('productOrder bottom—————', productOrder)
 
       // Send the new product order back to the front end
