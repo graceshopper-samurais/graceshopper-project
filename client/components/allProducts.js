@@ -40,6 +40,10 @@ export class AllProducts extends React.Component {
                       {' '}
                       Add To Cart{' '}
                     </button>
+                    <button type="button" id="delete-product">
+                      {' '}
+                      Remove From Storefront{' '}
+                    </button>
                   </div>
                 </div>
               )
