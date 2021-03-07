@@ -10,14 +10,20 @@ const SubmitOrder = (props) => {
 
   return (
     <>
-      Thank you for your business! Your order number is {props.location.orderId}{' '}
-      and it will ship to the following address on the next business day:
-      {props.user.name} {props.user.address} {props.user.city},{' '}
-      {props.user.state}, {props.user.zip}
-      {props.location.orderId}
-      <Link to="/products">
-        <button>OK</button>{' '}
-      </Link>
+      <div className="submitOrder__header">Thank you for your business!</div>
+      <div className="submitOrder__address-parent">
+        Your order number is {props.location.orderId} and it will ship to:
+        <div className="submitOrder__address">
+          <div>{props.user.name}</div>
+          <div>{props.user.address}</div>
+          <div>
+            {props.user.city} {props.user.state}, {props.user.zip}
+          </div>
+        </div>
+        <Link to="/products">
+          <button className="submitOrder__button">OK</button>{' '}
+        </Link>
+      </div>
     </>
   )
 }

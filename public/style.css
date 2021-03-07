@@ -134,4 +134,25 @@ form div {
   width: 50px;
 }
 
+.submitOrder__header {
+  font-size: 20px;
+  border-bottom: 3px solid #d5d5d5;
+  text-align: center;
+  padding: 4px;
+  margin-bottom: 4px;
+}
+.submitOrder__address-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.submitOrder__address {
+  border: 3px solid #d5d5d5;
+  padding: 3px;
+  margin: 5px 0 5px 0;
+}
+.submitOrder__button {
+  font-family: 'Candal', sans-serif;
+}
+
 /*# sourceMappingURL=style.css.map */
