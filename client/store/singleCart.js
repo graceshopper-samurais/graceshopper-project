@@ -4,6 +4,8 @@ import axios from 'axios'
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 
+const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
+
 const UPDATE_CART = 'UPDATE_CART'
 
 // action creators
@@ -12,13 +14,12 @@ const DELETE_FROM_CART = 'DELETE_FROM_CART'
 
 // action creators
 
-const getCart = cart => {
+const getCart = (cart) => {
   return {
     type: GET_CART,
-    cart
+    cart,
   }
 }
-
 
 const addToCart = (productOrder) => {
   return {
@@ -27,45 +28,99 @@ const addToCart = (productOrder) => {
   }
 }
 
-const updateCart = product => {
+const addToGuestCart = (product) => {
   return {
-    type: UPDATE_CART,
-    product
+    type: ADD_TO_GUEST_CART,
+    product,
   }
 }
 
-const deleteFromCart = productOrderId => {
+const updateCart = (product) => {
+  return {
+    type: UPDATE_CART,
+    product,
+  }
+}
+
+const deleteFromCart = (productOrderId) => {
   return {
     type: DELETE_FROM_CART,
-    productOrderId
+    productOrderId,
   }
 }
 
 //thunk creators
 
-export const fetchCart = id => {
-  return async dispatch => {
+export const fetchCart = (id) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
       dispatch(getCart(data))
     } catch (err) {
+      let localCart = JSON.parse(localStorage.getItem('cart'))
+      console.log('this is localStorage cart from thunk------', localCart)
+      dispatch(getCart(localCart))
       console.log('error in fetchCartThunk----', err)
     }
   }
 }
 
+export const fetchGuestCart = () => {
+  return (dispatch) => {
+    try {
+      let localCart = JSON.parse(localStorage.getItem('cart'))
+      console.log('this is localStorage cart from thunk------', localCart)
+      dispatch(getCart(localCart))
+    } catch (err) {
+      console.log('error in fetchGuestCart thunk---', err)
+    }
+  }
+}
+
 export const addToCartThunk = (userId, productId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
         productId: productId,
       })
       dispatch(addToCart(data))
     } catch (err) {
+      let {data} = await axios.get(`/api/products/${productId}`) //this is an obj
+      let candle = [data]
+      // console.log(data, '<----this is candle')
+      let guestData = JSON.parse(localStorage.getItem('cart')) // this is an array
+      // let arrayData = [guestData]
+      if (!guestData) {
+        localStorage.setItem('cart', JSON.stringify(candle))
+        dispatch(addToGuestCart(data))
+        // console.log('cart does not exist!')
+      } else {
+        guestData.push(data)
+        localStorage.setItem('cart', JSON.stringify(guestData))
+
+        dispatch(addToGuestCart(data))
+      }
+
+      console.log('this is array data-----', guestData)
+      // console.log('this is backend data----', data)
+      console.log('this is localStorage----', localStorage)
       console.log('error in addToCartThunk————', err)
     }
   }
 }
+
+// export const addToGuestCartThunk = (productId) => {
+//   return async (dispatch) => {
+//     try {
+//       let guestData = JSON.parse(localStorage.getItem('cart'))
+//       const {data} = await axios.get(`/api/products/${productId}`)
+//       console.log('this is guest data-----', guestData)
+//       console.log('this is backend data----', data)
+//     } catch (err) {
+//       console.log('error in addToGuestCartThunk', err)
+//     }
+//   }
+// }
 
 export const updateCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
@@ -84,7 +139,7 @@ export const updateCartThunk = (userId, productId, quantity) => {
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
 export const deleteFromCartThunk = (userId, productOrderId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       await axios.delete(`/api/users/${userId}/cart/${productOrderId}`)
       dispatch(deleteFromCart(productOrderId))
@@ -98,7 +153,8 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
 
 const initialState = {
   cart: [],
-  noCart: true
+  guestCart: [],
+  noCart: true,
 }
 
 // reducer
@@ -110,7 +166,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: action.cart,
-        noCart: false
+        noCart: false,
       }
     case ADD_TO_CART: {
       // Check to see if already in cart
@@ -133,6 +189,23 @@ export default (state = initialState, action) => {
         return {...state, cart: [...state.cart, action.productOrder]}
       }
     }
+    case ADD_TO_GUEST_CART: {
+      let index = state.cart.findIndex(
+        (candle) => candle.id === action.product.id
+      )
+      // console.log('this is index----------', index)
+
+      // if (index === -1) {
+      //   // let arts = [...state.cart.arts, action.art]
+      //   // let cart = {...state.cart, arts}
+      //   // return {...state, cart}
+      //   // console.log()
+      // }
+      // return {...state, cart: }
+      console.log('this is state------', state)
+      console.log('this is new state!!!', [...state.cart, action.product])
+      return {...state, cart: [...state.cart, action.product]}
+    }
     case UPDATE_CART: {
       const filteredArray = [...state.cart].filter(
         (item) => item.id !== action.productOrderId
@@ -143,8 +216,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: state.cart.filter(
-          lineItem => lineItem.id !== action.productOrderId
-        )
+          (lineItem) => lineItem.id !== action.productOrderId
+        ),
       }
     }
     default:
