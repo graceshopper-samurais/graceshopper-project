@@ -23,10 +23,11 @@ const addToCart = (productOrder) => {
   }
 }
 
-const updateCart = (product) => {
+
+const updateCart = (productOrder) => {
   return {
     type: UPDATE_CART,
-    product,
+    productOrder,
   }
 }
 
@@ -73,10 +74,11 @@ export const addToCartThunk = (userId, productId) => {
 export const updateCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, {
+      const {data} = await axios.put(`/api/users/${userId}/cart`, {
         productId: productId,
         quantity: quantity,
       })
+      console.log('this is data and data.product-----', data, data.product)
       dispatch(updateCart(data))
     } catch (err) {
       console.log('error in updateCartThunk-----', err)
@@ -145,17 +147,20 @@ export default (state = initialState, action) => {
           }
         })
         return {...state, cart: newCart}
-
         // Else add new productOrder to end of array
       } else {
         return {...state, cart: [...state.cart, action.productOrder]}
       }
     }
     case UPDATE_CART: {
-      const filteredArray = [...state.cart].filter(
-        (item) => item.id !== action.productOrderId
-      )
-      return {...state, cart: [filteredArray, action.productOrderId]}
+      const newCart = state.cart.map((productOrder) => {
+        if (productOrder.product.id === action.productOrder.product.id) {
+          return action.productOrder
+        } else {
+          return productOrder
+        }
+      })
+      return {...state, cart: newCart}
     }
     case DELETE_FROM_CART: {
       return {

@@ -4,18 +4,11 @@ import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
 import SubmitOrderButton from './SubmitOrderButton'
+import UpdateQuantity from './UpdateQuantity'
 
 class FullCart extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {value: 1}
-
-    this.handleChange = this.handleChange.bind(this)
-    // do we also need a handleSubmit in this case when there is no submit button after they select from the dropdown box?
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value})
   }
 
   componentDidMount() {
@@ -46,17 +39,11 @@ class FullCart extends React.Component {
                     alt={item.product.name}
                   />
                   <div> {item.product.name} </div>
-                  <div> Quantity: {item.quantity} </div>
-                  <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                  </select>
+                  <UpdateQuantity
+                    userId={this.props.match.params.id}
+                    productId={item.product.id}
+                    quantity={item.quantity}
+                  />
                   <div>
                     <DeleteButton
                       productOrderId={item.id}
