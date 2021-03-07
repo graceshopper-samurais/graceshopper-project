@@ -2,9 +2,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Candal&family=Yellowtail&display=swap');
 * {
   background-color: #ffffff;
-  margin: 0;
-  padding: 0;
+  margin: 15;
+  padding: 15;
   box-sizing: border-box;
+}
+
+.nav-links {
+  display: flex;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+  color: #83c5be;
+}
+
+#title-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  font-family: 'Yellowtail', cursive;
+  font-weight: 400;
+  font-size: 75px;
 }
 
 .products {
@@ -63,18 +89,6 @@ label {
   display: block;
 }
 
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1em;
-  color: #83c5be;
-}
-
 form div {
   margin: 1em;
   display: inline-block;
@@ -82,16 +96,6 @@ form div {
 
 .cartIcon {
   width: 20px;
-}
-
-#title-container {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  font-family: 'Yellowtail', cursive;
-  font-weight: 400;
-  font-size: xx-large;
 }
 
 #add-to-cart {

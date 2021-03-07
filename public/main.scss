@@ -1,4 +1,5 @@
 @import 'config';
+@import 'navbar';
 @import 'allproducts';
 @import 'responsive';
 
@@ -7,24 +8,12 @@ body {
 }
 
 a {
-  color: #006d77;
+  color: $body-color;
   text-decoration: none;
 }
 
 label {
   display: block;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1em;
-  color: #83c5be;
 }
 
 form div {
@@ -36,20 +25,10 @@ form div {
   width: 20px;
 }
 
-#title-container {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  font-family: $title-font;
-  font-weight: 400;
-  font-size: xx-large;
-}
-
 #add-to-cart {
-  color: #edf6f9;
+  color: $button-text;
   font-family: $body-font;
-  background-color: #006d77;
+  background-color: $body-color;
 }
 
 .cart {
@@ -60,11 +39,11 @@ form div {
   }
 
   &__item-name {
-    color: #006d77;
+    color: $body-color;
   }
 
   &__item-quantity {
-    color: #006d77;
+    color: $body-color;
   }
 }
 

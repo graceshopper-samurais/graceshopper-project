@@ -1,0 +1,25 @@
+.nav-links {
+  display: flex;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+  color: $nav-color;
+}
+
+#title-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  font-family: $title-font;
+  font-weight: 400;
+  font-size: 75px;
+}
