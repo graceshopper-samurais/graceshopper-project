@@ -10,10 +10,14 @@ class FullCart extends React.Component {
   // }
 
   componentDidMount() {
+    console.log('props from FullCart compnentDidMount', this.props)
+    // if (this.props.isLoggedIn) {
     this.props.getSingleCart(this.props.match.params.id)
+    // }
   }
 
   render() {
+    console.log('props from FullCart render', this.props)
     const {cart} = this.props
     console.log('props from FULLCART: ', this.props)
     if (this.props.isLoggedIn) {
@@ -55,7 +59,7 @@ class FullCart extends React.Component {
           </div>
         )
       }
-    } else {
+    } else if (!this.props.isLoggedIn) {
       return <GuestCart />
     }
   }
@@ -72,7 +76,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getSingleCart: (id) => dispatch(fetchCart(id)),
-    getGuestCart: () => dispatch(fetchGuestCart()),
+    // getGuestCart: () => dispatch(fetchGuestCart()),
   }
 }
 

@@ -1,7 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/products'
-import {addToCartThunk, addToGuestCartThunk} from '../store/singleCart'
+import {addToCartThunk} from '../store/singleCart'
+import {addToGuestCartThunk} from '../store/guestCart'
+
 import {Link} from 'react-router-dom'
 
 export class AllProducts extends React.Component {

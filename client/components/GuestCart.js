@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCart, fetchGuestCart} from '../store/singleCart'
+import {fetchGuestCart} from '../store/guestCart'
 import DeleteButton from './DeleteButton'
 
 class GuestCart extends React.Component {
@@ -9,19 +9,19 @@ class GuestCart extends React.Component {
   }
 
   render() {
-    const {cart} = this.props
+    const {guestCart} = this.props
     console.log('props from GUESTCART: ', this.props)
-    if (!cart) {
+    if (!guestCart) {
       return <p>No items currently in your cart. Happy shopping!</p>
     } else {
       let reducer = (accum, candleObj) => {
         return accum + candleObj.quantity
       }
-      const qty = cart.reduce(reducer, 0)
+      const qty = guestCart.reduce(reducer, 0)
       return (
         <div className="cart__cart-header">
           <div> You have {qty} items in your cart </div>
-          {cart.map((item) => {
+          {guestCart.map((item) => {
             return (
               <div key={item.id}>
                 <img src={item.imageUrl} className="cartImg" alt={item.name} />
@@ -38,10 +38,7 @@ class GuestCart extends React.Component {
                   <option value="8">8</option>
                 </select>
                 <div>
-                  <DeleteButton
-                    productOrderId={item.id}
-                    // userId={this.props.match.params.id}
-                  />
+                  <DeleteButton productId={item.id} />
                 </div>
               </div>
             )
@@ -54,7 +51,7 @@ class GuestCart extends React.Component {
 
 const mapState = (state) => {
   return {
-    cart: state.singleCart.cart,
+    guestCart: state.guestCart.guestCart,
     noCart: state.singleCart.noCart,
     isLoggedIn: !!state.user.id,
   }
@@ -62,7 +59,6 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    getSingleCart: (id) => dispatch(fetchCart(id)),
     getGuestCart: () => dispatch(fetchGuestCart()),
   }
 }
