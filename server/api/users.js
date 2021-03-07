@@ -44,12 +44,12 @@ router.get('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false
+        isFulfilled: false,
       },
       include: {
         model: ProductOrder,
-        include: [Product]
-      }
+        include: [Product],
+      },
     })
     res.json(userCart.productorders)
   } catch (err) {
@@ -60,12 +60,14 @@ router.get('/:id/cart', async (req, res, next) => {
 // PUT /api/users/:id/cart
 router.put('/:id/cart', async (req, res, next) => {
   try {
-    // calling this oldProductId because the for updating, the items in question are already in the cart
+    // Grab existing (old) product that already exists in cart
     const oldProductId = req.body.productId
     // this is currently logging as `undefined` ; where does `req.body.productId` come in?
     console.log('this is oldProductId ------', oldProductId)
-    const quantity = req.body.quantity
+    const {quantity} = req.body
     const product = await Product.findByPk(oldProductId)
+
+    // Grab user's cart
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
@@ -73,22 +75,36 @@ router.put('/:id/cart', async (req, res, next) => {
       },
       include: {
         model: ProductOrder,
-
         include: [Product],
       },
     })
     console.log('this is userCart------', userCart)
+
+    // Grab line items from that cart
     const productOrders = userCart.productorders
     console.log('this is productOrders ------- ', productOrders)
-    const productOrder = productOrders.filter(
-      (order) => order.productId === oldProductId
-    )
-    console.log('this is productOrder ------ ', productOrder)
+
+    // Find index of specific item within cart
+    const indexOfItem = productOrders
+      .map((productOrder) => productOrder.productId)
+      .indexOf(oldProductId)
+
+    // filter for....?
+    // const productOrder = productOrders.filter(
+    //   (order) => order.productId === oldProductId
+    // )
+    // console.log('this is productOrder ------ ', productOrder)
+
+    // Since item is already in the cart, increment the quantity and subtotal
+    // Save new information
+    const productOrder = productOrders[indexOfItem]
     productOrder.quantity = quantity
-    await productOrder[0].save()
-    productOrder[0].subtotal = product.price * productOrder[0].quantity
-    await productOrder[0].save()
-    res.json(productOrder[0])
+    await productOrder.save()
+    productOrder.subtotal = product.price * productOrder.quantity
+    await productOrder.save()
+    console.log('productOrder bottom—————', productOrder)
+
+    res.json(productOrder)
   } catch (err) {
     next(err)
   }
