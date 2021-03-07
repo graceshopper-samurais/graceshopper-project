@@ -4,18 +4,6 @@ import {fetchCart, fetchGuestCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 
 class GuestCart extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {value: 1}
-
-    this.handleChange = this.handleChange.bind(this)
-    // do we also need a handleSubmit in this case when there is no submit button after they select from the dropdown box?
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value})
-  }
-
   componentDidMount() {
     this.props.getGuestCart()
   }
@@ -23,12 +11,16 @@ class GuestCart extends React.Component {
   render() {
     const {cart} = this.props
     console.log('props from GUESTCART: ', this.props)
-    if (!this.props.cart) {
+    if (!cart) {
       return <p>No items currently in your cart. Happy shopping!</p>
     } else {
+      let reducer = (accum, candleObj) => {
+        return accum + candleObj.quantity
+      }
+      const qty = cart.reduce(reducer, 0)
       return (
         <div className="cart__cart-header">
-          <div> You have {cart.length} items in your cart </div>
+          <div> You have {qty} items in your cart </div>
           {cart.map((item) => {
             return (
               <div key={item.id}>

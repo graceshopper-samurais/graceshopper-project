@@ -5,31 +5,19 @@ import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
 
 class FullCart extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {value: 1}
-
-    this.handleChange = this.handleChange.bind(this)
-    // do we also need a handleSubmit in this case when there is no submit button after they select from the dropdown box?
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value})
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   componentDidMount() {
-    if (this.props.isLoggedIn) {
-      this.props.getSingleCart(this.props.match.params.id)
-    } else {
-      this.props.getGuestCart()
-    }
+    this.props.getSingleCart(this.props.match.params.id)
   }
 
   render() {
     const {cart} = this.props
     console.log('props from FULLCART: ', this.props)
     if (this.props.isLoggedIn) {
-      if (this.props.noCart) {
+      if (!cart) {
         return <p>No items currently in your cart. Happy shopping!</p>
       } else {
         return (

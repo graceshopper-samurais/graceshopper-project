@@ -2,6 +2,7 @@ import axios from 'axios'
 
 //action types
 const GET_CART = 'GET_CART'
+// const GET_GUEST_CART = 'GET_GUEST_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 
 const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
@@ -20,6 +21,12 @@ const getCart = (cart) => {
     cart,
   }
 }
+
+// const getGuestCart = () => {
+//   return {
+//     type: GET_GUEST_CART,
+//   }
+// }
 
 const addToCart = (productOrder) => {
   return {
@@ -57,9 +64,6 @@ export const fetchCart = (id) => {
       const {data} = await axios.get(`/api/users/${id}/cart`)
       dispatch(getCart(data))
     } catch (err) {
-      let localCart = JSON.parse(localStorage.getItem('cart'))
-      console.log('this is localStorage cart from thunk------', localCart)
-      dispatch(getCart(localCart))
       console.log('error in fetchCartThunk----', err)
     }
   }
@@ -91,10 +95,15 @@ export const addToCartThunk = (userId, productId) => {
   }
 }
 
+// const alreadyInCartIdx = state.cart
+//   .map((item) => item.id)
+//   .indexOf(action.product.id)
+
 export const addToGuestCartThunk = (productId) => {
   return async (dispatch) => {
     try {
       let {data} = await axios.get(`/api/products/${productId}`) //this is an obj
+      data.quantity = 1
       let guestCart = JSON.parse(localStorage.getItem('cart'))
       if (!guestCart) {
         console.log('guest cart if it doesnt exist yet:', guestCart)
@@ -103,11 +112,21 @@ export const addToGuestCartThunk = (productId) => {
         localStorage.setItem('cart', JSON.stringify(candle))
         dispatch(addToGuestCart(data))
       } else {
+        // else cart has already been started
         console.log('guest cart if it DOES EXIST :', guestCart)
-        // otherwise, cart exists, bc we've already added a candle. Now we can push the candle we just added onto that array (that we made above)
-        guestCart.push(data)
-        localStorage.setItem('cart', JSON.stringify(guestCart))
-        dispatch(addToGuestCart(data))
+        const alrdyInLocalStorageIdx = guestCart
+          .map((item) => item.id)
+          .indexOf(productId)
+        //if use adds a new item to cart (that is NOT a duplicate), push item onto our car array
+        if (alrdyInLocalStorageIdx < 0) {
+          guestCart.push(data)
+          localStorage.setItem('cart', JSON.stringify(guestCart))
+          dispatch(addToGuestCart(data))
+        } else {
+          guestCart[alrdyInLocalStorageIdx].quantity++
+          localStorage.setItem('cart', JSON.stringify(guestCart))
+          dispatch(addToGuestCart(data))
+        }
       }
     } catch (err) {
       console.log('err in addToGuestCartThunk-----', err)
@@ -161,8 +180,11 @@ export default (state = initialState, action) => {
         cart: action.cart,
         noCart: false,
       }
+    // case GET_GUEST_CART:
+    //   return {...state}
     case ADD_TO_CART: {
       // Check to see if already in cart
+      console.log('state from logged in cart--->', state)
       const alreadyInCart = state.cart
         .map((productOrder) => productOrder.product.id)
         .includes(action.productOrder.product.id)
@@ -183,16 +205,19 @@ export default (state = initialState, action) => {
       }
     }
     case ADD_TO_GUEST_CART: {
-      let index = state.cart.findIndex(
-        (candle) => candle.id === action.product.id
-      )
-      // console.log('this is index----------', index)
+      console.log('current state-----', state)
 
-      // if (index === -1) {
-      // }
-      // return {...state, cart: }
-      console.log('this is state------', state)
-      console.log('this is new state!!!', [...state.cart, action.product])
+      const alreadyInCartIdx = state.cart
+        .map((item) => item.id)
+        .indexOf(action.product.id)
+
+      console.log(alreadyInCartIdx, 'is it alrdy in cart??')
+
+      if (alreadyInCartIdx >= 0) {
+        const newCart = state.cart
+        newCart[alreadyInCartIdx].quantity++
+        return {...state, cart: newCart}
+      }
       return {...state, cart: [...state.cart, action.product]}
     }
     case UPDATE_CART: {
