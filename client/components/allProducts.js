@@ -9,10 +9,6 @@ export class AllProducts extends React.Component {
     this.props.getProducts()
   }
 
-  // above return, if this.props.loading
-  // then candles loading...
-  // else load our candles
-
   // compnentWillUnmount: when component unmounts, we want tochange loading back to true
 
   render() {
@@ -21,7 +17,7 @@ export class AllProducts extends React.Component {
       <div className="products">
         <div className="products__items">
           {products.length ? (
-            products.map((product) => {
+            products.map(product => {
               return (
                 <div className="products__item" key={product.id}>
                   <img src={product.imageUrl} alt="Sample Candle" />
@@ -57,19 +53,19 @@ export class AllProducts extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     products: state.products.products,
     loading: state.products.loading,
-    userId: state.user.id,
+    userId: state.user.id
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     getProducts: () => dispatch(getProductsThunk()),
     addToCart: (userId, productId) =>
-      dispatch(addToCartThunk(userId, productId)),
+      dispatch(addToCartThunk(userId, productId))
   }
 }
 
