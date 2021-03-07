@@ -68,7 +68,7 @@ nav a {
   align-items: center;
 }
 .product-container img {
-  width: 50vw;
+  width: 40vw;
 }
 .product-container .product-name {
   color: #006d77;
@@ -88,7 +88,7 @@ nav a {
     padding: 3rem;
   }
   .product-container img {
-    width: 60vw;
+    width: 55vw;
   }
   .product-container .product-description {
     padding: 0rem 1rem 0rem 1rem;
