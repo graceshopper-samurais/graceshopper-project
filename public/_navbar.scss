@@ -13,3 +13,13 @@ nav a {
   margin: 1em;
   color: $nav-color;
 }
+
+#title-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  font-family: $title-font;
+  font-weight: 400;
+  font-size: 75px;
+}

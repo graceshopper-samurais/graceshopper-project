@@ -23,6 +23,16 @@ nav a {
   color: #83c5be;
 }
 
+#title-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  font-family: 'Yellowtail', cursive;
+  font-weight: 400;
+  font-size: 75px;
+}
+
 .products {
   padding-bottom: 2rem;
 }
@@ -86,16 +96,6 @@ form div {
 
 .cartIcon {
   width: 20px;
-}
-
-#title-container {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  font-family: 'Yellowtail', cursive;
-  font-weight: 400;
-  font-size: xx-large;
 }
 
 #add-to-cart {
