@@ -32,46 +32,54 @@ class FullCart extends React.Component {
             <div> You have the following items in your cart </div>
             {cart.map((item) => {
               return (
-                <div key={item.id}>
-                  <img
-                    src={item.product.imageUrl}
-                    className="cartImg"
-                    alt={item.product.name}
-                  />
-                  <div> {item.product.name} </div>
-                  <UpdateQuantity
-                    userId={this.props.match.params.id}
-                    productId={item.product.id}
-                    quantity={item.quantity}
-                  />
-                  <div>Price each: ${item.product.price}</div>
-                  <div>Subtotal: ${item.subtotal}</div>
+                <div key={item.id} className="cart__item">
                   <div>
-                    <DeleteButton
-                      productOrderId={item.id}
-                      userId={this.props.match.params.id}
+                    <div> {item.product.name} </div>
+                    <img
+                      src={item.product.imageUrl}
+                      className="cartImg"
+                      alt={item.product.name}
                     />
+                  </div>
+                  <div>
+                    <UpdateQuantity
+                      userId={this.props.match.params.id}
+                      productId={item.product.id}
+                      quantity={item.quantity}
+                    />
+                  </div>
+                  <div>
+                    <div>Subtotal: ${item.subtotal}</div>
+                    <div>
+                      <DeleteButton
+                        productOrderId={item.id}
+                        userId={this.props.match.params.id}
+                      />
+                    </div>
                   </div>
                 </div>
               )
             })}
-
-            <div>
-              Grand Total: $
-              {cart.reduce((total, lineItem) => {
-                return total + lineItem.subtotal
-              }, 0)}
-            </div>
-            <div>
-              <Link
-                to={{
-                  pathname: '/submitOrder',
-                  userId: this.props.userId,
-                  orderId: cart[0].orderId,
-                }}
-              >
-                <button>Submit Order</button>
-              </Link>
+            <div className="cart__total-order">
+              <div className="cart__grand-submit">
+                <div>
+                  Grand Total: $
+                  {cart.reduce((total, lineItem) => {
+                    return total + lineItem.subtotal
+                  }, 0)}
+                </div>
+                <div>
+                  <Link
+                    to={{
+                      pathname: '/submitOrder',
+                      userId: this.props.userId,
+                      orderId: cart[0].orderId,
+                    }}
+                  >
+                    <button className="cart__button">Submit Order</button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         )
