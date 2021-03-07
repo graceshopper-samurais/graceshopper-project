@@ -1,4 +1,5 @@
 @import 'config';
+@import 'navbar';
 @import 'allproducts';
 @import 'responsive';
 
@@ -7,7 +8,7 @@ body {
 }
 
 a {
-  color: #006d77;
+  color: $body-color;
   text-decoration: none;
 }
 
@@ -24,7 +25,7 @@ nav {
 nav a {
   display: inline-block;
   margin: 1em;
-  color: #83c5be;
+  color: $nav-color;
 }
 
 form div {
@@ -47,9 +48,9 @@ form div {
 }
 
 #add-to-cart {
-  color: #edf6f9;
+  color: $button-text;
   font-family: $body-font;
-  background-color: #006d77;
+  background-color: $body-color;
 }
 
 .cart {
@@ -60,11 +61,11 @@ form div {
   }
 
   &__item-name {
-    color: #006d77;
+    color: $body-color;
   }
 
   &__item-quantity {
-    color: #006d77;
+    color: $body-color;
   }
 }
 
