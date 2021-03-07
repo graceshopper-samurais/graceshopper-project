@@ -51,6 +51,7 @@ export const fetchCart = (id) => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
+      console.log('data————————', data)
       dispatch(getCart(data))
     } catch (err) {
       console.log('error in fetchCartThunk----', err)
@@ -125,13 +126,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_CART:
-      // return action.cart
+    case GET_CART: {
+      const noCart = !action.cart.length
+
       return {
         ...state,
         cart: action.cart,
-        noCart: false,
+        noCart: noCart,
       }
+    }
     case ADD_TO_CART: {
       // Check to see if already in cart
       const alreadyInCart = state.cart
