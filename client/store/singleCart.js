@@ -86,19 +86,31 @@ export const addToCartThunk = (userId, productId) => {
       })
       dispatch(addToCart(data))
     } catch (err) {
+      console.log('error in addToCartThunk thunk---', err)
+    }
+  }
+}
+
+export const addToGuestCartThunk = (productId) => {
+  return async (dispatch) => {
+    try {
       let {data} = await axios.get(`/api/products/${productId}`) //this is an obj
       let guestCart = JSON.parse(localStorage.getItem('cart'))
       if (!guestCart) {
+        console.log('guest cart if it doesnt exist yet:', guestCart)
         // if there is no cart in localstorage yet, set cart to the candle we just added inside of an array
         let candle = [data]
         localStorage.setItem('cart', JSON.stringify(candle))
         dispatch(addToGuestCart(data))
       } else {
+        console.log('guest cart if it DOES EXIST :', guestCart)
         // otherwise, cart exists, bc we've already added a candle. Now we can push the candle we just added onto that array (that we made above)
         guestCart.push(data)
         localStorage.setItem('cart', JSON.stringify(guestCart))
         dispatch(addToGuestCart(data))
       }
+    } catch (err) {
+      console.log('err in addToGuestCartThunk-----', err)
     }
   }
 }
@@ -134,7 +146,7 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
 
 const initialState = {
   cart: [],
-  guestCart: [],
+  // guestCart: [],
   noCart: true,
 }
 
