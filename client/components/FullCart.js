@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
-import SubmitOrderButton from './SubmitOrderButton'
+import {Link} from 'react-router-dom'
 import UpdateQuantity from './UpdateQuantity'
 
 class FullCart extends React.Component {
@@ -60,10 +60,17 @@ class FullCart extends React.Component {
                 return total + lineItem.subtotal
               }, 0)}
             </div>
-            <SubmitOrderButton
-              userId={this.props.userId}
-              orderId={cart[0].orderId}
-            />
+            <div>
+              <Link
+                to={{
+                  pathname: '/submitOrder',
+                  userId: this.props.userId,
+                  orderId: cart[0].orderId,
+                }}
+              >
+                <button>Submit Order</button>
+              </Link>
+            </div>
           </div>
         )
       }
