@@ -77,6 +77,7 @@ export const fetchGuestCart = () => {
   }
 }
 
+// if user is logged in, we'll make it into our try, if user is guest, we'll hop into the catch
 export const addToCartThunk = (userId, productId) => {
   return async (dispatch) => {
     try {
@@ -86,41 +87,21 @@ export const addToCartThunk = (userId, productId) => {
       dispatch(addToCart(data))
     } catch (err) {
       let {data} = await axios.get(`/api/products/${productId}`) //this is an obj
-      let candle = [data]
-      // console.log(data, '<----this is candle')
-      let guestData = JSON.parse(localStorage.getItem('cart')) // this is an array
-      // let arrayData = [guestData]
-      if (!guestData) {
+      let guestCart = JSON.parse(localStorage.getItem('cart'))
+      if (!guestCart) {
+        // if there is no cart in localstorage yet, set cart to the candle we just added inside of an array
+        let candle = [data]
         localStorage.setItem('cart', JSON.stringify(candle))
         dispatch(addToGuestCart(data))
-        // console.log('cart does not exist!')
       } else {
-        guestData.push(data)
-        localStorage.setItem('cart', JSON.stringify(guestData))
-
+        // otherwise, cart exists, bc we've already added a candle. Now we can push the candle we just added onto that array (that we made above)
+        guestCart.push(data)
+        localStorage.setItem('cart', JSON.stringify(guestCart))
         dispatch(addToGuestCart(data))
       }
-
-      console.log('this is array data-----', guestData)
-      // console.log('this is backend data----', data)
-      console.log('this is localStorage----', localStorage)
-      console.log('error in addToCartThunk————', err)
     }
   }
 }
-
-// export const addToGuestCartThunk = (productId) => {
-//   return async (dispatch) => {
-//     try {
-//       let guestData = JSON.parse(localStorage.getItem('cart'))
-//       const {data} = await axios.get(`/api/products/${productId}`)
-//       console.log('this is guest data-----', guestData)
-//       console.log('this is backend data----', data)
-//     } catch (err) {
-//       console.log('error in addToGuestCartThunk', err)
-//     }
-//   }
-// }
 
 export const updateCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
@@ -196,10 +177,6 @@ export default (state = initialState, action) => {
       // console.log('this is index----------', index)
 
       // if (index === -1) {
-      //   // let arts = [...state.cart.arts, action.art]
-      //   // let cart = {...state.cart, arts}
-      //   // return {...state, cart}
-      //   // console.log()
       // }
       // return {...state, cart: }
       console.log('this is state------', state)

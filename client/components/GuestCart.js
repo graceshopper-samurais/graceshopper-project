@@ -1,17 +1,78 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
+import {fetchCart, fetchGuestCart} from '../store/singleCart'
+import DeleteButton from './DeleteButton'
 
-const GuestCart = () => {
-  const [cart, setCart] = useState([])
+class GuestCart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {value: 1}
 
-  useEffect(
-    () => {
-      localStorage.setItem('cart', JSON.stringify(cart))
-    },
-    [cart]
-  )
+    this.handleChange = this.handleChange.bind(this)
+    // do we also need a handleSubmit in this case when there is no submit button after they select from the dropdown box?
+  }
 
-  return <div>you are a guest!</div>
+  handleChange(event) {
+    this.setState({value: event.target.value})
+  }
+
+  componentDidMount() {
+    this.props.getGuestCart()
+  }
+
+  render() {
+    const {cart} = this.props
+    console.log('props from GUESTCART: ', this.props)
+    if (!this.props.cart) {
+      return <p>No items currently in your cart. Happy shopping!</p>
+    } else {
+      return (
+        <div className="cart__cart-header">
+          <div> You have {cart.length} items in your cart </div>
+          {cart.map((item) => {
+            return (
+              <div key={item.id}>
+                <img src={item.imageUrl} className="cartImg" alt={item.name} />
+                <div> {item.name} </div>
+                <div> Quantity: {item.quantity} </div>
+                <select>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                </select>
+                <div>
+                  <DeleteButton
+                    productOrderId={item.id}
+                    // userId={this.props.match.params.id}
+                  />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
+  }
 }
 
-export default GuestCart
+const mapState = (state) => {
+  return {
+    cart: state.singleCart.cart,
+    noCart: state.singleCart.noCart,
+    isLoggedIn: !!state.user.id,
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    getSingleCart: (id) => dispatch(fetchCart(id)),
+    getGuestCart: () => dispatch(fetchGuestCart()),
+  }
+}
+
+export default connect(mapState, mapDispatch)(GuestCart)
