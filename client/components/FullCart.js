@@ -12,7 +12,7 @@ class FullCart extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getSingleCart(this.props.match.params.id)
+    this.props.getSingleCart(this.props.id)
   }
 
   // componentWillUnmount() {
@@ -23,6 +23,7 @@ class FullCart extends React.Component {
   render() {
     const {cart} = this.props
     console.log('props from FULLCART: ', this.props)
+
     if (this.props.isLoggedIn) {
       if (this.props.noCart) {
         return <p>No items currently in your cart. Happy shopping!</p>
@@ -40,14 +41,14 @@ class FullCart extends React.Component {
                   />
                   <div> {item.product.name} </div>
                   <UpdateQuantity
-                    userId={this.props.match.params.id}
+                    userId={this.props.id}
                     productId={item.product.id}
                     quantity={item.quantity}
                   />
                   <div>
                     <DeleteButton
                       productOrderId={item.id}
-                      userId={this.props.match.params.id}
+                      userId={this.props.id}
                     />
                   </div>
                 </div>
