@@ -69,10 +69,11 @@ export const addToCartThunk = (userId, productId) => {
 export const updateCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, {
+      const {data} = await axios.put(`/api/users/${userId}/cart`, {
         productId: productId,
         quantity: quantity,
       })
+      console.log('this is data and data.product-----', data, data.product)
       dispatch(updateCart(data))
     } catch (err) {
       console.log('error in updateCartThunk-----', err)
@@ -126,7 +127,6 @@ export default (state = initialState, action) => {
           }
         })
         return {...state, cart: newCart}
-
         // Else add new productOrder to end of array
       } else {
         return {...state, cart: [...state.cart, action.productOrder]}

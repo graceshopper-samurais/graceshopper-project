@@ -7,23 +7,16 @@ class UpdateQuantity extends Component {
     super(props)
     this.state = {quantity: this.props.quantity}
     this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(evt) {
-    this.setState({
+  async handleChange(evt) {
+    await this.setState({
       quantity: evt.target.value,
     })
+    const quantity = parseInt(this.state.quantity)
     console.log('this is the state in handleChange-----', this.state)
-    this.props.updateCart(
-      this.props.userId,
-      this.props.productId,
-      this.state.quantity
-    )
-  }
-
-  async handleSubmit(evt) {
-    evt.preventDefault()
+    this.props.updateCart(this.props.userId, this.props.productId, quantity)
   }
 
   render() {
@@ -41,7 +34,6 @@ class UpdateQuantity extends Component {
             <option value="7">7</option>
             <option value="8">8</option>
           </select>
-          {/* <input type="submit" value="Submit" /> */}
         </form>
       </div>
     )
