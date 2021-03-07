@@ -12,13 +12,12 @@ const DELETE_FROM_CART = 'DELETE_FROM_CART'
 
 // action creators
 
-const getCart = cart => {
+const getCart = (cart) => {
   return {
     type: GET_CART,
-    cart
+    cart,
   }
 }
-
 
 const addToCart = (productOrder) => {
   return {
@@ -27,26 +26,27 @@ const addToCart = (productOrder) => {
   }
 }
 
-const updateCart = product => {
+const updateCart = (product) => {
   return {
     type: UPDATE_CART,
-    product
+    product,
   }
 }
 
-const deleteFromCart = productOrderId => {
+const deleteFromCart = (productOrderId) => {
   return {
     type: DELETE_FROM_CART,
-    productOrderId
+    productOrderId,
   }
 }
 
 //thunk creators
 
-export const fetchCart = id => {
-  return async dispatch => {
+export const fetchCart = (id) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
+      console.log('data————————', data)
       dispatch(getCart(data))
     } catch (err) {
       console.log('error in fetchCartThunk----', err)
@@ -55,7 +55,7 @@ export const fetchCart = id => {
 }
 
 export const addToCartThunk = (userId, productId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
         productId: productId,
@@ -84,7 +84,7 @@ export const updateCartThunk = (userId, productId, quantity) => {
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
 export const deleteFromCartThunk = (userId, productOrderId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       await axios.delete(`/api/users/${userId}/cart/${productOrderId}`)
       dispatch(deleteFromCart(productOrderId))
@@ -98,20 +98,22 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
 
 const initialState = {
   cart: [],
-  noCart: true
+  noCart: true,
 }
 
 // reducer
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_CART:
-      // return action.cart
+    case GET_CART: {
+      const noCart = !action.cart.length
+
       return {
         ...state,
         cart: action.cart,
-        noCart: false
+        noCart: noCart,
       }
+    }
     case ADD_TO_CART: {
       // Check to see if already in cart
       const alreadyInCart = state.cart
@@ -143,8 +145,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: state.cart.filter(
-          lineItem => lineItem.id !== action.productOrderId
-        )
+          (lineItem) => lineItem.id !== action.productOrderId
+        ),
       }
     }
     default:
