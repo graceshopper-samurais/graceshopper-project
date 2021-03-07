@@ -16,18 +16,6 @@ label {
   display: block;
 }
 
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1em;
-  color: $nav-color;
-}
-
 form div {
   margin: 1em;
   display: inline-block;

@@ -11,6 +11,18 @@
   display: flex;
 }
 
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+  color: #83c5be;
+}
+
 .products {
   padding-bottom: 2rem;
 }
@@ -65,18 +77,6 @@ a {
 
 label {
   display: block;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1em;
-  color: #83c5be;
 }
 
 form div {
