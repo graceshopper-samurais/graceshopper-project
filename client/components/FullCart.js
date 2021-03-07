@@ -29,7 +29,7 @@ class FullCart extends React.Component {
       } else {
         return (
           <div className="cart__cart-header">
-            <div> You have {cart.length} items in your cart </div>
+            <div> You have the following items in your cart </div>
             {cart.map((item) => {
               return (
                 <div key={item.id}>
@@ -44,6 +44,8 @@ class FullCart extends React.Component {
                     productId={item.product.id}
                     quantity={item.quantity}
                   />
+                  <div>Price each: ${item.product.price}</div>
+                  <div>Subtotal: ${item.subtotal}</div>
                   <div>
                     <DeleteButton
                       productOrderId={item.id}
