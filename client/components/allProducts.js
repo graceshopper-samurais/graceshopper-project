@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/products'
 import {addToCartThunk} from '../store/singleCart'
 import {Link} from 'react-router-dom'
+import Loader from 'react-loader-spinner'
 
 export class AllProducts extends React.Component {
   componentDidMount() {
@@ -17,11 +18,25 @@ export class AllProducts extends React.Component {
 
   render() {
     const products = this.props.products
+    if (this.props.loading) {
+      return (
+        <div id="products-loader">
+          <Loader
+            type="Watch"
+            color="#7fdeff"
+            secondaryColor="#dabfff"
+            height={300}
+            width={300}
+          />
+          <div> Candles loading . . . </div>
+        </div>
+      )
+    }
     return (
       <div className="products">
         <div className="products__items">
           {products.length ? (
-            products.map((product) => {
+            products.map(product => {
               return (
                 <div className="products__item" key={product.id}>
                   <img src={product.imageUrl} alt="Sample Candle" />
@@ -49,7 +64,7 @@ export class AllProducts extends React.Component {
               )
             })
           ) : (
-            <p>Candles Loading...</p>
+            <p> All Sold Out! </p>
           )}
         </div>
       </div>
@@ -57,19 +72,19 @@ export class AllProducts extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     products: state.products.products,
     loading: state.products.loading,
-    userId: state.user.id,
+    userId: state.user.id
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     getProducts: () => dispatch(getProductsThunk()),
     addToCart: (userId, productId) =>
-      dispatch(addToCartThunk(userId, productId)),
+      dispatch(addToCartThunk(userId, productId))
   }
 }
 
