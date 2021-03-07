@@ -1,0 +1,25 @@
+.product-container {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 50vw;
+  }
+
+  .product-name {
+    color: $body-color;
+  }
+
+  .product-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-description {
+    text-align: center;
+    padding: 0rem 4rem 0rem 4rem;
+  }
+}
