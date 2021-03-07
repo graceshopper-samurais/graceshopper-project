@@ -3,22 +3,18 @@ import axios from 'axios'
 //action types
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
-
 const UPDATE_CART = 'UPDATE_CART'
-
-// action creators
-
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
+const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 // action creators
 
-const getCart = cart => {
+const getCart = (cart) => {
   return {
     type: GET_CART,
-    cart
+    cart,
   }
 }
-
 
 const addToCart = (productOrder) => {
   return {
@@ -27,24 +23,31 @@ const addToCart = (productOrder) => {
   }
 }
 
-const updateCart = product => {
+const updateCart = (product) => {
   return {
     type: UPDATE_CART,
-    product
+    product,
   }
 }
 
-const deleteFromCart = productOrderId => {
+const deleteFromCart = (productOrderId) => {
   return {
     type: DELETE_FROM_CART,
-    productOrderId
+    productOrderId,
+  }
+}
+
+const submitOrder = (order) => {
+  return {
+    type: SUBMIT_ORDER,
+    order,
   }
 }
 
 //thunk creators
 
-export const fetchCart = id => {
-  return async dispatch => {
+export const fetchCart = (id) => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
       dispatch(getCart(data))
@@ -55,7 +58,7 @@ export const fetchCart = id => {
 }
 
 export const addToCartThunk = (userId, productId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
         productId: productId,
@@ -84,7 +87,7 @@ export const updateCartThunk = (userId, productId, quantity) => {
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
 export const deleteFromCartThunk = (userId, productOrderId) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       await axios.delete(`/api/users/${userId}/cart/${productOrderId}`)
       dispatch(deleteFromCart(productOrderId))
@@ -94,11 +97,26 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
   }
 }
 
+export const submitOrderThunk = (userId, orderId) => {
+  return async (dispatch) => {
+    try {
+      console.log(`submitOrderThunk called with ${userId} ${orderId}`)
+      const {data} = await axios.put(`/api/users/${userId}/order/${orderId}`, {
+        isFulfilled: true,
+      })
+      console.log(`submitOrderThunk returned ${data}`)
+      dispatch(submitOrder(data))
+    } catch (err) {
+      console.log('error in the submitOrderThunk————', err)
+    }
+  }
+}
+
 //initial state
 
 const initialState = {
   cart: [],
-  noCart: true
+  noCart: true,
 }
 
 // reducer
@@ -110,7 +128,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: action.cart,
-        noCart: false
+        noCart: false,
       }
     case ADD_TO_CART: {
       // Check to see if already in cart
@@ -143,10 +161,15 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: state.cart.filter(
-          lineItem => lineItem.id !== action.productOrderId
-        )
+          (lineItem) => lineItem.id !== action.productOrderId
+        ),
       }
     }
+
+    case SUBMIT_ORDER: {
+      return initialState
+    }
+
     default:
       return state
   }

@@ -44,12 +44,12 @@ router.get('/:id/cart', async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false
+        isFulfilled: false,
       },
       include: {
         model: ProductOrder,
-        include: [Product]
-      }
+        include: [Product],
+      },
     })
     res.json(userCart.productorders)
   } catch (err) {
@@ -99,6 +99,16 @@ router.delete('/:id/cart/:line', async (req, res, next) => {
   try {
     await ProductOrder.destroy({where: {id: req.params.line}})
     res.status(204).send()
+  } catch (err) {
+    next(err)
+  }
+})
+
+//PUT /api/users/:id/order/:orderId
+router.put('/:id/order/:orderId', async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.params.orderId)
+    res.json(await order.update(req.body))
   } catch (err) {
     next(err)
   }
