@@ -5,15 +5,21 @@ import {updateCartThunk} from '../store/singleCart'
 class UpdateQuantity extends Component {
   constructor(props) {
     super(props)
-    this.state = {quantity: 1}
+    this.state = {quantity: this.props.quantity}
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(evt) {
     this.setState({
-      [evt.target.name]: evt.target.value,
+      quantity: evt.target.value,
     })
+    console.log('this is the state in handleChange-----', this.state)
+    this.props.updateCart(
+      this.props.userId,
+      this.props.productId,
+      this.state.quantity
+    )
   }
 
   async handleSubmit(evt) {
@@ -24,8 +30,8 @@ class UpdateQuantity extends Component {
     return (
       <div>
         <div> Quantity: </div>
-        <form id="quantity-form" onSubmit={this.handleSubmit}>
-          <select value={this.state.value} onChange={this.handleChange}>
+        <form id="quantity-form">
+          <select value={this.state.quantity} onChange={this.handleChange}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -35,7 +41,7 @@ class UpdateQuantity extends Component {
             <option value="7">7</option>
             <option value="8">8</option>
           </select>
-          <input type="submit" value="Submit" />
+          {/* <input type="submit" value="Submit" /> */}
         </form>
       </div>
     )
@@ -44,7 +50,7 @@ class UpdateQuantity extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    update: (userId, productId, quantity) =>
+    updateCart: (userId, productId, quantity) =>
       dispatch(updateCartThunk(userId, productId, quantity)),
   }
 }

@@ -64,7 +64,7 @@ router.put('/:id/cart', async (req, res, next) => {
     const oldProductId = req.body.productId
     // this is currently logging as `undefined` ; where does `req.body.productId` come in?
     console.log('this is oldProductId ------', oldProductId)
-    // const {quantity} = req.body
+    const {quantity} = req.body
     const product = await Product.findByPk(oldProductId)
 
     // Grab user's cart
@@ -98,9 +98,8 @@ router.put('/:id/cart', async (req, res, next) => {
     // Since item is already in the cart, increment the quantity and subtotal
     // Save new information
     const productOrder = productOrders[indexOfItem]
-    // do we still need this first `await productOrder.save()`?
+    productOrder.quantity = quantity
     await productOrder.save()
-    await productOrder.increment('quantity')
     productOrder.subtotal = product.price * productOrder.quantity
     await productOrder.save()
     console.log('productOrder bottom—————', productOrder)

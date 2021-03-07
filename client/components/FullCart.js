@@ -38,7 +38,11 @@ class FullCart extends React.Component {
                     alt={item.product.name}
                   />
                   <div> {item.product.name} </div>
-                  <UpdateQuantity />
+                  <UpdateQuantity
+                    userId={this.props.match.params.id}
+                    productId={item.product.id}
+                    quantity={item.quantity}
+                  />
                   <div>
                     <DeleteButton
                       productOrderId={item.id}
