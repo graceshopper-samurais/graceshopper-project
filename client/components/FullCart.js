@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
+import SubmitOrderButton from './SubmitOrderButton'
 import UpdateQuantity from './UpdateQuantity'
 
 class FullCart extends React.Component {
@@ -52,6 +53,17 @@ class FullCart extends React.Component {
                 </div>
               )
             })}
+
+            <div>
+              Grand Total: $
+              {cart.reduce((total, lineItem) => {
+                return total + lineItem.subtotal
+              }, 0)}
+            </div>
+            <SubmitOrderButton
+              userId={this.props.userId}
+              orderId={cart[0].orderId}
+            />
           </div>
         )
       }
@@ -66,6 +78,7 @@ const mapState = (state) => {
     cart: state.singleCart.cart,
     noCart: state.singleCart.noCart,
     isLoggedIn: !!state.user.id,
+    userId: state.user.id,
   }
 }
 

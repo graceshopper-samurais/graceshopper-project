@@ -120,6 +120,16 @@ router.delete('/:id/cart/:line', async (req, res, next) => {
   }
 })
 
+//PUT /api/users/:id/order/:orderId
+router.put('/:id/order/:orderId', async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.params.orderId)
+    res.json(await order.update(req.body))
+  } catch (err) {
+    next(err)
+  }
+})
+
 // POST cart route
 router.post('/:id/cart', async (req, res, next) => {
   try {

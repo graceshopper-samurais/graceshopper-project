@@ -3,12 +3,9 @@ import axios from 'axios'
 //action types
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
-
 const UPDATE_CART = 'UPDATE_CART'
-
-// action creators
-
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
+const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 // action creators
 
@@ -26,6 +23,7 @@ const addToCart = (productOrder) => {
   }
 }
 
+
 const updateCart = (productOrder) => {
   return {
     type: UPDATE_CART,
@@ -37,6 +35,13 @@ const deleteFromCart = (productOrderId) => {
   return {
     type: DELETE_FROM_CART,
     productOrderId,
+  }
+}
+
+const submitOrder = (order) => {
+  return {
+    type: SUBMIT_ORDER,
+    order,
   }
 }
 
@@ -90,6 +95,21 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
       dispatch(deleteFromCart(productOrderId))
     } catch (err) {
       console.log('error in deleteFromCartThunk————', err)
+    }
+  }
+}
+
+export const submitOrderThunk = (userId, orderId) => {
+  return async (dispatch) => {
+    try {
+      console.log(`submitOrderThunk called with ${userId} ${orderId}`)
+      const {data} = await axios.put(`/api/users/${userId}/order/${orderId}`, {
+        isFulfilled: true,
+      })
+      console.log(`submitOrderThunk returned ${data}`)
+      dispatch(submitOrder(data))
+    } catch (err) {
+      console.log('error in the submitOrderThunk————', err)
     }
   }
 }
@@ -150,6 +170,11 @@ export default (state = initialState, action) => {
         ),
       }
     }
+
+    case SUBMIT_ORDER: {
+      return initialState
+    }
+
     default:
       return state
   }
