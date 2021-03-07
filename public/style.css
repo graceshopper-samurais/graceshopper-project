@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Candal&family=Yellowtail&display=swap');
 * {
   background-color: #ffffff;
-  margin: 0;
-  padding: 0;
+  margin: 15;
+  padding: 15;
   box-sizing: border-box;
 }
 
