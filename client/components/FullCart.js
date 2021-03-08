@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom'
 import UpdateQuantity from './UpdateQuantity'
 
 class FullCart extends React.Component {
-
   componentDidMount() {
     this.props.getSingleCart(this.props.id)
   }
@@ -15,15 +14,15 @@ class FullCart extends React.Component {
   render() {
     console.log('props from FullCart render---', this.props)
     const {cart} = this.props
-    
+
     if (this.props.isLoggedIn) {
-      if (!cart) {
+      if (!cart.length) {
         return <p>No items currently in your cart. Happy shopping!</p>
       } else {
         return (
           <div className="cart__cart-header">
             <div> You have the following items in your cart </div>
-            {cart.map((item) => {
+            {cart.map(item => {
               return (
                 <div key={item.id} className="cart__item">
                   <div>
@@ -66,7 +65,7 @@ class FullCart extends React.Component {
                     to={{
                       pathname: '/submitOrder',
                       userId: this.props.userId,
-                      orderId: cart[0].orderId,
+                      orderId: cart[0].orderId
                     }}
                   >
                     <button className="cart__button">Submit Order</button>
@@ -83,18 +82,18 @@ class FullCart extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     cart: state.singleCart.cart,
     noCart: state.singleCart.noCart,
     isLoggedIn: !!state.user.id,
-    userId: state.user.id,
+    userId: state.user.id
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    getSingleCart: (id) => dispatch(fetchCart(id)),
+    getSingleCart: id => dispatch(fetchCart(id))
   }
 }
 
