@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCart, fetchGuestCart} from '../store/singleCart'
+import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
 import {Link} from 'react-router-dom'

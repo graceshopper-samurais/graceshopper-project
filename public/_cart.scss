@@ -1,0 +1,35 @@
+.cart {
+  &__cart-header {
+    margin: 20px;
+    padding: 30px;
+    border: 3px solid rgb(213, 213, 213);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    color: $body-color;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    font-family: $body-font;
+  }
+
+  &__total-order {
+    font-family: $body-font;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  &__grand-submit {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.cartImg {
+  width: 50px;
+}

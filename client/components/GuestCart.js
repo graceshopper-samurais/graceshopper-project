@@ -21,9 +21,9 @@ class GuestCart extends React.Component {
       return (
         <div className="cart__cart-header">
           <div> You have {qty} items in your cart </div>
-          {guestCart.map((item) => {
+          {guestCart.map(item => {
             return (
-              <div key={item.id}>
+              <div key={item.id} className="cart__item">
                 <img src={item.imageUrl} className="cartImg" alt={item.name} />
                 <div> {item.name} </div>
                 <div> Quantity: {item.quantity} </div>
@@ -49,17 +49,17 @@ class GuestCart extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     guestCart: state.guestCart.guestCart,
     noCart: state.singleCart.noCart,
-    isLoggedIn: !!state.user.id,
+    isLoggedIn: !!state.user.id
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    getGuestCart: () => dispatch(fetchGuestCart()),
+    getGuestCart: () => dispatch(fetchGuestCart())
   }
 }
 
