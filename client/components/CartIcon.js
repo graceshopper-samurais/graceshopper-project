@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 const CartIcon = (props) => {
-  console.log('this is props from CARTICON', props)
+
+  // console.log('this is props from CARTICON', props)
   return (
     <div>
       <Link to={`/users/${props.user.id}/cart`}>

@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/products'
 import {addToCartThunk} from '../store/singleCart'
+import {addToGuestCartThunk} from '../store/guestCart'
+
 import {Link} from 'react-router-dom'
 
 export class AllProducts extends React.Component {
@@ -37,8 +39,15 @@ export class AllProducts extends React.Component {
                     <button
                       type="button"
                       id="add-to-cart"
-                      onClick={() =>
-                        this.props.addToCart(this.props.userId, product.id)
+                      // if user is logged in add item to user cart, else add item to guest cart/local storage
+                      onClick={
+                        this.props.isLoggedIn
+                          ? () =>
+                              this.props.addToCart(
+                                this.props.userId,
+                                product.id
+                              )
+                          : () => this.props.addToGuestCart(product.id)
                       }
                     >
                       {' '}
@@ -62,6 +71,7 @@ const mapState = (state) => {
     products: state.products.products,
     loading: state.products.loading,
     userId: state.user.id,
+    isLoggedIn: !!state.user.id,
   }
 }
 
@@ -70,6 +80,7 @@ const mapDispatch = (dispatch) => {
     getProducts: () => dispatch(getProductsThunk()),
     addToCart: (userId, productId) =>
       dispatch(addToCartThunk(userId, productId)),
+    addToGuestCart: (productId) => dispatch(addToGuestCartThunk(productId)),
   }
 }
 
