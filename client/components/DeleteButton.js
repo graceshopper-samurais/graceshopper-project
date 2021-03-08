@@ -7,6 +7,7 @@ const DeleteButton = (props) => {
   return (
     <>
       <button
+        className="cart__button"
         type="button"
         onClick={
           props.isLoggedIn
@@ -19,6 +20,7 @@ const DeleteButton = (props) => {
     </>
   )
 }
+
 
 const mapState = (state) => {
   return {
