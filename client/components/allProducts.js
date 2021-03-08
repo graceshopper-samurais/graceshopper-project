@@ -13,6 +13,8 @@ export class AllProducts extends React.Component {
 
   render() {
     const products = this.props.products
+    const {isLoggedIn} = this.props
+    const isAdmin = isLoggedIn ? this.props.isAdmin : false
     return (
       <div className="products">
         <div className="products__items">
@@ -40,10 +42,12 @@ export class AllProducts extends React.Component {
                       {' '}
                       Add To Cart{' '}
                     </button>
-                    <button type="button" id="delete-product">
-                      {' '}
-                      Remove From Storefront{' '}
-                    </button>
+                    {isAdmin && (
+                      <button type="button" id="delete-product">
+                        {' '}
+                        Remove From Storefront{' '}
+                      </button>
+                    )}
                   </div>
                 </div>
               )
