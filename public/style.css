@@ -88,6 +88,23 @@ nav a {
   background-color: #e29578;
 }
 
+.addForm__parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.addForm__row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.addForm__input {
+  margin: 4px;
+}
+.addForm__button {
+  font-family: 'Candal', sans-serif;
+  background-color: #e29578;
+}
+
 @media screen and (max-width: 767px) {
   .product-container {
     padding: 3rem;

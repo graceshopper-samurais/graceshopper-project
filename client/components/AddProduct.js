@@ -38,38 +38,42 @@ class AddProduct extends Component {
   render() {
     return (
       <div>
-        hello from the AddProduct component
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="addForm__parent">
           <h2>Add A Product:</h2>
-          <label htmlFor="name">Product Name:</label>
-          <input
-            name="name"
-            onChange={this.handleChange}
-            value={this.state.name}
-          />
+          <div className="addForm__row">
+            <label htmlFor="name">Product Name:</label>
+            <input
+              className="addForm__input"
+              name="name"
+              onChange={this.handleChange}
+              value={this.state.name}
+            />
 
-          <label htmlFor="description">Description:</label>
-          <input
-            name="description"
-            onChange={this.handleChange}
-            value={this.state.description}
-          />
+            <label htmlFor="description">Description:</label>
+            <input
+              className="addForm__input"
+              name="description"
+              onChange={this.handleChange}
+              value={this.state.description}
+            />
 
-          <label htmlFor="imageUrl">Image Url:</label>
-          <input
-            name="imageUrl"
-            onChange={this.handleChange}
-            value={this.state.imageUrl}
-          />
+            <label htmlFor="imageUrl">Image Url:</label>
+            <input
+              className="addForm__input"
+              name="imageUrl"
+              onChange={this.handleChange}
+              value={this.state.imageUrl}
+            />
 
-          <label htmlFor="price">Price:</label>
-          <input
-            name="price"
-            onChange={this.handleChange}
-            value={this.state.price}
-          />
-
-          <button className="button" type="submit">
+            <label htmlFor="price">Price:</label>
+            <input
+              className="addForm__input"
+              name="price"
+              onChange={this.handleChange}
+              value={this.state.price}
+            />
+          </div>
+          <button className="addForm__button" type="submit">
             Add Product
           </button>
         </form>
