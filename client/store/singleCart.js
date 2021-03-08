@@ -5,8 +5,7 @@ const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const UPDATE_CART = 'UPDATE_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
-
-// action creators
+const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 // action creators
 
@@ -24,10 +23,11 @@ const addToCart = (productOrder) => {
   }
 }
 
-const updateCart = (product) => {
+
+const updateCart = (productOrder) => {
   return {
     type: UPDATE_CART,
-    product,
+    productOrder,
   }
 }
 
@@ -35,6 +35,13 @@ const deleteFromCart = (productOrderId) => {
   return {
     type: DELETE_FROM_CART,
     productOrderId,
+  }
+}
+
+const submitOrder = (order) => {
+  return {
+    type: SUBMIT_ORDER,
+    order,
   }
 }
 
@@ -69,10 +76,11 @@ export const addToCartThunk = (userId, productId) => {
 export const updateCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, {
+      const {data} = await axios.put(`/api/users/${userId}/cart`, {
         productId: productId,
         quantity: quantity,
       })
+      console.log('this is data and data.product-----', data, data.product)
       dispatch(updateCart(data))
     } catch (err) {
       console.log('error in updateCartThunk-----', err)
@@ -93,11 +101,25 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
   }
 }
 
+export const submitOrderThunk = (userId, orderId) => {
+  return async (dispatch) => {
+    try {
+      console.log(`submitOrderThunk called with ${userId} ${orderId}`)
+      const {data} = await axios.put(`/api/users/${userId}/order/${orderId}`, {
+        isFulfilled: true,
+      })
+      console.log(`submitOrderThunk returned ${data}`)
+      dispatch(submitOrder(data))
+    } catch (err) {
+      console.log('error in the submitOrderThunk————', err)
+    }
+  }
+}
+
 //initial state
 
 const initialState = {
   cart: [],
-  // guestCart: [],
   noCart: true,
 }
 
@@ -105,13 +127,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_CART:
-      // return action.cart
+    case GET_CART: {
+      const noCart = !action.cart.length
+
       return {
         ...state,
         cart: action.cart,
-        noCart: false,
+        noCart: noCart,
       }
+    }
     case ADD_TO_CART: {
       // Check to see if already in cart
       console.log('state from logged in cart--->', state)
@@ -128,7 +152,6 @@ export default (state = initialState, action) => {
           }
         })
         return {...state, cart: newCart}
-
         // Else add new productOrder to end of array
       } else {
         return {...state, cart: [...state.cart, action.productOrder]}
@@ -136,10 +159,14 @@ export default (state = initialState, action) => {
     }
 
     case UPDATE_CART: {
-      const filteredArray = [...state.cart].filter(
-        (item) => item.id !== action.productOrderId
-      )
-      return {...state, cart: [filteredArray, action.productOrderId]}
+      const newCart = state.cart.map((productOrder) => {
+        if (productOrder.product.id === action.productOrder.product.id) {
+          return action.productOrder
+        } else {
+          return productOrder
+        }
+      })
+      return {...state, cart: newCart}
     }
     case DELETE_FROM_CART: {
       return {
@@ -149,7 +176,9 @@ export default (state = initialState, action) => {
         ),
       }
     }
-
+    case SUBMIT_ORDER: {
+      return initialState
+    }
     default:
       return state
   }
