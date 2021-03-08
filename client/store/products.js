@@ -4,27 +4,29 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const GET_PRODUCTS = 'GET_PRODUCTS'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 /**
  * INITIAL STATE
  */
 const defaultProducts = {
   products: [],
-  loading: true,
+  product: {},
+  loading: true
 }
 
 /**
  * ACTION CREATORS
  */
-const getProducts = (products) => ({
+const getProducts = products => ({
   type: GET_PRODUCTS,
-  products,
+  products
 })
 
 /**
  * THUNK CREATORS
  */
-export const getProductsThunk = () => async (dispatch) => {
+export const getProductsThunk = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/products')
     dispatch(getProducts(data))
@@ -37,13 +39,13 @@ export const getProductsThunk = () => async (dispatch) => {
  * REDUCER
  */
 
-export default function (state = defaultProducts, action) {
+export default function(state = defaultProducts, action) {
   switch (action.type) {
     case GET_PRODUCTS:
       return {
         ...state,
         products: action.products,
-        loading: false,
+        loading: false
       }
     default:
       return state
