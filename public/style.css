@@ -83,6 +83,11 @@ nav a {
   padding: 0rem 4rem 0rem 4rem;
 }
 
+#delete-product {
+  font-family: 'Candal', sans-serif;
+  background-color: #e29578;
+}
+
 @media screen and (max-width: 767px) {
   .product-container {
     padding: 3rem;
@@ -94,11 +99,6 @@ nav a {
     padding: 0rem 1rem 0rem 1rem;
   }
 }
-#delete-product {
-  font-family: 'Candal', sans-serif;
-  background-color: #e29578;
-}
-
 @media screen and (min-width: 768px) {
   .products__items {
     grid-template-columns: repeat(2, 1fr);
@@ -179,6 +179,7 @@ form div {
 td {
   color: #3a3e3b;
 }
+
 .submitOrder__header {
   font-size: 20px;
   border-bottom: 3px solid #d5d5d5;

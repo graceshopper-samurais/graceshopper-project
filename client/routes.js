@@ -10,7 +10,7 @@ import {
   AllUsers,
   singleProduct,
   FullCart,
-  SubmitOrder,
+  SubmitOrder
 } from './components'
 
 import {me} from './store'
@@ -40,7 +40,10 @@ class Routes extends Component {
           exact
           path="/users/:id/cart"
           render={({match}) => {
-            if (parseInt(match.params.id) === this.props.userId)
+            if (
+              parseInt(match.params.id) === this.props.userId ||
+              match.params.id === 'undefined'
+            )
               return <FullCart id={match.params.id} />
 
             return <Redirect to="/" />
@@ -72,22 +75,21 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
     isAdmin: state.user.admin,
-    userId: state.user.id,
-
+    userId: state.user.id
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    },
+    }
   }
 }
 
@@ -100,5 +102,5 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 }
