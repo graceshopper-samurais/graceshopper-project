@@ -1,9 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getProductsThunk} from '../store/products'
+import {getProductsThunk, removeProductThunk} from '../store/products'
 import {addToCartThunk} from '../store/singleCart'
 import {addToGuestCartThunk} from '../store/guestCart'
-
 import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 
@@ -65,7 +64,13 @@ export class AllProducts extends React.Component {
                       Add To Cart{' '}
                     </button>
                     {isAdmin && (
-                      <button type="button" id="delete-product">
+                      <button
+                        type="button"
+                        id="delete-product"
+                        onClick={() => {
+                          this.props.removeProduct(product.id)
+                        }}
+                      >
                         {' '}
                         Remove From Storefront{' '}
                       </button>
@@ -98,7 +103,8 @@ const mapDispatch = dispatch => {
     getProducts: () => dispatch(getProductsThunk()),
     addToCart: (userId, productId) =>
       dispatch(addToCartThunk(userId, productId)),
-    addToGuestCart: (productId) => dispatch(addToGuestCartThunk(productId)),
+    addToGuestCart: productId => dispatch(addToGuestCartThunk(productId)),
+    removeProduct: productId => dispatch(removeProductThunk(productId))
   }
 }
 
