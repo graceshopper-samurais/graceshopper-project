@@ -32,6 +32,7 @@ export class SingleProductEdit extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
+    console.log('submitting!', this.state)
   }
 
   render() {
@@ -73,21 +74,6 @@ export class SingleProductEdit extends React.Component {
             placeholder={product.price}
             onChange={this.handleChange}
           />
-          {/* <div className="product-info-container">
-            <div className="product-name">
-              <span>
-                <h3>{product.name}</h3>
-              </span>
-            </div>
-            <div className="product-description">
-              <span>{product.description}</span>
-            </div>
-            <br />
-            <div>
-              <span>Price: ${product.price}</span>
-            </div>
-            <br />
-          </div> */}
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -104,6 +90,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getSingleProduct: productId => dispatch(getSingleProduct(productId))
+    // editProduct:
   }
 }
 

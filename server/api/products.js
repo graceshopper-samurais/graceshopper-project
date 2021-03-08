@@ -32,4 +32,23 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
   }
 })
 
+// PUT /api/products/:id
+router.put('/:id', async (req, res, next) => {
+  try {
+    // console.log('req.body-------', req.body)
+    // console.log('req.params-------', req.params)
+    const {name, description, price} = req.body
+    //find candle to update
+    const candle = await Product.findByPk(req.params.id)
+    //update info
+    candle.name = name
+    candle.description = description
+    candle.price = price
+    await candle.save()
+    res.json(candle)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router
