@@ -18,8 +18,8 @@ router.get('/', isAdmin, async (req, res, next) => {
         'city',
         'state',
         'zip',
-        'admin',
-      ],
+        'admin'
+      ]
     })
     res.json(users)
   } catch (err) {
@@ -45,12 +45,12 @@ router.get('/:id/cart', isCorrectUser, async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
+        include: [Product]
+      }
     })
 
     userCart ? res.json(userCart.productorders) : res.send([])
@@ -73,12 +73,12 @@ router.put('/:id/cart', isCorrectUser, async (req, res, next) => {
     const userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
+        include: [Product]
+      }
     })
     console.log('this is userCart------', userCart)
 
@@ -88,7 +88,7 @@ router.put('/:id/cart', isCorrectUser, async (req, res, next) => {
 
     // Find index of specific item within cart
     const indexOfItem = productOrders
-      .map((productOrder) => productOrder.productId)
+      .map(productOrder => productOrder.productId)
       .indexOf(oldProductId)
 
     // filter for....?
@@ -123,7 +123,7 @@ router.delete('/:id/cart/:line', isCorrectUser, async (req, res, next) => {
 })
 
 //PUT /api/users/:id/order/:orderId
-router.put('/:id/order/:orderId', async (req, res, next) => {
+router.put('/:id/order/:orderId', isCorrectUser, async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
     res.json(await order.update(req.body))
@@ -143,25 +143,25 @@ router.post('/:id/cart', isCorrectUser, async (req, res, next) => {
     let userCart = await Order.findOne({
       where: {
         userId: req.params.id,
-        isFulfilled: false,
+        isFulfilled: false
       },
       include: {
         model: ProductOrder,
-        include: [Product],
-      },
+        include: [Product]
+      }
     })
 
     // if user doesn't have anything in cart yet, create a new order
     if (!userCart) {
       userCart = await Order.create({userId: req.params.id, isFulfilled: false})
       await userCart.addProduct(product, {
-        through: {quantity: 1, subtotal: product.price},
+        through: {quantity: 1, subtotal: product.price}
       })
       await userCart.reload({
         include: {
           model: ProductOrder,
-          include: [Product],
-        },
+          include: [Product]
+        }
       })
 
       res.json(userCart.productorders[0])
@@ -171,21 +171,21 @@ router.post('/:id/cart', isCorrectUser, async (req, res, next) => {
 
       // See if product-to-be-added is already in the cart
       const indexOfItem = productOrders
-        .map((productOrder) => productOrder.productId)
+        .map(productOrder => productOrder.productId)
         .indexOf(newProductId)
 
       // If it's not in the cart, add the product to that user's order
       if (indexOfItem === -1) {
         await userCart.addProduct(product, {
-          through: {quantity: 1, subtotal: 1 * product.price},
+          through: {quantity: 1, subtotal: 1 * product.price}
         })
 
         // Query the database for the new productOrder and include the product
         let newProductOrder = await userCart.getProductorders({
           where: {
-            productId: product.id,
+            productId: product.id
           },
-          include: [Product],
+          include: [Product]
         })
 
         // ^this returns an array but there should only be one instance, so grab the first row

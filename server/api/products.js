@@ -32,4 +32,13 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
   }
 })
 
+router.post('/', isAdmin, async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body)
+    res.status(201).json(newProduct)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

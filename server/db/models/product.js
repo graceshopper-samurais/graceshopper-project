@@ -17,7 +17,7 @@ const Product = db.define('product', {
   },
   imageUrl: {
     type: Sequelize.TEXT,
-    defaultValue: 'https://fimgs.net/himg/o.88372.jpg'
+    defaultValue: '/images/default.jpg'
   },
   price: {
     type: Sequelize.INTEGER,
