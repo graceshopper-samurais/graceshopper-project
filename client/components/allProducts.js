@@ -62,6 +62,7 @@ const mapState = state => {
     products: state.products.products,
     loading: state.products.loading,
     userId: state.user.id,
+    isLoggedIn: !!state.user.id,
     isAdmin: state.user.admin
   }
 }
