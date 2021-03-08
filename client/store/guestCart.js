@@ -3,9 +3,9 @@ import axios from 'axios'
 //action types
 const GET_GUEST_CART = 'GET_GUEST_CART'
 const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
-const UPDATE_CART = 'UPDATE_CART'
+const UPDATE_GUEST_CART = 'UPDATE_CART'
 const DELETE_FROM_GUEST_CART = 'DELETE_FROM_GUEST_CART'
-const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART' // would like to add this functionality somehwere (after someone logs in, we should clear localStorage guest cart). Later tiers, if someone logs in, these items could be transferred to their loggedIn cart.
+const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART' // would like to add this functionality somewhere (after someone logs in, we should clear localStorage guest cart). Later tiers, if someone logs in, these items could be transferred to their loggedIn cart.
 
 // action creators
 const getGuestCart = guestCart => {
@@ -22,9 +22,9 @@ const addToGuestCart = product => {
   }
 }
 
-const updateCart = product => {
+const updateGuestCart = product => {
   return {
-    type: UPDATE_CART,
+    type: UPDATE_GUEST_CART,
     product
   }
 }
@@ -97,8 +97,8 @@ export const addToGuestCartThunk = productId => {
     }
   }
 }
-//have not udpate this!
-export const updateCartThunk = (userId, productId, quantity) => {
+
+export const updateGuestCartThunk = (userId, productId, quantity) => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`api/users/${userId}/cart`, {
