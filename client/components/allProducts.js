@@ -12,14 +12,10 @@ export class AllProducts extends React.Component {
     this.props.getProducts()
   }
 
-  // above return, if this.props.loading
-  // then candles loading...
-  // else load our candles
-
-  // compnentWillUnmount: when component unmounts, we want tochange loading back to true
-
   render() {
     const products = this.props.products
+    const {isLoggedIn} = this.props
+    const isAdmin = isLoggedIn ? this.props.isAdmin : false
     if (this.props.loading) {
       return (
         <div id="products-loader">
@@ -68,6 +64,12 @@ export class AllProducts extends React.Component {
                       {' '}
                       Add To Cart{' '}
                     </button>
+                    {isAdmin && (
+                      <button type="button" id="delete-product">
+                        {' '}
+                        Remove From Storefront{' '}
+                      </button>
+                    )}
                   </div>
                 </div>
               )
@@ -87,6 +89,7 @@ const mapState = state => {
     loading: state.products.loading,
     userId: state.user.id,
     isLoggedIn: !!state.user.id,
+    isAdmin: state.user.admin
   }
 }
 
