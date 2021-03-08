@@ -39,12 +39,10 @@ export const getProductsThunk = () => async dispatch => {
   }
 }
 
-export const removeProductThunk = id => async dispatch => {
+export const removeProductThunk = productId => async dispatch => {
   try {
-    const {data} = await axios.delete(`/api/products/${id}`)
-    console.log('this is data inside removeProductThunk----', data)
-    console.log('saying hello to katelyn from removeProductThunk')
-    dispatch(deleteProduct(data))
+    await axios.delete(`/api/products/${productId}`)
+    dispatch(deleteProduct(productId))
   } catch (error) {
     console.log('error in removeProductThunk----', error)
   }
@@ -62,9 +60,14 @@ export default function(state = defaultProducts, action) {
         products: action.products,
         loading: false
       }
-    case DELETE_PRODUCT:
-      // filter!!!
-      return {}
+    case DELETE_PRODUCT: {
+      return {
+        ...state,
+        products: state.products.filter(
+          product => product.id !== action.productId
+        )
+      }
+    }
     default:
       return state
   }
