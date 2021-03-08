@@ -11,7 +11,6 @@ const DELETE_PRODUCT = 'DELETE_PRODUCT'
  */
 const defaultProducts = {
   products: [],
-  product: {},
   loading: true
 }
 
@@ -23,9 +22,9 @@ const getProducts = products => ({
   products
 })
 
-const deleteProduct = product => ({
+const deleteProduct = productId => ({
   type: DELETE_PRODUCT,
-  product
+  productId
 })
 
 /**
@@ -43,6 +42,7 @@ export const getProductsThunk = () => async dispatch => {
 export const removeProductThunk = id => async dispatch => {
   try {
     const {data} = await axios.delete(`/api/products/${id}`)
+    console.log('this is data inside removeProductThunk----', data)
     console.log('saying hello to katelyn from removeProductThunk')
     dispatch(deleteProduct(data))
   } catch (error) {
@@ -63,6 +63,7 @@ export default function(state = defaultProducts, action) {
         loading: false
       }
     case DELETE_PRODUCT:
+      // filter!!!
       return {}
     default:
       return state
