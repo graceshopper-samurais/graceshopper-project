@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/products'
 import {addToCartThunk} from '../store/singleCart'
 import {Link} from 'react-router-dom'
+import {isAdmin} from '../../server/api/gatekeepers'
 
 export class AllProducts extends React.Component {
   componentDidMount() {
