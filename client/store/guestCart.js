@@ -47,7 +47,12 @@ export const fetchGuestCart = () => {
         'this is localStorage cart from fetch guest cart thunk------',
         localCart
       )
-      dispatch(getGuestCart(localCart))
+
+      if (localCart) {
+        dispatch(getGuestCart(localCart))
+      } else {
+        dispatch(getGuestCart([]))
+      }
     } catch (err) {
       console.log('error in fetchGuestCart thunk---', err)
     }
@@ -58,14 +63,17 @@ export const addToGuestCartThunk = productId => {
   return async dispatch => {
     try {
       let {data} = await axios.get(`/api/products/${productId}`)
+      console.log('HELLO?')
       data.quantity = 1 //give candle a default quantity property
       let guestCart = JSON.parse(localStorage.getItem('guestCart'))
       // if there is no cart in localstorage yet, set cart equal to an array with our candle selection
       if (!guestCart) {
+        console.log('NO GUEST CART')
         let candle = [data]
         localStorage.setItem('guestCart', JSON.stringify(candle))
         dispatch(addToGuestCart(data))
       } else {
+        console.log('GUEST CART EXISTS')
         // else cart has already been started
         const alrdyInLocalStorageIdx = guestCart
           .map(item => item.id)
@@ -74,11 +82,13 @@ export const addToGuestCartThunk = productId => {
         if (alrdyInLocalStorageIdx < 0) {
           guestCart.push(data)
           localStorage.setItem('guestCart', JSON.stringify(guestCart))
+          console.log('data in THUNK—————', data)
           dispatch(addToGuestCart(data))
         } else {
           // else that specific item already in cart, so just update qty
           guestCart[alrdyInLocalStorageIdx].quantity++
           localStorage.setItem('guestCart', JSON.stringify(guestCart))
+          console.log('data in THUNK—————', data)
           dispatch(addToGuestCart(data))
         }
       }
@@ -142,7 +152,7 @@ export default (state = initialState, action) => {
         .indexOf(action.product.id)
 
       if (alreadyInCartIdx >= 0) {
-        const newCart = state.guestCart
+        const newCart = [...state.guestCart]
         newCart[alreadyInCartIdx].quantity++
         return {...state, guestCart: newCart}
       }

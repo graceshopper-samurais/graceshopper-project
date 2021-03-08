@@ -14,6 +14,9 @@ class CartIcon extends React.Component {
   }
 
   render() {
+    console.log(typeof this.props.guestCart)
+    console.log('this.props.guestCart——————', this.props.guestCart)
+    // const guestCart = this.props.guestCart ? this.props.guestCart : []
     if (this.props.isLoggedIn) {
       return (
         <div>
