@@ -48,9 +48,9 @@ class GuestCart extends React.Component {
                   />
                 </div>
                 <div>
-                  <div>Subtotal: ${item.subtotal}</div>
+                  <div>Subtotal: ${item.quantity * item.price}</div>
                   <div>
-                    <DeleteButton productOrderId={item.id} />
+                    <DeleteButton productId={item.id} />
                   </div>
                 </div>
               </div>
@@ -61,7 +61,7 @@ class GuestCart extends React.Component {
               <div>
                 Grand Total: $
                 {guestCart.reduce((total, lineItem) => {
-                  return total + lineItem.subtotal
+                  return total + lineItem.quantity * lineItem.price
                 }, 0)}
               </div>
               {/* <div>
