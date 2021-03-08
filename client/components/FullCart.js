@@ -9,13 +9,13 @@ import UpdateQuantity from './UpdateQuantity'
 class FullCart extends React.Component {
 
   componentDidMount() {
-    console.log('props from FullCart componentDidMount---', this.props)
-    this.props.getSingleCart(this.props.match.params.id)
+    this.props.getSingleCart(this.props.id)
   }
 
   render() {
     console.log('props from FullCart render---', this.props)
     const {cart} = this.props
+    
     if (this.props.isLoggedIn) {
       if (!cart) {
         return <p>No items currently in your cart. Happy shopping!</p>
@@ -36,7 +36,7 @@ class FullCart extends React.Component {
                   </div>
                   <div>
                     <UpdateQuantity
-                      userId={this.props.match.params.id}
+                      userId={this.props.id}
                       productId={item.product.id}
                       quantity={item.quantity}
                     />
@@ -46,7 +46,7 @@ class FullCart extends React.Component {
                     <div>
                       <DeleteButton
                         productOrderId={item.id}
-                        userId={this.props.match.params.id}
+                        userId={this.props.id}
                       />
                     </div>
                   </div>
