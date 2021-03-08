@@ -1,31 +1,42 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {fetchGuestCart} from '../store/guestCart'
+import {fetchCart} from '../store/singleCart'
 
-const CartIcon = props => {
-  // console.log('this is props from CARTICON', props)
-  if (props.isLoggedIn) {
-    return (
-      <div>
-        <Link to={`/users/${props.user.id}/cart`}>
-          <img src="/icons/cart.png" className="cartIcon" />{' '}
-          {props.cart.reduce((totalItems, cartLine) => {
-            return totalItems + cartLine.quantity
-          }, 0)}
-        </Link>
-      </div>
-    )
-  } else if (!props.isLoggedIn) {
-    return (
-      <div>
-        <Link to={`/users/${props.user.id}/cart`}>
-          <img src="/icons/cart.png" className="cartIcon" />{' '}
-          {props.guestCart.reduce((totalItems, cartLine) => {
-            return totalItems + cartLine.quantity
-          }, 0)}
-        </Link>
-      </div>
-    )
+class CartIcon extends React.Component {
+  componentDidMount() {
+    if (this.props.isLoggedIn) {
+      this.props.fetchUserCart(this.props.user.id)
+    } else {
+      this.props.fetchGuestCart()
+    }
+  }
+
+  render() {
+    if (this.props.isLoggedIn) {
+      return (
+        <div>
+          <Link to={`/users/${this.props.user.id}/cart`}>
+            <img src="/icons/cart.png" className="cartIcon" />{' '}
+            {this.props.cart.reduce((totalItems, cartLine) => {
+              return totalItems + cartLine.quantity
+            }, 0)}
+          </Link>
+        </div>
+      )
+    } else if (!this.props.isLoggedIn) {
+      return (
+        <div>
+          <Link to={`/users/${this.props.user.id}/cart`}>
+            <img src="/icons/cart.png" className="cartIcon" />{' '}
+            {this.props.guestCart.reduce((totalItems, cartLine) => {
+              return totalItems + cartLine.quantity
+            }, 0)}
+          </Link>
+        </div>
+      )
+    }
   }
 }
 
@@ -38,4 +49,11 @@ const mapState = state => {
   }
 }
 
-export default connect(mapState, null)(CartIcon)
+const mapDispatch = dispatch => {
+  return {
+    fetchGuestCart: () => dispatch(fetchGuestCart()),
+    fetchUserCart: id => dispatch(fetchCart(id))
+  }
+}
+
+export default connect(mapState, mapDispatch)(CartIcon)

@@ -4,12 +4,18 @@ import {fetchGuestCart} from '../store/guestCart'
 import DeleteButton from './DeleteButton'
 
 class GuestCart extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount() {
+    console.log('COMPONENT IS MOUNTING FROM GUEST CART——————')
     this.props.getGuestCart()
   }
 
   render() {
     const {guestCart} = this.props
+    console.log('IN GUEST CART RENDER—————————')
     console.log('props from GUESTCART-----', this.props)
     if (!guestCart) {
       return <p>No items currently in your cart. Happy shopping!</p>
@@ -21,7 +27,7 @@ class GuestCart extends React.Component {
       return (
         <div className="cart__cart-header">
           <div> You have {qty} items in your cart </div>
-          {guestCart.map((item) => {
+          {guestCart.map(item => {
             return (
               <div key={item.id}>
                 <img src={item.imageUrl} className="cartImg" alt={item.name} />
@@ -49,17 +55,17 @@ class GuestCart extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     guestCart: state.guestCart.guestCart,
-    noCart: state.singleCart.noCart,
-    isLoggedIn: !!state.user.id,
+    noCart: state.guestCart.noCart,
+    isLoggedIn: !!state.user.id
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    getGuestCart: () => dispatch(fetchGuestCart()),
+    getGuestCart: () => dispatch(fetchGuestCart())
   }
 }
 

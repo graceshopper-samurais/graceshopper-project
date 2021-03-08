@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
+  GuestCart,
   Login,
   Signup,
   UserHome,
@@ -40,13 +41,14 @@ class Routes extends Component {
           exact
           path="/users/:id/cart"
           render={({match}) => {
-            if (
-              parseInt(match.params.id) === this.props.userId ||
-              match.params.id === 'undefined'
-            )
+            if (parseInt(match.params.id) === this.props.userId) {
               return <FullCart id={match.params.id} />
-
-            return <Redirect to="/" />
+            } else if (match.params.id === 'undefined') {
+              console.log('inside CORRECT BRANCH')
+              return <GuestCart id={match.params.id} />
+            } else {
+              return <Redirect to="/" />
+            }
           }}
         />
         <Route exact path="/" component={allProducts} />
