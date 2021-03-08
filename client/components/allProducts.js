@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getProductsThunk, removeProductThunk} from '../store/products'
 import {addToCartThunk} from '../store/singleCart'
 import {addToGuestCartThunk} from '../store/guestCart'
+import AddProduct from './AddProduct'
 import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 
@@ -31,6 +32,7 @@ export class AllProducts extends React.Component {
     }
     return (
       <div className="products">
+        {isAdmin && <AddProduct />}
         <div className="products__items">
           {products.length ? (
             products.map(product => {
