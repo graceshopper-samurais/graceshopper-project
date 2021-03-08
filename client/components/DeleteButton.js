@@ -1,13 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {deleteFromCartThunk} from '../store/singleCart'
+import {deleteFromGuestCartThunk} from '../store/guestCart'
 
-const DeleteButton = props => {
+const DeleteButton = (props) => {
   return (
     <>
       <button
         type="button"
-        onClick={() => props.delete(props.userId, props.productOrderId)}
+        onClick={
+          props.isLoggedIn
+            ? () => props.delete(props.userId, props.productOrderId)
+            : () => props.deletefromGuestCart(props.productId)
+        }
       >
         Delete
       </button>
@@ -15,11 +20,19 @@ const DeleteButton = props => {
   )
 }
 
-const mapDispatchToProps = dispatch => {
+const mapState = (state) => {
   return {
-    delete: (userId, productOrderId) =>
-      dispatch(deleteFromCartThunk(userId, productOrderId))
+    isLoggedIn: !!state.user.id,
   }
 }
 
-export default connect(null, mapDispatchToProps)(DeleteButton)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    delete: (userId, productOrderId) =>
+      dispatch(deleteFromCartThunk(userId, productOrderId)),
+    deletefromGuestCart: (productId) =>
+      dispatch(deleteFromGuestCartThunk(productId)),
+  }
+}
+
+export default connect(mapState, mapDispatchToProps)(DeleteButton)

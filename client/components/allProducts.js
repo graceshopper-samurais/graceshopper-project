@@ -2,19 +2,34 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/products'
 import {addToCartThunk} from '../store/singleCart'
+import {addToGuestCartThunk} from '../store/guestCart'
+
 import {Link} from 'react-router-dom'
+import Loader from 'react-loader-spinner'
 
 export class AllProducts extends React.Component {
   componentDidMount() {
     this.props.getProducts()
   }
 
-  // compnentWillUnmount: when component unmounts, we want tochange loading back to true
-
   render() {
     const products = this.props.products
     const {isLoggedIn} = this.props
     const isAdmin = isLoggedIn ? this.props.isAdmin : false
+    if (this.props.loading) {
+      return (
+        <div id="products-loader">
+          <Loader
+            type="Watch"
+            color="#7fdeff"
+            secondaryColor="#dabfff"
+            height={300}
+            width={300}
+          />
+          <div> Candles loading . . . </div>
+        </div>
+      )
+    }
     return (
       <div className="products">
         <div className="products__items">
@@ -35,8 +50,15 @@ export class AllProducts extends React.Component {
                     <button
                       type="button"
                       id="add-to-cart"
-                      onClick={() =>
-                        this.props.addToCart(this.props.userId, product.id)
+                      // if user is logged in add item to user cart, else add item to guest cart/local storage
+                      onClick={
+                        this.props.isLoggedIn
+                          ? () =>
+                              this.props.addToCart(
+                                this.props.userId,
+                                product.id
+                              )
+                          : () => this.props.addToGuestCart(product.id)
                       }
                     >
                       {' '}
@@ -53,7 +75,7 @@ export class AllProducts extends React.Component {
               )
             })
           ) : (
-            <p>Candles Loading...</p>
+            <p> All Sold Out! </p>
           )}
         </div>
       </div>
@@ -75,7 +97,8 @@ const mapDispatch = dispatch => {
   return {
     getProducts: () => dispatch(getProductsThunk()),
     addToCart: (userId, productId) =>
-      dispatch(addToCartThunk(userId, productId))
+      dispatch(addToCartThunk(userId, productId)),
+    addToGuestCart: (productId) => dispatch(addToGuestCartThunk(productId)),
   }
 }
 

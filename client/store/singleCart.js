@@ -51,7 +51,7 @@ export const fetchCart = (id) => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
-      console.log('data————————', data)
+      console.log('data from fetchCart thunk--->>>', data)
       dispatch(getCart(data))
     } catch (err) {
       console.log('error in fetchCartThunk----', err)
@@ -59,6 +59,7 @@ export const fetchCart = (id) => {
   }
 }
 
+// if user is logged in, we'll make it into our try, if user is guest, we'll hop into the catch
 export const addToCartThunk = (userId, productId) => {
   return async (dispatch) => {
     try {
@@ -67,7 +68,7 @@ export const addToCartThunk = (userId, productId) => {
       })
       dispatch(addToCart(data))
     } catch (err) {
-      console.log('error in addToCartThunk————', err)
+      console.log('error in addToCartThunk thunk---', err)
     }
   }
 }
@@ -137,6 +138,7 @@ export default (state = initialState, action) => {
     }
     case ADD_TO_CART: {
       // Check to see if already in cart
+      console.log('state from logged in cart--->', state)
       const alreadyInCart = state.cart
         .map((productOrder) => productOrder.product.id)
         .includes(action.productOrder.product.id)
@@ -155,6 +157,7 @@ export default (state = initialState, action) => {
         return {...state, cart: [...state.cart, action.productOrder]}
       }
     }
+
     case UPDATE_CART: {
       const newCart = state.cart.map((productOrder) => {
         if (productOrder.product.id === action.productOrder.product.id) {
@@ -173,11 +176,9 @@ export default (state = initialState, action) => {
         ),
       }
     }
-
     case SUBMIT_ORDER: {
       return initialState
     }
-
     default:
       return state
   }
