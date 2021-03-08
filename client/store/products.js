@@ -23,6 +23,11 @@ const getProducts = products => ({
   products
 })
 
+const deleteProduct = product => ({
+  type: DELETE_PRODUCT,
+  product
+})
+
 /**
  * THUNK CREATORS
  */
@@ -32,6 +37,16 @@ export const getProductsThunk = () => async dispatch => {
     dispatch(getProducts(data))
   } catch (error) {
     console.log('error in getProdThunk————', error)
+  }
+}
+
+export const removeProductThunk = id => async dispatch => {
+  try {
+    const {data} = await axios.delete(`/api/products/${id}`)
+    console.log('saying hello to katelyn from removeProductThunk')
+    dispatch(deleteProduct(data))
+  } catch (error) {
+    console.log('error in removeProductThunk----', error)
   }
 }
 
@@ -47,6 +62,8 @@ export default function(state = defaultProducts, action) {
         products: action.products,
         loading: false
       }
+    case DELETE_PRODUCT:
+      return {}
     default:
       return state
   }
