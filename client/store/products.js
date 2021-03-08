@@ -61,10 +61,12 @@ export default function(state = defaultProducts, action) {
         loading: false
       }
     case DELETE_PRODUCT: {
-      const filteredArray = [...state.products].filter(
-        product => product.id !== action.product.id
-      )
-      return {...state, products: filteredArray}
+      return {
+        ...state,
+        products: state.products.filter(
+          product => product.id !== action.productId
+        )
+      }
     }
     default:
       return state
