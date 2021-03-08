@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCart, fetchGuestCart} from '../store/singleCart'
+import {fetchCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
 import {Link} from 'react-router-dom'
@@ -12,7 +12,8 @@ class FullCart extends React.Component {
   }
 
   render() {
-    console.log('props from FullCart render---', this.props)
+    console.log('IN USER CART RENDER————————————————')
+    console.log('props from USER CART---', this.props)
     const {cart} = this.props
 
     if (this.props.isLoggedIn) {

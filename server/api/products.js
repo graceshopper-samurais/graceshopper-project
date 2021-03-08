@@ -32,9 +32,7 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
   }
 })
 
-// PUT /api/products/:id
-// add isAsmin to this route after demonstration!!
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', isAdmin, async (req, res, next) => {
   try {
     const {name, description, price} = req.body
     //find candle to update
@@ -45,6 +43,15 @@ router.put('/:id', async (req, res, next) => {
     candle.price = price
     await candle.save()
     res.json(candle)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/', isAdmin, async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body)
+    res.status(201).json(newProduct)
   } catch (err) {
     next(err)
   }
