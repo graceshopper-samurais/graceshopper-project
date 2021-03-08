@@ -176,6 +176,9 @@ form div {
   width: 50px;
 }
 
+td {
+  color: #3a3e3b;
+}
 .submitOrder__header {
   font-size: 20px;
   border-bottom: 3px solid #d5d5d5;
