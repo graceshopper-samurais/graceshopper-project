@@ -12,7 +12,8 @@ class FullCart extends React.Component {
   }
 
   render() {
-    console.log('props from FullCart render---', this.props)
+    console.log('IN USER CART RENDER————————————————')
+    console.log('props from USER CART---', this.props)
     const {cart} = this.props
 
     if (this.props.isLoggedIn) {
