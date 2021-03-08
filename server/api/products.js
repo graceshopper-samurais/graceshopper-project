@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
+const {isAdmin} = require('./gatekeepers')
 
 // SECURITY CONCERNS:  Add attributes so that we're only sending back "need to know" information
 router.get('/', async (req, res, next) => {
@@ -21,4 +22,14 @@ router.get('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:id', isAdmin, async (req, res, next) => {
+  try {
+    await Product.destroy({where: {id: req.params.id}})
+    res.status(204).send()
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router

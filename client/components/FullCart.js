@@ -1,30 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCart} from '../store/singleCart'
+import {fetchCart, fetchGuestCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
 import SubmitOrderButton from './SubmitOrderButton'
 import UpdateQuantity from './UpdateQuantity'
 
 class FullCart extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
+    console.log('props from FullCart componentDidMount---', this.props)
     this.props.getSingleCart(this.props.match.params.id)
   }
 
-  // componentWillUnmount() {
-  //   // No items currently in your cart. Happy shopping!
-  //   this.props.noCart = true
-  // }
-
   render() {
+    console.log('props from FullCart render---', this.props)
     const {cart} = this.props
-    console.log('props from FULLCART: ', this.props)
     if (this.props.isLoggedIn) {
-      if (this.props.noCart) {
+      if (!cart) {
         return <p>No items currently in your cart. Happy shopping!</p>
       } else {
         return (
@@ -67,7 +60,7 @@ class FullCart extends React.Component {
           </div>
         )
       }
-    } else {
+    } else if (!this.props.isLoggedIn) {
       return <GuestCart />
     }
   }
