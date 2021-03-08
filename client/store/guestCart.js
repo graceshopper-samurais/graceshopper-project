@@ -3,7 +3,7 @@ import axios from 'axios'
 //action types
 const GET_GUEST_CART = 'GET_GUEST_CART'
 const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
-const UPDATE_CART = 'UPDATE_CART'
+const UPDATE_GUEST_CART = 'UPDATE_CART'
 const DELETE_FROM_GUEST_CART = 'DELETE_FROM_GUEST_CART'
 const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART' // would like to add this functionality somehwere (after someone logs in, we should clear localStorage guest cart). Later tiers, if someone logs in, these items could be transferred to their loggedIn cart.
 
@@ -22,9 +22,9 @@ const addToGuestCart = product => {
   }
 }
 
-const updateCart = product => {
+const updateGuestCart = product => {
   return {
-    type: UPDATE_CART,
+    type: UPDATE_GUEST_CART,
     product
   }
 }
@@ -97,17 +97,28 @@ export const addToGuestCartThunk = productId => {
     }
   }
 }
-//have not udpate this!
-export const updateCartThunk = (userId, productId, quantity) => {
-  return async dispatch => {
+
+export const updateGuestCartThunk = (productId, quantity) => {
+  return dispatch => {
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, {
-        productId: productId,
-        quantity: quantity
-      })
-      dispatch(updateCart(data))
+      const guestCart = JSON.parse(localStorage.getItem('guestCart'))
+
+      const alreadyInLocalStorageIdx = guestCart
+        .map(item => item.id)
+        .indexOf(productId)
+
+      guestCart[alreadyInLocalStorageIdx].quantity = quantity
+
+      localStorage.setItem('guestCart', JSON.stringify(guestCart))
+
+      console.log(
+        'guestCart[alreadyInLocalStorageIdx] in updateGuestCartTHUNK—————',
+        guestCart[alreadyInLocalStorageIdx]
+      )
+
+      dispatch(updateGuestCart(guestCart[alreadyInLocalStorageIdx]))
     } catch (err) {
-      console.log('error in updateCartThunk-----', err)
+      console.log('error in updateGuestCartThunk-----', err)
     }
   }
 }
@@ -158,11 +169,15 @@ export default (state = initialState, action) => {
       }
       return {...state, guestCart: [...state.guestCart, action.product]}
     }
-    case UPDATE_CART: {
-      const filteredArray = [...state.guestCart].filter(
-        item => item.id !== action.productOrderId
-      )
-      return {...state, guestCart: [filteredArray, action.productOrderId]}
+    case UPDATE_GUEST_CART: {
+      const mappedArray = state.guestCart.map(item => {
+        if (item.id !== action.product.id) {
+          return item
+        } else {
+          return action.product
+        }
+      })
+      return {...state, guestCart: mappedArray}
     }
     case DELETE_FROM_GUEST_CART: {
       return {

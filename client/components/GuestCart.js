@@ -16,6 +16,7 @@ class GuestCart extends React.Component {
 
   render() {
     const {guestCart} = this.props
+    const guest = true
     console.log('IN GUEST CART RENDER—————————')
     console.log('props from GUESTCART-----', this.props)
     if (!guestCart) {
@@ -41,6 +42,7 @@ class GuestCart extends React.Component {
                 </div>
                 <div>
                   <UpdateQuantity
+                    guest={guest}
                     productId={item.id}
                     quantity={item.quantity}
                   />
