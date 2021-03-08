@@ -61,6 +61,11 @@ nav a {
   opacity: 0;
 }
 
+#delete-product {
+  font-family: 'Candal', sans-serif;
+  background-color: #e29578;
+}
+
 @media screen and (min-width: 768px) {
   .products__items {
     grid-template-columns: repeat(2, 1fr);
