@@ -1,4 +1,5 @@
 function isAdmin(req, res, next) {
+  console.log('this is req.use------', req.user)
   if (typeof req.user === 'undefined' || !req.user.admin) {
     const err = new Error('Admin only')
     err.status = 401
@@ -23,5 +24,5 @@ function isCorrectUser(req, res, next) {
 
 module.exports = {
   isAdmin,
-  isCorrectUser,
+  isCorrectUser
 }
