@@ -98,16 +98,27 @@ export const addToGuestCartThunk = productId => {
   }
 }
 
-export const updateGuestCartThunk = (userId, productId, quantity) => {
-  return async dispatch => {
+export const updateGuestCartThunk = (productId, quantity) => {
+  return dispatch => {
     try {
-      const {data} = await axios.put(`api/users/${userId}/cart`, {
-        productId: productId,
-        quantity: quantity
-      })
-      dispatch(updateCart(data))
+      const guestCart = JSON.parse(localStorage.getItem('guestCart'))
+
+      const alreadyInLocalStorageIdx = guestCart
+        .map(item => item.id)
+        .indexOf(productId)
+
+      guestCart[alreadyInLocalStorageIdx].quantity = quantity
+
+      localStorage.setItem('guestCart', JSON.stringify(guestCart))
+
+      console.log(
+        'guestCart[alreadyInLocalStorageIdx] in updateGuestCartTHUNK—————',
+        guestCart[alreadyInLocalStorageIdx]
+      )
+
+      dispatch(updateGuestCart(guestCart[alreadyInLocalStorageIdx]))
     } catch (err) {
-      console.log('error in updateCartThunk-----', err)
+      console.log('error in updateGuestCartThunk-----', err)
     }
   }
 }
@@ -158,11 +169,15 @@ export default (state = initialState, action) => {
       }
       return {...state, guestCart: [...state.guestCart, action.product]}
     }
-    case UPDATE_CART: {
-      const filteredArray = [...state.guestCart].filter(
-        item => item.id !== action.productOrderId
-      )
-      return {...state, guestCart: [filteredArray, action.productOrderId]}
+    case UPDATE_GUEST_CART: {
+      const mappedArray = state.guestCart.map(item => {
+        if (item.id !== action.product.id) {
+          return item
+        } else {
+          return action.product
+        }
+      })
+      return {...state, guestCart: mappedArray}
     }
     case DELETE_FROM_GUEST_CART: {
       return {

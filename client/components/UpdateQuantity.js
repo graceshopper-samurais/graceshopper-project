@@ -1,22 +1,26 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateCartThunk} from '../store/singleCart'
+import {updateGuestCartThunk} from '../store/guestCart'
 
 class UpdateQuantity extends Component {
   constructor(props) {
     super(props)
     this.state = {quantity: this.props.quantity}
     this.handleChange = this.handleChange.bind(this)
-    // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async handleChange(evt) {
     await this.setState({
-      quantity: evt.target.value,
+      quantity: evt.target.value
     })
     const quantity = parseInt(this.state.quantity)
     console.log('this is the state in handleChange-----', this.state)
-    this.props.updateCart(this.props.userId, this.props.productId, quantity)
+    if (this.props.guest) {
+      this.props.updateGuestCart(this.props.productId, quantity)
+    } else {
+      this.props.updateCart(this.props.userId, this.props.productId, quantity)
+    }
   }
 
   render() {
@@ -40,10 +44,12 @@ class UpdateQuantity extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     updateCart: (userId, productId, quantity) =>
       dispatch(updateCartThunk(userId, productId, quantity)),
+    updateGuestCart: (productId, quantity) =>
+      dispatch(updateGuestCartThunk(productId, quantity))
   }
 }
 
