@@ -10,7 +10,7 @@ class GuestCart extends React.Component {
 
   render() {
     const {guestCart} = this.props
-    console.log('props from GUESTCART: ', this.props)
+    console.log('props from GUESTCART-----', this.props)
     if (!guestCart) {
       return <p>No items currently in your cart. Happy shopping!</p>
     } else {

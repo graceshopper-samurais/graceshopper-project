@@ -5,7 +5,7 @@ const GET_GUEST_CART = 'GET_GUEST_CART'
 const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
 const UPDATE_CART = 'UPDATE_CART'
 const DELETE_FROM_GUEST_CART = 'DELETE_FROM_GUEST_CART'
-const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART'
+const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART' // would like to add this functionality somehwere (after someone logs in, we should clear localStorage guest cart). Later tiers, if someone logs in, these items could be transferred to their loggedIn cart.
 
 // action creators
 const getGuestCart = (guestCart) => {
@@ -55,18 +55,15 @@ export const addToGuestCartThunk = (productId) => {
   return async (dispatch) => {
     try {
       let {data} = await axios.get(`/api/products/${productId}`)
-      console.log(data, '<----- this is backend Candle')
-      data.quantity = 1
+      data.quantity = 1 //give candle a default quantity property
       let guestCart = JSON.parse(localStorage.getItem('guestCart'))
+      // if there is no cart in localstorage yet, set cart equal to an array with our candle selection
       if (!guestCart) {
-        console.log('guest cart if it doesnt exist yet:', guestCart)
-        // if there is no cart in localstorage yet, set cart equal to an array with our candle selection
         let candle = [data]
         localStorage.setItem('guestCart', JSON.stringify(candle))
         dispatch(addToGuestCart(data))
       } else {
         // else cart has already been started
-        console.log('guest cart if it DOESSSSS EXIST :', guestCart)
         const alrdyInLocalStorageIdx = guestCart
           .map((item) => item.id)
           .indexOf(productId)
@@ -76,6 +73,7 @@ export const addToGuestCartThunk = (productId) => {
           localStorage.setItem('guestCart', JSON.stringify(guestCart))
           dispatch(addToGuestCart(data))
         } else {
+          // else that specific item already in cart, so just update qty
           guestCart[alrdyInLocalStorageIdx].quantity++
           localStorage.setItem('guestCart', JSON.stringify(guestCart))
           dispatch(addToGuestCart(data))
@@ -86,7 +84,7 @@ export const addToGuestCartThunk = (productId) => {
     }
   }
 }
-
+//have not udpate this!
 export const updateCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
@@ -104,7 +102,6 @@ export const updateCartThunk = (userId, productId, quantity) => {
 export const deleteFromGuestCartThunk = (productId) => {
   return (dispatch) => {
     try {
-      console.log('productId in deletethunk', productId)
       let guestCart = JSON.parse(localStorage.getItem('guestCart'))
       guestCart = guestCart.filter((item) => item.id !== productId)
       localStorage.setItem('guestCart', JSON.stringify(guestCart))
@@ -137,8 +134,6 @@ export default (state = initialState, action) => {
         noCart: false,
       }
     case ADD_TO_GUEST_CART: {
-      console.log('current state-----', state)
-
       const alreadyInCartIdx = state.guestCart
         .map((item) => item.id)
         .indexOf(action.product.id)

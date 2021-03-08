@@ -5,21 +5,14 @@ import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
 
 class FullCart extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-
   componentDidMount() {
-    console.log('props from FullCart compnentDidMount', this.props)
-    // if (this.props.isLoggedIn) {
+    console.log('props from FullCart compnentDidMount---', this.props)
     this.props.getSingleCart(this.props.match.params.id)
-    // }
   }
 
   render() {
-    console.log('props from FullCart render', this.props)
+    console.log('props from FullCart render---', this.props)
     const {cart} = this.props
-    console.log('props from FULLCART: ', this.props)
     if (this.props.isLoggedIn) {
       if (!cart) {
         return <p>No items currently in your cart. Happy shopping!</p>
@@ -76,7 +69,6 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getSingleCart: (id) => dispatch(fetchCart(id)),
-    // getGuestCart: () => dispatch(fetchGuestCart()),
   }
 }
 
