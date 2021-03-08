@@ -1,73 +1,83 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCart} from '../store/singleCart'
+import {fetchCart, fetchGuestCart} from '../store/singleCart'
 import DeleteButton from './DeleteButton'
 import GuestCart from './GuestCart'
-import SubmitOrderButton from './SubmitOrderButton'
+import {Link} from 'react-router-dom'
 import UpdateQuantity from './UpdateQuantity'
 
 class FullCart extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
-    this.props.getSingleCart(this.props.match.params.id)
+    this.props.getSingleCart(this.props.id)
   }
 
-  // componentWillUnmount() {
-  //   // No items currently in your cart. Happy shopping!
-  //   this.props.noCart = true
-  // }
-
   render() {
+    console.log('props from FullCart render---', this.props)
     const {cart} = this.props
-    console.log('props from FULLCART: ', this.props)
+    
     if (this.props.isLoggedIn) {
-      if (this.props.noCart) {
+      if (!cart) {
         return <p>No items currently in your cart. Happy shopping!</p>
       } else {
         return (
           <div className="cart__cart-header">
-            <div> You have {cart.length} items in your cart </div>
+            <div> You have the following items in your cart </div>
             {cart.map((item) => {
               return (
-                <div key={item.id}>
-                  <img
-                    src={item.product.imageUrl}
-                    className="cartImg"
-                    alt={item.product.name}
-                  />
-                  <div> {item.product.name} </div>
-                  <UpdateQuantity
-                    userId={this.props.match.params.id}
-                    productId={item.product.id}
-                    quantity={item.quantity}
-                  />
+                <div key={item.id} className="cart__item">
                   <div>
-                    <DeleteButton
-                      productOrderId={item.id}
-                      userId={this.props.match.params.id}
+                    <div> {item.product.name} </div>
+                    <img
+                      src={item.product.imageUrl}
+                      className="cartImg"
+                      alt={item.product.name}
                     />
+                  </div>
+                  <div>
+                    <UpdateQuantity
+                      userId={this.props.id}
+                      productId={item.product.id}
+                      quantity={item.quantity}
+                    />
+                  </div>
+                  <div>
+                    <div>Subtotal: ${item.subtotal}</div>
+                    <div>
+                      <DeleteButton
+                        productOrderId={item.id}
+                        userId={this.props.id}
+                      />
+                    </div>
                   </div>
                 </div>
               )
             })}
-
-            <div>
-              Grand Total: $
-              {cart.reduce((total, lineItem) => {
-                return total + lineItem.subtotal
-              }, 0)}
+            <div className="cart__total-order">
+              <div className="cart__grand-submit">
+                <div>
+                  Grand Total: $
+                  {cart.reduce((total, lineItem) => {
+                    return total + lineItem.subtotal
+                  }, 0)}
+                </div>
+                <div>
+                  <Link
+                    to={{
+                      pathname: '/submitOrder',
+                      userId: this.props.userId,
+                      orderId: cart[0].orderId,
+                    }}
+                  >
+                    <button className="cart__button">Submit Order</button>
+                  </Link>
+                </div>
+              </div>
             </div>
-            <SubmitOrderButton
-              userId={this.props.userId}
-              orderId={cart[0].orderId}
-            />
           </div>
         )
       }
-    } else {
+    } else if (!this.props.isLoggedIn) {
       return <GuestCart />
     }
   }

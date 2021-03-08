@@ -94,6 +94,11 @@ nav a {
     padding: 0rem 1rem 0rem 1rem;
   }
 }
+#delete-product {
+  font-family: 'Candal', sans-serif;
+  background-color: #e29578;
+}
+
 @media screen and (min-width: 768px) {
   .products__items {
     grid-template-columns: repeat(2, 1fr);
@@ -145,12 +150,26 @@ form div {
   margin: 20px;
   padding: 30px;
   border: 3px solid #d5d5d5;
+  display: flex;
+  flex-direction: column;
 }
-.cart__item-name {
+.cart__item {
   color: #006d77;
+  display: flex;
+  justify-content: space-between;
 }
-.cart__item-quantity {
-  color: #006d77;
+.cart__button {
+  font-family: 'Candal', sans-serif;
+}
+.cart__total-order {
+  font-family: 'Candal', sans-serif;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.cart__grand-submit {
+  display: flex;
+  flex-direction: column;
 }
 
 .cartImg {
@@ -159,6 +178,26 @@ form div {
 
 td {
   color: #3a3e3b;
+}
+.submitOrder__header {
+  font-size: 20px;
+  border-bottom: 3px solid #d5d5d5;
+  text-align: center;
+  padding: 4px;
+  margin-bottom: 4px;
+}
+.submitOrder__address-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.submitOrder__address {
+  border: 3px solid #d5d5d5;
+  padding: 3px;
+  margin: 5px 0 5px 0;
+}
+.submitOrder__button {
+  font-family: 'Candal', sans-serif;
 }
 
 /*# sourceMappingURL=style.css.map */
