@@ -3,7 +3,7 @@ import axios from 'axios'
 //action types
 const GET_GUEST_CART = 'GET_GUEST_CART'
 const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
-const UPDATE_GUEST_CART = 'UPDATE_CART'
+const UPDATE_GUEST_CART = 'UPDATE_GUEST_CART'
 const DELETE_FROM_GUEST_CART = 'DELETE_FROM_GUEST_CART'
 const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART' // would like to add this functionality somewhere (after someone logs in, we should clear localStorage guest cart). Later tiers, if someone logs in, these items could be transferred to their loggedIn cart.
 
