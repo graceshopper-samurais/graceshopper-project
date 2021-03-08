@@ -105,6 +105,12 @@ nav a {
   background-color: #e29578;
 }
 
+.toggleAddProduct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media screen and (max-width: 767px) {
   .product-container {
     padding: 3rem;

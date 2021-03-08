@@ -8,6 +8,13 @@ import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 
 export class AllProducts extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      showAddProduct: false
+    }
+  }
+
   componentDidMount() {
     this.props.getProducts()
   }
@@ -32,7 +39,20 @@ export class AllProducts extends React.Component {
     }
     return (
       <div className="products">
-        {isAdmin && <AddProduct />}
+        {isAdmin && (
+          <>
+            <div className="toggleAddProduct">
+              <button
+                onClick={() =>
+                  this.setState({showAddProduct: !this.state.showAddProduct})
+                }
+              >
+                Toggle Add Product
+              </button>
+            </div>
+            {this.state.showAddProduct ? <AddProduct /> : ''}
+          </>
+        )}
         <div className="products__items">
           {products.length ? (
             products.map(product => {
