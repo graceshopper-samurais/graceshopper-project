@@ -1,3 +1,17 @@
+@include media-sm {
+  .product-container {
+    padding: 3rem;
+
+    img {
+      width: 55vw;
+    }
+
+    .product-description {
+      padding: 0rem 1rem 0rem 1rem;
+    }
+  }
+}
+
 @include media-md {
   .products {
     &__items {
@@ -18,6 +32,12 @@
   .products {
     &__items {
       grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .product-container {
+    img {
+      width: 50vw;
     }
   }
 }

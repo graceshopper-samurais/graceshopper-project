@@ -10,6 +10,7 @@ import {
   AllUsers,
   singleProduct,
   FullCart,
+  SubmitOrder,
 } from './components'
 
 import {me} from './store'
@@ -50,7 +51,6 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
-
             {/* This route checks if the user is an admin, and if not, redirects to the store */}
             <Route
               path="/users"
@@ -59,6 +59,7 @@ class Routes extends Component {
                 return <Redirect to="/" />
               }}
             />
+            <Route exact path="/submitOrder" component={SubmitOrder} />
           </Switch>
         )}
         {/* Displays allProducts component as a fallback */}
@@ -78,6 +79,7 @@ const mapState = (state) => {
     isLoggedIn: !!state.user.id,
     isAdmin: state.user.admin,
     userId: state.user.id,
+
   }
 }
 

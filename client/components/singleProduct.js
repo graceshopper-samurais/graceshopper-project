@@ -11,17 +11,17 @@ export class SingleProduct extends React.Component {
   render() {
     const product = this.props.singleProduct
     return (
-      <div>
+      <div className="product-container">
         <div>
           <img src={product.imageUrl} />
         </div>
-        <div>
-          <div>
+        <div className="product-info-container">
+          <div className="product-name">
             <span>
               <h3>{product.name}</h3>
             </span>
           </div>
-          <div>
+          <div className="product-description">
             <span>{product.description}</span>
           </div>
           <br />
@@ -38,15 +38,15 @@ export class SingleProduct extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    singleProduct: state.singleProduct
+    singleProduct: state.singleProduct,
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleProduct: productId => dispatch(getSingleProduct(productId))
+    getSingleProduct: (productId) => dispatch(getSingleProduct(productId)),
   }
 }
 
