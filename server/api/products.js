@@ -33,10 +33,9 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
 })
 
 // PUT /api/products/:id
+// add isAsmin to this route after demonstration!!
 router.put('/:id', async (req, res, next) => {
   try {
-    // console.log('req.body-------', req.body)
-    // console.log('req.params-------', req.params)
     const {name, description, price} = req.body
     //find candle to update
     const candle = await Product.findByPk(req.params.id)

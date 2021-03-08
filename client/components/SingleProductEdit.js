@@ -3,11 +3,6 @@ import {connect} from 'react-redux'
 import {getSingleProduct} from '../store/singleProduct'
 import AddToCartButton from './AddToCartButton'
 
-// const initialState = {
-//   name: product.name,
-
-// }
-
 export class SingleProductEdit extends React.Component {
   constructor() {
     super()
