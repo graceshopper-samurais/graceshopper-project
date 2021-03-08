@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchGuestCart} from '../store/guestCart'
 import DeleteButton from './DeleteButton'
+import UpdateQuantity from './UpdateQuantity'
 
 class GuestCart extends React.Component {
   constructor(props) {
@@ -29,26 +30,50 @@ class GuestCart extends React.Component {
           <div> You have {qty} items in your cart </div>
           {guestCart.map(item => {
             return (
-              <div key={item.id}>
-                <img src={item.imageUrl} className="cartImg" alt={item.name} />
-                <div> {item.name} </div>
-                <div> Quantity: {item.quantity} </div>
-                <select>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                </select>
+              <div key={item.id} className="cart__item">
                 <div>
-                  <DeleteButton productId={item.id} />
+                  <div> {item.name} </div>
+                  <img
+                    src={item.imageUrl}
+                    className="cartImg"
+                    alt={item.name}
+                  />
+                </div>
+                <div>
+                  <UpdateQuantity
+                    productId={item.id}
+                    quantity={item.quantity}
+                  />
+                </div>
+                <div>
+                  <div>Subtotal: ${item.subtotal}</div>
+                  <div>
+                    <DeleteButton productOrderId={item.id} />
+                  </div>
                 </div>
               </div>
             )
           })}
+          <div className="cart__total-order">
+            <div className="cart__grand-submit">
+              <div>
+                Grand Total: $
+                {guestCart.reduce((total, lineItem) => {
+                  return total + lineItem.subtotal
+                }, 0)}
+              </div>
+              {/* <div>
+                <Link
+                  to={{
+                    pathname: '/submitOrder',
+                    orderId: guestCart[0].orderId,
+                  }}
+                >
+                  <button className="cart__button">Submit Order</button>
+                </Link>
+              </div> */}
+            </div>
+          </div>
         </div>
       )
     }
