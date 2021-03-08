@@ -10,7 +10,8 @@ import {
   AllUsers,
   singleProduct,
   FullCart,
-  SubmitOrder
+  SubmitOrder,
+  SingleProductEdit
 } from './components'
 
 import {me} from './store'
@@ -61,6 +62,11 @@ class Routes extends Component {
                 if (isAdmin) return <AllUsers />
                 return <Redirect to="/" />
               }}
+            />
+            <Route
+              exact
+              path="/products/:productId/edit"
+              component={SingleProductEdit}
             />
             <Route exact path="/submitOrder" component={SubmitOrder} />
           </Switch>

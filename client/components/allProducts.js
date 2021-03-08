@@ -64,16 +64,21 @@ export class AllProducts extends React.Component {
                       Add To Cart{' '}
                     </button>
                     {isAdmin && (
-                      <button
-                        type="button"
-                        id="delete-product"
-                        onClick={() => {
-                          this.props.removeProduct(product.id)
-                        }}
-                      >
-                        {' '}
-                        Remove From Storefront{' '}
-                      </button>
+                      <div>
+                        <button
+                          type="button"
+                          id="delete-product"
+                          onClick={() => {
+                            this.props.removeProduct(product.id)
+                          }}
+                        >
+                          {' '}
+                          Remove From Storefront{' '}
+                        </button>
+                        <Link to={`/products/${product.id}/edit`}>
+                          <button type="button">Edit</button>
+                        </Link>
+                      </div>
                     )}
                   </div>
                 </div>
