@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getSingleProduct, editProductThunk} from '../store/singleProduct'
 
+
 export class SingleProductEdit extends React.Component {
   constructor() {
     super()
@@ -68,7 +69,9 @@ export class SingleProductEdit extends React.Component {
             placeholder={product.price}
             onChange={this.handleChange}
           />
-          <button type="submit">Submit</button>
+          <button type="submit" className="admin-button">
+            Submit
+          </button>
         </form>
       </div>
     )
@@ -90,5 +93,3 @@ const mapDispatchToProps = (dispatch, {history}) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProductEdit)
-
-// export default SingleProductEdit

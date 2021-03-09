@@ -13,10 +13,33 @@ export class AllProducts extends React.Component {
     this.state = {
       showAddProduct: false
     }
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     this.props.getProducts()
+  }
+
+  handleClick(productId) {
+    if (this.props.isLoggedIn) {
+      const cart = this.props.userCart
+      console.log('cart——————', cart)
+      const indx = cart.map(item => item.product.id).indexOf(productId)
+      if (indx > -1 && cart[indx].quantity >= 8) {
+        alert('There is a maximum of eight items!')
+      } else {
+        this.props.addToCart(this.props.userId, productId)
+      }
+    } else {
+      const cart = this.props.guestCart
+      console.log('this.props———————', this.props)
+      const indx = cart.map(item => item.id).indexOf(productId)
+      if (indx > -1 && cart[indx].quantity >= 8) {
+        alert('There is a maximum of eight items!')
+      } else {
+        this.props.addToGuestCart(productId)
+      }
+    }
   }
 
   render() {
@@ -43,6 +66,8 @@ export class AllProducts extends React.Component {
           <>
             <div className="toggleAddProduct">
               <button
+                type="button"
+                className="admin-button"
                 onClick={() =>
                   this.setState({showAddProduct: !this.state.showAddProduct})
                 }
@@ -72,15 +97,7 @@ export class AllProducts extends React.Component {
                       type="button"
                       id="add-to-cart"
                       // if user is logged in add item to user cart, else add item to guest cart/local storage
-                      onClick={
-                        this.props.isLoggedIn
-                          ? () =>
-                              this.props.addToCart(
-                                this.props.userId,
-                                product.id
-                              )
-                          : () => this.props.addToGuestCart(product.id)
-                      }
+                      onClick={() => this.handleClick(product.id)}
                     >
                       {' '}
                       Add To Cart{' '}
@@ -89,7 +106,7 @@ export class AllProducts extends React.Component {
                       <div>
                         <button
                           type="button"
-                          id="delete-product"
+                          className="admin-button"
                           onClick={() => {
                             this.props.removeProduct(product.id)
                           }}
@@ -98,7 +115,9 @@ export class AllProducts extends React.Component {
                           Remove From Storefront{' '}
                         </button>
                         <Link to={`/products/${product.id}/edit`}>
-                          <button type="button">Edit</button>
+                          <button type="button" className="admin-button">
+                            Edit
+                          </button>
                         </Link>
                       </div>
                     )}
@@ -121,7 +140,9 @@ const mapState = state => {
     loading: state.products.loading,
     userId: state.user.id,
     isLoggedIn: !!state.user.id,
-    isAdmin: state.user.admin
+    isAdmin: state.user.admin,
+    userCart: state.singleCart.cart,
+    guestCart: state.guestCart.guestCart
   }
 }
 

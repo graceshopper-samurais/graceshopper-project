@@ -1,9 +1,10 @@
 import axios from 'axios'
+import {gotCart} from './cartIcon'
 
 //action types
 const GET_GUEST_CART = 'GET_GUEST_CART'
 const ADD_TO_GUEST_CART = 'ADD_TO_GUEST_CART'
-const UPDATE_GUEST_CART = 'UPDATE_CART'
+const UPDATE_GUEST_CART = 'UPDATE_GUEST_CART'
 const DELETE_FROM_GUEST_CART = 'DELETE_FROM_GUEST_CART'
 const CLEAR_GUEST_CART = 'CLEAR_GUEST_CART' // would like to add this functionality somewhere (after someone logs in, we should clear localStorage guest cart). Later tiers, if someone logs in, these items could be transferred to their loggedIn cart.
 
@@ -50,8 +51,10 @@ export const fetchGuestCart = () => {
 
       if (localCart) {
         dispatch(getGuestCart(localCart))
+        dispatch(gotCart())
       } else {
         dispatch(getGuestCart([]))
+        dispatch(gotCart())
       }
     } catch (err) {
       console.log('error in fetchGuestCart thunk---', err)
@@ -151,12 +154,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_GUEST_CART:
+    case GET_GUEST_CART: {
+      const noCart = !action.guestCart.length
       return {
         ...state,
         guestCart: action.guestCart,
-        noCart: false
+        noCart: noCart,
+        loading: false
       }
+    }
     case ADD_TO_GUEST_CART: {
       const alreadyInCartIdx = state.guestCart
         .map(item => item.id)

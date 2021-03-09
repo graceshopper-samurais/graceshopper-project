@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {gotCart} from './cartIcon'
 
 //action types
 const GET_CART = 'GET_CART'
@@ -9,50 +10,50 @@ const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 // action creators
 
-const getCart = (cart) => {
+const getCart = cart => {
   return {
     type: GET_CART,
-    cart,
+    cart
   }
 }
 
-const addToCart = (productOrder) => {
+const addToCart = productOrder => {
   return {
     type: ADD_TO_CART,
-    productOrder,
+    productOrder
   }
 }
 
-
-const updateCart = (productOrder) => {
+const updateCart = productOrder => {
   return {
     type: UPDATE_CART,
-    productOrder,
+    productOrder
   }
 }
 
-const deleteFromCart = (productOrderId) => {
+const deleteFromCart = productOrderId => {
   return {
     type: DELETE_FROM_CART,
-    productOrderId,
+    productOrderId
   }
 }
 
-const submitOrder = (order) => {
+const submitOrder = order => {
   return {
     type: SUBMIT_ORDER,
-    order,
+    order
   }
 }
 
 //thunk creators
 
-export const fetchCart = (id) => {
-  return async (dispatch) => {
+export const fetchCart = id => {
+  return async dispatch => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
       console.log('data from fetchCart thunk--->>>', data)
       dispatch(getCart(data))
+      dispatch(gotCart())
     } catch (err) {
       console.log('error in fetchCartThunk----', err)
     }
@@ -61,10 +62,10 @@ export const fetchCart = (id) => {
 
 // if user is logged in, we'll make it into our try, if user is guest, we'll hop into the catch
 export const addToCartThunk = (userId, productId) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       const {data} = await axios.post(`/api/users/${userId}/cart`, {
-        productId: productId,
+        productId: productId
       })
       dispatch(addToCart(data))
     } catch (err) {
@@ -74,11 +75,11 @@ export const addToCartThunk = (userId, productId) => {
 }
 
 export const updateCartThunk = (userId, productId, quantity) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       const {data} = await axios.put(`/api/users/${userId}/cart`, {
         productId: productId,
-        quantity: quantity,
+        quantity: quantity
       })
       console.log('this is data and data.product-----', data, data.product)
       dispatch(updateCart(data))
@@ -91,7 +92,7 @@ export const updateCartThunk = (userId, productId, quantity) => {
 //technically, the userId isn't needed to delete a productOrder, but
 // including it in the API Url for consistency
 export const deleteFromCartThunk = (userId, productOrderId) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       await axios.delete(`/api/users/${userId}/cart/${productOrderId}`)
       dispatch(deleteFromCart(productOrderId))
@@ -102,11 +103,11 @@ export const deleteFromCartThunk = (userId, productOrderId) => {
 }
 
 export const submitOrderThunk = (userId, orderId) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       console.log(`submitOrderThunk called with ${userId} ${orderId}`)
       const {data} = await axios.put(`/api/users/${userId}/order/${orderId}`, {
-        isFulfilled: true,
+        isFulfilled: true
       })
       console.log(`submitOrderThunk returned ${data}`)
       dispatch(submitOrder(data))
@@ -120,7 +121,7 @@ export const submitOrderThunk = (userId, orderId) => {
 
 const initialState = {
   cart: [],
-  noCart: true,
+  noCart: true
 }
 
 // reducer
@@ -133,18 +134,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: action.cart,
-        noCart: noCart,
+        noCart: noCart
       }
     }
     case ADD_TO_CART: {
       // Check to see if already in cart
       console.log('state from logged in cart--->', state)
       const alreadyInCart = state.cart
-        .map((productOrder) => productOrder.product.id)
+        .map(productOrder => productOrder.product.id)
         .includes(action.productOrder.product.id)
       // If so, replace only that productOrder with new productOrder
       if (alreadyInCart) {
-        const newCart = state.cart.map((productOrder) => {
+        const newCart = state.cart.map(productOrder => {
           if (productOrder.product.id === action.productOrder.product.id) {
             return action.productOrder
           } else {
@@ -159,7 +160,7 @@ export default (state = initialState, action) => {
     }
 
     case UPDATE_CART: {
-      const newCart = state.cart.map((productOrder) => {
+      const newCart = state.cart.map(productOrder => {
         if (productOrder.product.id === action.productOrder.product.id) {
           return action.productOrder
         } else {
@@ -172,8 +173,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         cart: state.cart.filter(
-          (lineItem) => lineItem.id !== action.productOrderId
-        ),
+          lineItem => lineItem.id !== action.productOrderId
+        )
       }
     }
     case SUBMIT_ORDER: {

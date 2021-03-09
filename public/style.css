@@ -113,7 +113,7 @@ nav a {
   width: 50px;
 }
 
-#delete-product {
+.admin-button {
   font-family: 'Candal', sans-serif;
   background-color: #e29578;
 }
@@ -169,6 +169,11 @@ nav a {
 
   .product-container img {
     width: 50vw;
+  }
+}
+@media screen and (min-width: 2000px) {
+  .products__items {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 body {
