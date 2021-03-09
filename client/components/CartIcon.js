@@ -68,7 +68,7 @@ const mapState = state => {
     cart: state.singleCart.cart,
     isLoggedIn: !!state.user.id,
     guestCart: state.guestCart.guestCart,
-    loading: state.products.loading
+    loading: state.cartIcon.loading
   }
 }
 
