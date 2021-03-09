@@ -23,6 +23,17 @@ export const getSingleProduct = productId => {
   }
 }
 
+export const editProductThunk = (productId, newProductInfo, history) => {
+  return async () => {
+    try {
+      await axios.put(`/api/products/${productId}`, newProductInfo)
+      history.push('/')
+    } catch (err) {
+      console.log('error in the editProductThunk', err)
+    }
+  }
+}
+
 export default function(state = {}, action) {
   switch (action.type) {
     case GET_SINGLE_PRODUCT:

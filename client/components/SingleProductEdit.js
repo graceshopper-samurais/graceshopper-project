@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getSingleProduct} from '../store/singleProduct'
+import {getSingleProduct, editProductThunk} from '../store/singleProduct'
+
 
 export class SingleProductEdit extends React.Component {
   constructor() {
@@ -21,12 +22,12 @@ export class SingleProductEdit extends React.Component {
     this.setState({
       [evt.target.name]: evt.target.value
     })
-    console.log(this.state)
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
-    console.log('submitting!', this.state)
+    //send back productId, and our local form state to thunk
+    this.props.editProduct(this.props.singleProduct.id, this.state)
   }
 
   render() {
@@ -83,9 +84,11 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, {history}) => {
   return {
-    getSingleProduct: productId => dispatch(getSingleProduct(productId))
+    getSingleProduct: productId => dispatch(getSingleProduct(productId)),
+    editProduct: (productId, newProductInfo) =>
+      dispatch(editProductThunk(productId, newProductInfo, history))
   }
 }
 
