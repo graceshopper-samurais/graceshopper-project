@@ -41,3 +41,11 @@
     }
   }
 }
+
+@include media-xxl {
+  .products {
+    &__items {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+}
