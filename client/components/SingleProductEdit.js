@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getSingleProduct} from '../store/singleProduct'
-import AddToCartButton from './AddToCartButton'
 
 export class SingleProductEdit extends React.Component {
   constructor() {
@@ -87,10 +86,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getSingleProduct: productId => dispatch(getSingleProduct(productId))
-    // editProduct:
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProductEdit)
-
-// export default SingleProductEdit
