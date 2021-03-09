@@ -43,6 +43,7 @@ export class AllProducts extends React.Component {
           <>
             <div className="toggleAddProduct">
               <button
+                type="button"
                 onClick={() =>
                   this.setState({showAddProduct: !this.state.showAddProduct})
                 }
