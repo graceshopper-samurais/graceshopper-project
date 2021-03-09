@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getSingleProduct} from '../store/singleProduct'
-import AddToCartButton from './AddToCartButton'
 
 export class SingleProductEdit extends React.Component {
   constructor() {

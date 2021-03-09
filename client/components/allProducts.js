@@ -43,6 +43,8 @@ export class AllProducts extends React.Component {
           <>
             <div className="toggleAddProduct">
               <button
+                type="button"
+                className="admin-button"
                 onClick={() =>
                   this.setState({showAddProduct: !this.state.showAddProduct})
                 }
@@ -89,7 +91,7 @@ export class AllProducts extends React.Component {
                       <div>
                         <button
                           type="button"
-                          id="delete-product"
+                          className="admin-button"
                           onClick={() => {
                             this.props.removeProduct(product.id)
                           }}
@@ -98,7 +100,9 @@ export class AllProducts extends React.Component {
                           Remove From Storefront{' '}
                         </button>
                         <Link to={`/products/${product.id}/edit`}>
-                          <button type="button">Edit</button>
+                          <button type="button" className="admin-button">
+                            Edit
+                          </button>
                         </Link>
                       </div>
                     )}
