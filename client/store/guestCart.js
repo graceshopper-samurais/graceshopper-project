@@ -37,6 +37,12 @@ const deleteFromGuestCart = productId => {
   }
 }
 
+export const clearGuestCart = () => {
+  return {
+    type: CLEAR_GUEST_CART
+  }
+}
+
 //thunk creators
 
 export const fetchGuestCart = () => {
@@ -140,7 +146,14 @@ export const deleteFromGuestCartThunk = productId => {
 }
 
 export const clearGuestCartThunk = () => {
-  localStorage.removeItem('guestCart')
+  return dispatch => {
+    try {
+      localStorage.removeItem('guestCart')
+      dispatch(clearGuestCart())
+    } catch (err) {
+      console.log('error in clearGuestCartThunk—————', err)
+    }
+  }
 }
 
 //initial state
@@ -192,6 +205,9 @@ export default (state = initialState, action) => {
           lineItem => lineItem.id !== action.productId
         )
       }
+    }
+    case CLEAR_GUEST_CART: {
+      return initialState
     }
 
     default:

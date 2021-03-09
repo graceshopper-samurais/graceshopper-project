@@ -39,6 +39,73 @@ router.get('/:id', isAdmin, async (req, res, next) => {
 
 //CART ROUTES
 
+// PUT /api/users/:id/cart/merge
+router.put('/:id/cart/merge', async (req, res, next) => {
+  try {
+    const localCart = req.body.localCart
+
+    let userCart = await Order.findOne({
+      where: {
+        userId: req.params.id,
+        isFulfilled: false
+      },
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
+    })
+
+    if (!userCart) {
+      userCart = await Order.create(
+        {userId: req.params.id, isFulfilled: false},
+        {include: [ProductOrder, Product]}
+      )
+
+      console.log('NO USER CART!!!!!!!!!!', userCart)
+
+      console.log('MAYBE ERROR IS FROM HERE??????? LINE 62!!!!')
+    }
+
+    while (localCart.length) {
+      const lineItem = localCart[0]
+      const product = await Product.findByPk(lineItem.id)
+      const quantity = lineItem.quantity
+
+      const productOrders = userCart.productorders
+
+      const indexOfItem = productOrders
+        .map(productOrder => productOrder.productId)
+        .indexOf(product.id)
+
+      if (indexOfItem === -1) {
+        await userCart.addProduct(product, {
+          through: {quantity: quantity, subtotal: quantity * product.price}
+        })
+      } else {
+        const productOrder = productOrders[indexOfItem]
+        const newQuantity = productOrder.quantity + quantity
+        productOrder.quantity = newQuantity > 8 ? 8 : newQuantity
+        await productOrder.save()
+        productOrder.subtotal = product.price * productOrder.quantity
+        await productOrder.save()
+      }
+
+      localCart.shift()
+    }
+
+    await userCart.reload({
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
+    })
+
+    res.json(userCart.productorders)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // GET /api/users/:id/cart
 router.get('/:id/cart', isCorrectUser, async (req, res, next) => {
   try {
