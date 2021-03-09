@@ -113,7 +113,7 @@ nav a {
   width: 50px;
 }
 
-#delete-product {
+.admin-button {
   font-family: 'Candal', sans-serif;
   background-color: #e29578;
 }
