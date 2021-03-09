@@ -68,7 +68,9 @@ export class SingleProductEdit extends React.Component {
             placeholder={product.price}
             onChange={this.handleChange}
           />
-          <button type="submit">Submit</button>
+          <button type="submit" className="admin-button">
+            Submit
+          </button>
         </form>
       </div>
     )
@@ -84,10 +86,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getSingleProduct: productId => dispatch(getSingleProduct(productId))
-    // editProduct:
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProductEdit)
-
-// export default SingleProductEdit

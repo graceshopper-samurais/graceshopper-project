@@ -36,3 +36,9 @@ $admin-color: #e29578;
     @content;
   }
 }
+
+@mixin media-xxl {
+  @media screen and (min-width: 2000px) {
+    @content;
+  }
+}
