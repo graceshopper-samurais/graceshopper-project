@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {gotCart} from './cartIcon'
 
 //action types
 const GET_GUEST_CART = 'GET_GUEST_CART'
@@ -50,8 +51,10 @@ export const fetchGuestCart = () => {
 
       if (localCart) {
         dispatch(getGuestCart(localCart))
+        dispatch(gotCart())
       } else {
         dispatch(getGuestCart([]))
+        dispatch(gotCart())
       }
     } catch (err) {
       console.log('error in fetchGuestCart thunk---', err)
@@ -151,12 +154,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_GUEST_CART:
+    case GET_GUEST_CART: {
+      const noCart = !action.guestCart.length
       return {
         ...state,
         guestCart: action.guestCart,
-        noCart: false
+        noCart: noCart,
+        loading: false
       }
+    }
     case ADD_TO_GUEST_CART: {
       const alreadyInCartIdx = state.guestCart
         .map(item => item.id)
