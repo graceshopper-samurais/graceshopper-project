@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Candal&family=Yellowtail&display=swap');
 * {
-  background-color: #ffffff;
+  background-color: #f8f1ff;
   margin: 15;
   padding: 15;
   box-sizing: border-box;
@@ -14,7 +14,9 @@
 nav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 nav a {
@@ -29,8 +31,8 @@ nav a {
   flex-direction: row;
   justify-content: center;
   font-family: 'Yellowtail', cursive;
-  font-weight: 400;
-  font-size: 75px;
+  font-weight: 550;
+  font-size: 80px;
 }
 
 .products {
@@ -41,7 +43,7 @@ nav a {
   margin: 2rem auto 0 auto;
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 2rem;
+  grid-gap: 3rem;
 }
 .products__item {
   position: relative;
@@ -66,6 +68,7 @@ nav a {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 .product-container img {
   width: 40vw;
@@ -81,6 +84,13 @@ nav a {
 .product-container .product-description {
   text-align: center;
   padding: 0rem 4rem 0rem 4rem;
+}
+
+.move-this {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart__cart-header {
@@ -115,7 +125,8 @@ nav a {
 
 .admin-button {
   font-family: 'Candal', sans-serif;
-  background-color: #e29578;
+  background-color: #9448bc;
+  color: #edf6f9;
 }
 
 .addForm__parent {
@@ -132,7 +143,8 @@ nav a {
 }
 .addForm__button {
   font-family: 'Candal', sans-serif;
-  background-color: #e29578;
+  background-color: #9448bc;
+  color: #edf6f9;
 }
 
 .toggleAddProduct {
@@ -141,6 +153,163 @@ nav a {
   align-items: center;
 }
 
+.candle {
+  width: 34px;
+  margin: 30px auto 0 auto;
+  position: relative;
+  height: 80%;
+  align-self: flex-end;
+  animation: blink 0.1s infinite;
+}
+
+.wick {
+  position: absolute;
+  width: 6px;
+  height: 50px;
+  background: #23161a;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%) skewX(2deg);
+  border-radius: 10%;
+  box-shadow: 0 0 2px 0px black;
+}
+.wick:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  left: 50%;
+  height: 10px;
+  box-shadow: 0 -14px 10px 8px white, 0 -10px 10px 8px rgba(255, 215, 0, 0.7),
+    0 -3px 10px 8px rgba(255, 106, 0, 0.7), 0 6px 3px 4px black;
+}
+.wick:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0px;
+  height: 0px;
+  box-shadow: 0 5px 2px 3px gold, 0 20px 2px 14px gold,
+    0 -6px 4px 5px rgba(98, 33, 27, 0.8), 0 0px 1px 4px rgba(255, 106, 0, 0.7),
+    0 0px 3px 4px #ff6a00, 0 5px 3px 4px gold;
+}
+
+.flame {
+  width: 20px;
+  height: 150px;
+  margin: 0px auto;
+  position: relative;
+  animation: move 3s infinite, move-left 3s infinite;
+  transform-origin: 50% 90%;
+}
+.flame .top {
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  border-top-left-radius: 500%;
+  border-bottom-left-radius: 50px;
+  border-top-right-radius: 500%;
+  border-bottom-right-radius: 50px;
+  transform: skewY(-10deg);
+  box-shadow: 0 0px 0px 3px white, 0 -20px 1px 4px white, 0 -25px 2px 3px gold,
+    0 -30px 5px 4px #ff6a00, 0 0px 150px 10px #ff6a00, 0 -10px 2px 4px white,
+    0 -5px 3px 3px white;
+  animation: flame-up 4s infinite;
+}
+.flame .shadows {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 5px 20px 15px gold, 0 0px 100px 20px #ff6a00,
+    0 15px 50px 15px #ff6a00, 5px 30px 5px 13px #ff6a00,
+    5px 50px 5px 13px #ff6a00, 0 75px 50px 30px black;
+}
+.flame .bottom {
+  transform: scale(0.9);
+  position: absolute;
+  bottom: 6px;
+  left: 9px;
+  width: 1px;
+  height: 8px;
+  border-radius: 1%;
+  background: #2c2b39;
+  box-shadow: 0 6px 10px 12px rgba(60, 76, 125, 0.3), 0 0px 4px 8px #2c2b39,
+    0 -12px 10px 8px rgba(255, 106, 0, 0.5), 0 5px 7px 12px #2c2b39,
+    0 -3px 10px 12px #2c2b39, 5px -10px 10px 5px red, 0 -15px 10px 10px gold,
+    5px -25px 10px 5px gold, 0 2px 5px 10px #30537d, 0 -2px 2px 14px #76daff,
+    0 2px 10px 12px #76daff;
+}
+
+.wax {
+  position: relative;
+  top: 15px;
+  width: 100%;
+  height: 100%;
+  background: #ff9224;
+  background: -moz-linear-gradient(
+    top,
+    #ff9224 0px,
+    #ff9224 20px,
+    #58523a 50px
+  );
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    #ff9224 0px,
+    #ff9224 20px,
+    #58523a 50px
+  );
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #ff9224 0px,
+    #ff9224 20px,
+    #58523a 50px
+  );
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ff9224", endColorstr="#58523a",GradientType=0 );
+  /* IE6-9 */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: inset 0 7px 12px -2px #fbf348,
+    inset 0 9px 57px -3px rgba(255, 0, 0, 0.4), inset 0 -5px 8px 2px black,
+    0 0 3px 0px #ff6a00;
+}
+
+@keyframes move {
+  0% {
+    transform: skewX(2deg) skewY(5deg);
+  }
+  50% {
+    transform: skewX(-2deg) skewY(0deg);
+  }
+  100% {
+    transform: skewX(2deg) skewY(5deg);
+  }
+}
+@keyframes move-left {
+  50% {
+    transform: skewX(3deg);
+  }
+}
+@keyframes flame-up {
+  50% {
+    box-shadow: 0 0px 0px 3px white, 0 -38px 1px 2px white, 0 -41px 2px 3px gold,
+      0 -50px 5px 4px #ff6a00, 0 0px 150px 10px #ff6a00, 0 -10px 2px 4px white,
+      0 -5px 3px 3px white;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0.95;
+  }
+}
 @media screen and (max-width: 767px) {
   .product-container {
     padding: 3rem;
@@ -227,6 +396,18 @@ td {
 }
 .submitOrder__button {
   font-family: 'Candal', sans-serif;
+  background-color: #006d77;
+  color: #edf6f9;
+}
+
+.awning {
+  display: flex;
+}
+
+.entry-button {
+  font-family: 'Candal', sans-serif;
+  background-color: #006d77;
+  color: #edf6f9;
 }
 
 .orderHistory_Container {

@@ -9,7 +9,29 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, userId}) => {
   const isAdminReally = isLoggedIn ? isAdmin : false
   return (
     <div>
-      <div id="title-container">WICK BOTANICA</div>
+      <div className="awning">
+        <div className="candle">
+          <div className="flame">
+            <div className="shadows" />
+            <div className="top" />
+            <div className="middle" />
+            <div className="bottom" />
+          </div>
+          <div className="wick" />
+          <div className="wax" />
+        </div>
+        <div id="title-container">WICK BOTANICA</div>
+        <div className="candle">
+          <div className="flame">
+            <div className="shadows" />
+            <div className="top" />
+            <div className="middle" />
+            <div className="bottom" />
+          </div>
+          <div className="wick" />
+          <div className="wax" />
+        </div>
+      </div>
       <nav>
         {isLoggedIn ? (
           <div className="nav-links">

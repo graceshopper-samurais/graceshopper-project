@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {submitOrderThunk} from '../store/singleCart'
 import {Link} from 'react-router-dom'
 
-const SubmitOrder = (props) => {
+const SubmitOrder = props => {
   useEffect(() => {
     props.submitOrder(props.location.userId, props.location.orderId)
   })
@@ -21,23 +21,25 @@ const SubmitOrder = (props) => {
           </div>
         </div>
         <Link to="/products">
-          <button className="submitOrder__button">OK</button>{' '}
+          <button type="button" className="submitOrder__button">
+            OK
+          </button>{' '}
         </Link>
       </div>
     </>
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    user: state.user,
+    user: state.user
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     submitOrder: (userId, orderId) =>
-      dispatch(submitOrderThunk(userId, orderId)),
+      dispatch(submitOrderThunk(userId, orderId))
   }
 }
 

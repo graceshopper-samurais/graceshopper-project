@@ -69,7 +69,9 @@ class FullCart extends React.Component {
                       orderId: cart[0].orderId
                     }}
                   >
-                    <button className="cart__button">Submit Order</button>
+                    <button type="button" className="cart__button">
+                      Submit Order
+                    </button>
                   </Link>
                 </div>
               </div>

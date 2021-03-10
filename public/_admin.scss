@@ -1,6 +1,7 @@
 .admin-button {
   font-family: $body-font;
-  background-color: $admin-color;
+  background-color: $purple-plum;
+  color: $button-text;
 }
 
 .addForm {
@@ -18,7 +19,8 @@
   }
   &__button {
     font-family: $body-font;
-    background-color: $admin-color;
+    background-color: $purple-plum;
+    color: $button-text;
   }
 }
 

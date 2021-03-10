@@ -5,7 +5,9 @@
 nav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 nav a {
@@ -20,6 +22,6 @@ nav a {
   flex-direction: row;
   justify-content: center;
   font-family: $title-font;
-  font-weight: 400;
-  font-size: 75px;
+  font-weight: 550;
+  font-size: 80px;
 }

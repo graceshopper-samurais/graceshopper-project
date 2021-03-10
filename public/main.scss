@@ -2,8 +2,9 @@
 @import 'navbar';
 @import 'allproducts';
 @import 'singleproduct';
-@import '_cart';
+@import 'cart';
 @import 'admin';
+@import 'candleflame';
 @import 'responsive';
 
 body {
@@ -57,7 +58,19 @@ td {
   }
   &__button {
     font-family: $body-font;
+    background-color: $body-color;
+    color: $button-text;
   }
+}
+
+.awning {
+  display: flex;
+}
+
+.entry-button {
+  font-family: $body-font;
+  background-color: $body-color;
+  color: $button-text;
 }
 .orderHistory_Container {
   margin: 4px;
