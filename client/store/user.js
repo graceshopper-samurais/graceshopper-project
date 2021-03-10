@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {mergeCartThunk} from './singleCart'
 
 /**
  * ACTION TYPES
@@ -15,13 +16,13 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = (user) => ({type: GET_USER, user})
+const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
 /**
  * THUNK CREATORS
  */
-export const me = () => async (dispatch) => {
+export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
@@ -39,7 +40,7 @@ export const auth = (
   city,
   state,
   zip
-) => async (dispatch) => {
+) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {
@@ -49,7 +50,7 @@ export const auth = (
       address,
       city,
       state,
-      zip,
+      zip
     })
   } catch (authError) {
     return dispatch(getUser({error: authError}))
@@ -57,13 +58,20 @@ export const auth = (
 
   try {
     dispatch(getUser(res.data))
+    console.log('RES.DATA!!!!!!!!!!!!!!!!!!', res.data)
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
+
+  try {
+    dispatch(mergeCartThunk(res.data.id))
+  } catch (err) {
+    console.log('error in auth thunk in dispatch mergeCart——————', err)
+  }
 }
 
-export const logout = () => async (dispatch) => {
+export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
@@ -76,7 +84,7 @@ export const logout = () => async (dispatch) => {
 /**
  * REDUCER
  */
-export default function (state = defaultUser, action) {
+export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const moment = require('moment')
 
 const Order = db.define('order', {
   id: {
@@ -12,6 +13,12 @@ const Order = db.define('order', {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
     allowNull: false
+  },
+  updatedAt: {
+    type: Sequelize.DATEONLY
+    // get() {
+    //   return moment(this.getDataValue('updatedAt')).format('DD.MM.YYYY')
+    // },
   }
 })
 

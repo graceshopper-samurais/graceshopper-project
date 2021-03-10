@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {gotCart} from './cartIcon'
+import {clearGuestCartThunk} from './guestCart'
 
 //action types
 const GET_CART = 'GET_CART'
@@ -7,6 +8,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const UPDATE_CART = 'UPDATE_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const SUBMIT_ORDER = 'SUBMIT_ORDER'
+const MERGE_CART = 'MERGE_CART'
 
 // action creators
 
@@ -51,7 +53,7 @@ export const fetchCart = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/users/${id}/cart`)
-      console.log('data from fetchCart thunk--->>>', data)
+      // console.log('data from fetchCart thunk--->>>', data)
       dispatch(getCart(data))
       dispatch(gotCart())
     } catch (err) {
@@ -113,6 +115,34 @@ export const submitOrderThunk = (userId, orderId) => {
       dispatch(submitOrder(data))
     } catch (err) {
       console.log('error in the submitOrderThunk————', err)
+    }
+  }
+}
+
+export const mergeCartThunk = userId => {
+  return async dispatch => {
+    try {
+      let localCart = JSON.parse(localStorage.getItem('guestCart'))
+
+      console.log('localCart————————', localCart)
+
+      if (localCart && localCart.length) {
+        console.log('in CORRECT BRACKET')
+        localCart = {
+          localCart
+        }
+
+        const {data} = await axios.put(
+          `/api/users/${userId}/cart/merge`,
+          localCart
+        )
+        console.log('DATA BACK FROM API IN MERGECART————', data)
+        dispatch(getCart(data))
+
+        dispatch(clearGuestCartThunk())
+      }
+    } catch (err) {
+      console.log('error in mergeCartThunk—————', err)
     }
   }
 }

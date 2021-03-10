@@ -39,6 +39,88 @@ router.get('/:id', isAdmin, async (req, res, next) => {
 
 //CART ROUTES
 
+// PUT /api/users/:id/cart/merge
+router.put('/:id/cart/merge', async (req, res, next) => {
+  try {
+    const localCart = req.body.localCart
+
+    let userCart = await Order.findOne({
+      where: {
+        userId: req.params.id,
+        isFulfilled: false
+      },
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
+    })
+
+    if (!userCart) {
+      userCart = await Order.create(
+        {userId: req.params.id, isFulfilled: false},
+        {include: [ProductOrder, Product]}
+      )
+      const lineItem = localCart[0]
+
+      const product = await Product.findByPk(lineItem.id)
+
+      await userCart.addProduct(product, {
+        through: {
+          quantity: lineItem.quantity,
+          subtotal: lineItem.quantity * product.price
+        }
+      })
+
+      await userCart.reload({
+        include: {
+          model: ProductOrder,
+          include: [Product]
+        }
+      })
+
+      localCart.shift()
+    }
+
+    while (localCart.length) {
+      const lineItem = localCart[0]
+      const product = await Product.findByPk(lineItem.id)
+      const quantity = lineItem.quantity
+
+      const productOrders = userCart.productorders
+
+      const indexOfItem = productOrders
+        .map(productOrder => productOrder.productId)
+        .indexOf(product.id)
+
+      if (indexOfItem === -1) {
+        await userCart.addProduct(product, {
+          through: {quantity: quantity, subtotal: quantity * product.price}
+        })
+      } else {
+        const productOrder = productOrders[indexOfItem]
+        const newQuantity = productOrder.quantity + quantity
+        productOrder.quantity = newQuantity > 8 ? 8 : newQuantity
+        await productOrder.save()
+        productOrder.subtotal = product.price * productOrder.quantity
+        await productOrder.save()
+      }
+
+      localCart.shift()
+    }
+
+    await userCart.reload({
+      include: {
+        model: ProductOrder,
+        include: [Product]
+      }
+    })
+
+    res.json(userCart.productorders)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // GET /api/users/:id/cart
 router.get('/:id/cart', isCorrectUser, async (req, res, next) => {
   try {
@@ -54,6 +136,27 @@ router.get('/:id/cart', isCorrectUser, async (req, res, next) => {
     })
 
     userCart ? res.json(userCart.productorders) : res.send([])
+  } catch (err) {
+    next(err)
+  }
+})
+//ORDER HISTORY
+// GET /api/users/:id/orderhistory
+//add in isCorrectUser!!!!!!
+router.get('/:id/orderhistory', async (req, res, next) => {
+  try {
+    const orderHist = await Order.findAll({
+      where: {
+        userId: req.params.id,
+        isFulfilled: true
+      }
+      // include: {
+      //   model: ProductOrder,
+      //   // include: [Product]
+      // },
+    })
+
+    orderHist ? res.json(orderHist) : res.send([])
   } catch (err) {
     next(err)
   }
@@ -126,7 +229,9 @@ router.delete('/:id/cart/:line', isCorrectUser, async (req, res, next) => {
 router.put('/:id/order/:orderId', isCorrectUser, async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
+    console.log('this is order!!!!!!!', order)
     res.json(await order.update(req.body))
+    console.log('this is order after!!!!!!!', order)
   } catch (err) {
     next(err)
   }
