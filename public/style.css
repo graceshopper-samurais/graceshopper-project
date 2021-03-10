@@ -229,4 +229,18 @@ td {
   font-family: 'Candal', sans-serif;
 }
 
+.orderHistory_Container {
+  margin: 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.orderHistory_table {
+  display: flex;
+  border: 1px solid black;
+  align-items: center;
+  text-align: center;
+  padding: 7px;
+}
+
 /*# sourceMappingURL=style.css.map */

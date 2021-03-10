@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getOrderThunk} from '../store/orders'
+import {fetchCart} from '../store/singleCart'
 
 class OrderHistory extends React.Component {
   componentDidMount() {
@@ -10,20 +11,20 @@ class OrderHistory extends React.Component {
     console.log('props from ORDER HISTORY++++++++++++', this.props)
     const {orders} = this.props
     return (
-      <div>
+      <div className="orderHistory_Container">
         <table className="orderHistory_table">
           <tbody>
             <tr>
               <th>Date</th>
-              <th>Order Number</th>
-              <th>Subtotal</th>
+              <th>Order No.</th>
+              {/* <th>Subtotal</th> */}
             </tr>
             {orders.map(candle => {
               return (
                 <tr key={candle.id}>
-                  <td>{candle.createdAt}</td>
-                  <td>{candle.orderId}</td>
-                  <td>{candle.subtotal}</td>
+                  <td>{candle.updatedAt}</td>
+                  <td>{candle.id}</td>
+                  {/* <td>${candle.subtotal}</td> */}
                 </tr>
               )
             })}
@@ -44,6 +45,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getOrderHistory: userId => dispatch(getOrderThunk(userId))
+    // getSingleCart: (id) => dispatch(fetchCart(id)),
   }
 }
 

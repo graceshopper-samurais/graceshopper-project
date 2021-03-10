@@ -63,18 +63,18 @@ router.get('/:id/cart', isCorrectUser, async (req, res, next) => {
 //add in isCorrectUser!!!!!!
 router.get('/:id/orderhistory', async (req, res, next) => {
   try {
-    const orderHist = await Order.findOne({
+    const orderHist = await Order.findAll({
       where: {
         userId: req.params.id,
         isFulfilled: true
-      },
-      include: {
-        model: ProductOrder
-        // include: [Product]
       }
+      // include: {
+      //   model: ProductOrder,
+      //   // include: [Product]
+      // },
     })
 
-    orderHist ? res.json(orderHist.productorders) : res.send([])
+    orderHist ? res.json(orderHist) : res.send([])
   } catch (err) {
     next(err)
   }
@@ -147,7 +147,9 @@ router.delete('/:id/cart/:line', isCorrectUser, async (req, res, next) => {
 router.put('/:id/order/:orderId', isCorrectUser, async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
+    console.log('this is order!!!!!!!', order)
     res.json(await order.update(req.body))
+    console.log('this is order after!!!!!!!', order)
   } catch (err) {
     next(err)
   }
