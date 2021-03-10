@@ -12,7 +12,8 @@ import {
   singleProduct,
   FullCart,
   SubmitOrder,
-  SingleProductEdit
+  SingleProductEdit,
+  OrderHistory
 } from './components'
 
 import {me} from './store'
@@ -57,19 +58,30 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route
+              exact
+              path="/users/:id/orderhistory"
+              component={OrderHistory}
+            />
+
             {/* This route checks if the user is an admin, and if not, redirects to the store */}
             <Route
+              exact
               path="/users"
               render={() => {
                 if (isAdmin) return <AllUsers />
                 return <Redirect to="/" />
               }}
             />
-            <Route
-              exact
-              path="/products/:productId/edit"
-              component={SingleProductEdit}
-            />
+            {isAdmin && (
+              <Switch>
+                <Route
+                  exact
+                  path="/products/:productId/edit"
+                  component={SingleProductEdit}
+                />
+              </Switch>
+            )}
             <Route exact path="/submitOrder" component={SubmitOrder} />
           </Switch>
         )}

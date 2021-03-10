@@ -7,10 +7,8 @@ import {fetchCart} from '../store/singleCart'
 class CartIcon extends React.Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
-      console.log('component did mount, fetch USER cart ——————')
       this.props.fetchUserCart(this.props.user.id)
     } else {
-      console.log('component did mount, fetch GUEST cart ——————')
       this.props.fetchGuestCart()
     }
   }
@@ -18,20 +16,15 @@ class CartIcon extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
       if (this.props.isLoggedIn) {
-        console.log('reaching fetch USER cart—————')
         this.props.fetchUserCart(this.props.user.id)
       } else {
-        console.log('reaching fetch GUEST cart—————')
         this.props.fetchGuestCart()
       }
     }
   }
 
   render() {
-    console.log('in render——————————')
-    console.log('PROPS IN RENDER———————', this.props)
     if (this.props.isLoggedIn) {
-      console.log('IS LOGGED IN————————')
       return (
         <div>
           <Link to={`/users/${this.props.user.id}/cart`}>
@@ -45,7 +38,6 @@ class CartIcon extends React.Component {
         </div>
       )
     } else if (!this.props.isLoggedIn) {
-      console.log('NOT LOGGED IN————————')
       return (
         <div>
           <Link to={`/users/${this.props.user.id}/cart`}>

@@ -6,20 +6,23 @@ const ProductOrder = db.define('productorder', {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: true
   },
   quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 1,
     allowNull: false,
     validate: {
-      min: 1,
-    },
+      min: 1
+    }
   },
   subtotal: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: false
   },
+  updatedAt: {
+    type: Sequelize.DATEONLY
+  }
 })
 
 module.exports = ProductOrder
