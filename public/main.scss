@@ -2,8 +2,9 @@
 @import 'navbar';
 @import 'allproducts';
 @import 'singleproduct';
-@import '_cart';
+@import 'cart';
 @import 'admin';
+@import 'candleflame';
 @import 'responsive';
 
 body {
@@ -58,4 +59,8 @@ td {
   &__button {
     font-family: $body-font;
   }
+}
+
+.awning {
+  display: flex;
 }

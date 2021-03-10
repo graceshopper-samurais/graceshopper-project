@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getSingleProduct, editProductThunk} from '../store/singleProduct'
 
-
 export class SingleProductEdit extends React.Component {
   constructor() {
     super()
@@ -39,39 +38,41 @@ export class SingleProductEdit extends React.Component {
             <img src={product.imageUrl} />
           </div>
           <br />
-          <div>
+          <div className="move-this">
+            <div>
+              <label htmlFor="name" />
+              <input
+                name="name"
+                typeof="text"
+                value={this.state.name}
+                placeholder={product.name}
+                onChange={this.handleChange}
+              />
+            </div>
+            <br />
+            <div>
+              <textarea
+                rows="6"
+                cols="55"
+                name="description"
+                value={this.state.description}
+                placeholder={product.description}
+                onChange={this.handleChange}
+              />
+            </div>
+            <br />
             <label htmlFor="name" />
             <input
-              name="name"
+              name="price"
               typeof="text"
-              value={this.state.name}
-              placeholder={product.name}
+              value={this.state.price}
+              placeholder={product.price}
               onChange={this.handleChange}
             />
+            <button type="submit" className="admin-button">
+              Submit
+            </button>
           </div>
-          <br />
-          <div>
-            <textarea
-              rows="6"
-              cols="55"
-              name="description"
-              value={this.state.description}
-              placeholder={product.description}
-              onChange={this.handleChange}
-            />
-          </div>
-          <br />
-          <label htmlFor="name" />
-          <input
-            name="price"
-            typeof="text"
-            value={this.state.price}
-            placeholder={product.price}
-            onChange={this.handleChange}
-          />
-          <button type="submit" className="admin-button">
-            Submit
-          </button>
         </form>
       </div>
     )
