@@ -60,10 +60,25 @@ router.put('/:id/cart/merge', async (req, res, next) => {
         {userId: req.params.id, isFulfilled: false},
         {include: [ProductOrder, Product]}
       )
+      const lineItem = localCart[0]
 
-      console.log('NO USER CART!!!!!!!!!!', userCart)
+      const product = await Product.findByPk(lineItem.id)
 
-      console.log('MAYBE ERROR IS FROM HERE??????? LINE 62!!!!')
+      await userCart.addProduct(product, {
+        through: {
+          quantity: lineItem.quantity,
+          subtotal: lineItem.quantity * product.price
+        }
+      })
+
+      await userCart.reload({
+        include: {
+          model: ProductOrder,
+          include: [Product]
+        }
+      })
+
+      localCart.shift()
     }
 
     while (localCart.length) {
