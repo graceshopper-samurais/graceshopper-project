@@ -154,10 +154,10 @@ nav a {
 }
 
 .candle {
-  width: 20px;
+  width: 34px;
   margin: 30px auto 0 auto;
   position: relative;
-  height: 50%;
+  height: 80%;
   align-self: flex-end;
   animation: blink 0.1s infinite;
 }
@@ -165,9 +165,9 @@ nav a {
 .wick {
   position: absolute;
   width: 6px;
-  height: 30px;
+  height: 50px;
   background: #23161a;
-  top: 56px;
+  top: 110px;
   left: 50%;
   transform: translateX(-50%) skewX(2deg);
   border-radius: 10%;
@@ -196,7 +196,7 @@ nav a {
 
 .flame {
   width: 20px;
-  height: 80px;
+  height: 150px;
   margin: 0px auto;
   position: relative;
   animation: move 3s infinite, move-left 3s infinite;
@@ -396,10 +396,18 @@ td {
 }
 .submitOrder__button {
   font-family: 'Candal', sans-serif;
+  background-color: #006d77;
+  color: #edf6f9;
 }
 
 .awning {
   display: flex;
+}
+
+.entry-button {
+  font-family: 'Candal', sans-serif;
+  background-color: #006d77;
+  color: #edf6f9;
 }
 
 /*# sourceMappingURL=style.css.map */

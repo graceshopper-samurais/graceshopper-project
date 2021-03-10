@@ -58,9 +58,17 @@ td {
   }
   &__button {
     font-family: $body-font;
+    background-color: $body-color;
+    color: $button-text;
   }
 }
 
 .awning {
   display: flex;
+}
+
+.entry-button {
+  font-family: $body-font;
+  background-color: $body-color;
+  color: $button-text;
 }

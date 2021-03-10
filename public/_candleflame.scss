@@ -1,5 +1,5 @@
-$flame-height: 80px;
-$wick-height: 30px;
+$flame-height: 150px;
+$wick-height: 50px;
 $orange: #ff6a00;
 $orange-yellow: #ff9224;
 $dark: #2c2b39;
@@ -9,10 +9,10 @@ $yellow: #fbf348;
 $yellow-grey: #58523a;
 
 .candle {
-  width: 20px;
+  width: 34px;
   margin: 30px auto 0 auto;
   position: relative;
-  height: 50%;
+  height: 80%;
   align-self: flex-end;
   animation: blink 0.1s infinite;
 }
