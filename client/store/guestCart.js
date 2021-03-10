@@ -42,12 +42,7 @@ const deleteFromGuestCart = productId => {
 export const fetchGuestCart = () => {
   return dispatch => {
     try {
-      console.log('made it to fetch guest cart thunk???')
       let localCart = JSON.parse(localStorage.getItem('guestCart'))
-      console.log(
-        'this is localStorage cart from fetch guest cart thunk------',
-        localCart
-      )
 
       if (localCart) {
         dispatch(getGuestCart(localCart))

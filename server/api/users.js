@@ -58,6 +58,27 @@ router.get('/:id/cart', isCorrectUser, async (req, res, next) => {
     next(err)
   }
 })
+//ORDER HISTORY
+// GET /api/users/:id/orderhistory
+//add in isCorrectUser!!!!!!
+router.get('/:id/orderhistory', async (req, res, next) => {
+  try {
+    const orderHist = await Order.findOne({
+      where: {
+        userId: req.params.id,
+        isFulfilled: true
+      },
+      include: {
+        model: ProductOrder
+        // include: [Product]
+      }
+    })
+
+    orderHist ? res.json(orderHist.productorders) : res.send([])
+  } catch (err) {
+    next(err)
+  }
+})
 
 // PUT /api/users/:id/cart
 router.put('/:id/cart', isCorrectUser, async (req, res, next) => {

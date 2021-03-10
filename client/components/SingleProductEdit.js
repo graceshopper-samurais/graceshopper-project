@@ -2,8 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getSingleProduct, editProductThunk} from '../store/singleProduct'
 
-
-export class SingleProductEdit extends React.Component {
+class SingleProductEdit extends React.Component {
   constructor() {
     super()
     this.state = {
